@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta encoding="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>United Nations - Science and Technology transfer</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,600" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Work Sans';
+            }
+            .title {
+                font-size: 21px;
+                color: #327abe;
+            }
+            .header, .footer {
+                margin: 0;
+                border-radius: 0;
+                padding: 0.53em;
+                min-height: 0;
+            }
+            .header {
+                font-size: 17px;
+                box-shadow: #DDD 1px 1px 3px;
+            }
+            .section {
+                padding: 27px 0;
+            }
+            .footer h5 {
+                font-weight: bold;
+            }
+            .footer ul {
+                list-style: none;
+                padding: 0;
+            }
+            .search {
+                background-image: url('{% static 'images/nypl.jpg' %}');
+                background-size: cover;
+                background-position-y: center;
+            }
+            .search .row {
+                font-size: 21px;
+                color: #474C53;
+            }
+            .search form {
+                margin-top: 53px;
+            }
+            .search input {
+                border: 1px solid #AAA;
+                padding: 5px;
+            }
+            .classify {
+                margin: 21px 0 0 0;
+            }
+            .classify_card {
+                padding: 0;
+                box-shadow: 1px 1px 21px #EEE;
+                min-height: 100%;
+                margin-bottom: 21px;
+                cursor: pointer;
+            }
+            .classify_img {
+                padding: 21px;
+                height: 210px;
+                text-align: center;
+            }
+            .classify_description {
+                background-color: #EEE;
+                padding: 21px;
+            }
+            img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+            .join {
+                background-color: #C6E3FF;
+                background: linear-gradient(90deg,#D2FFEF,#C6E3FF);
+            }
+            .join .container .col-xs-12 div {
+                margin-bottom: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="header navbar">
+            <div class="container">
+                <img width="27px" src="{% static 'images/logo.png' %}"/>
+                <b>United Nations</b> - Science, Technology and Innovation transfer
+            </div>
+        </nav>
+        <div class="search">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12" style="margin:19px 0">Facilitating worldwide transfer of technology</div>
+                    <div class="col-xs-12">
+                        <a href="#">Tell us more about yourself</a> for better personalization of results
+                    </div>
+                </div>
+                <form action="/search">
+                <input class="col-xs-12" type="text" name="query" />
+                <center><button type="submit" class="btn btn-info" style="margin:3em auto">Search</button></center>
+                </form>
+            </div>
+        </div>
+        <div class="classify section">
+            <div class="container">
+                <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
+                    <div class="classify_img">
+                        <img src="{% static 'images/E_SDG_logo_with_UN_Emblem_square_rgb.png' %}"/>
+                    </div>
+                    <div class="classify_description">
+                        View technological opportunities for each Sustainable Development Goal
+                    </div>
+                </div>
+                <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
+                    <div class="classify_img">
+                    </div>
+                    <div class="classify_description">Select a location to view technology offers relevant to your country</div>
+                </div>
+                <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
+                    <div class="classify_img">
+                    </div>
+                    <div class="classify_description">View all data from our partner organizations</div>
+                </div>
+            </div>
+        </div>
+        <div class="latest section">
+            <div class="container">
+                <div class="col-xs-12">
+                    <div class="title">Latest News</div>
+                    <div class="content">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="join section">
+            <div class="container">
+                <div class="col-xs-12">
+                    <div class="title">Become a partner</div>
+                    <div class="content">
+                        If you or your organization are involved in providing services related to the transfer of technology or scientific innovation, we would love to get in touch. Contact us for collaborative opportunities.
+                    </div>
+                    <button class="btn btn-info">Contact Us</button>
+                </div>
+            </div>
+        </div>
+        <nav class="footer navbar navbar-bottom">
+            <div class="container">
+                <div class="col-xs-12">
+                    <h5>An initiative by the Division for Sustainable Development - UN DESA</h5>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Fraud alert</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </body>
+</html>
