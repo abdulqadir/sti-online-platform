@@ -25,7 +25,6 @@
             }
             .header {
                 font-size: 17px;
-                box-shadow: #DDD 1px 1px 3px;
             }
             .section {
                 padding: 35px 0;
@@ -48,10 +47,11 @@
                 background-image: url('{% static 'images/nypl.jpg' %}');
                 background-size: cover;
                 background-position-y: center;
+                text-shadow: 0 0 3px #FFF;
             }
-            .search .row {
+            .search .intro {
                 font-size: 21px;
-                color: #474C53;
+                margin-top: 21px;
             }
             .search form {
                 margin-top: 53px;
@@ -83,22 +83,34 @@
                 max-width: 100%;
                 max-height: 100%;
             }
-            .content-type {
-                text-align: center;
+            .browse {
+                background-color: #C6E3FF;
+                background: linear-gradient(90deg,#D2FFEF,#C6E3FF);
             }
-            .content-type i {
+            .browse-title {
+                text-align: center;
+                margin: 13px 0;
+            }
+            .browse-types {
+                margin: 13px 0;
+            }
+            .browse-type {
+                text-align: center;
+                cursor: pointer;
+            }
+            .browse-type i {
                 width: 53px;
                 height: 53px;
                 padding-top: 20px;
-                background-color: #EEE;
+                background-color: rgba(255,255,255,0.53);
                 color: #454647;
                 border-radius: 53px;
             }
-            .content-type-title {
-                padding-top: 13px;
+            .browse-type-title {
+                padding: 13px 0;
             }
             .news {
-                margin: 21px 0;
+                margin: 35px 0;
                 clear: both;
                 min-height: 65px;
             }
@@ -132,19 +144,18 @@
     <body>
         <nav class="header navbar">
             <div class="container">
-                <img width="27px" src="{% static 'images/logo.png' %}"/>
-                <b>United Nations</b> - Science, Technology and Innovation transfer
+                <div class="col-xs-12">
+                    <img width="27px" src="{% static 'images/logo.png' %}"/>
+                    <b>United Nations</b> - Science, Technology and Innovation transfer
+                </div>
             </div>
         </nav>
         <div class="search">
             <div class="container">
-                <div class="row">
-                    <div class="col-xs-12" style="margin:19px 0">Facilitating worldwide transfer of technology</div>
-                    <div class="col-xs-12">
-                        <a href="#">Tell us more about yourself</a> for better personalization of results
-                    </div>
+                <div class="intro col-xs-12">
+                    Facilitating worldwide transfer of technology.
                 </div>
-                <form action="/search">
+                <form action="/search" class="col-xs-12">
                 <input class="col-xs-12" type="text" name="query" />
                 <center><button type="submit" class="btn btn-info" style="margin:3em auto">Search</button></center>
                 </form>
@@ -172,31 +183,31 @@
                 </div>
             </div>
         </div>
-        <div class="browse section">
+        <div class="browse">
             <div class="container">
-                <div class="col-xs-12">
-                    <div class="title">Browse All</div>
-                    <div class="content">
-                        <div class="content-type col-sm-2 col-sm-offset-1">
-                            <div><i class="fa fa-lg fa-book"></i></div>
-                            <div class="content-type-title">Publications</div>
-                        </div>
-                        <div class="content-type col-sm-2">
-                            <div><i class="fa fa-lg fa-code-fork"></i></div>
-                            <div class="content-type-title">Technology Offers</div>
-                        </div>
-                        <div class="content-type col-sm-2">
-                            <div><i class="fa fa-lg fa-handshake-o"></i></div>
-                            <div class="content-type-title">Technology Requests</div>
-                        </div>
-                        <div class="content-type col-sm-2">
-                            <div><i class="fa fa-lg fa-bullhorn"></i></div>
-                            <div class="content-type-title">Business Offers</div>
-                        </div>
-                        <div class="content-type col-sm-2">
-                            <div><i class="fa fa-lg fa-briefcase"></i></div>
-                            <div class="content-type-title">Business Requests</div>
-                        </div>
+                <div class="browse-title title">
+                    Browse
+                </div>
+                <div class="browse-types col-xs-12">
+                    <div class="browse-type col-sm-2 col-sm-offset-1">
+                        <div><i class="fa fa-lg fa-book"></i></div>
+                        <div class="browse-type-title">Publications</div>
+                    </div>
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-code-fork"></i></div>
+                        <div class="browse-type-title">Technology Offers</div>
+                    </div>
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-handshake-o"></i></div>
+                        <div class="browse-type-title">Technology Requests</div>
+                    </div>
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-bullhorn"></i></div>
+                        <div class="browse-type-title">Business Offers</div>
+                    </div>
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-briefcase"></i></div>
+                        <div class="browse-type-title">Business Requests</div>
                     </div>
                 </div>
             </div>
@@ -208,7 +219,7 @@
                     <div class="content">
                         <div class="news">
                             <div class="news-date">
-                                <div class="news-date-month">March</div>
+                                <div class="news-date-month">Mar</div>
                                 <div class="news-date-day">09</div>
                                 <div class="news-date-year">2018</div>
                             </div>
@@ -219,7 +230,29 @@
                         </div>
                         <div class="news">
                             <div class="news-date">
-                                <div class="news-date-month">March</div>
+                                <div class="news-date-month">Nov</div>
+                                <div class="news-date-day">29</div>
+                                <div class="news-date-year">2017</div>
+                            </div>
+                            <div class="news-title">Workshop on Science, Technology and Innovation for the SDGs</div>
+                            <div class="news-content">
+                                 UN DESA, in collaboration with UNCTAD, organised a three-day workshop on Science, Technology and Innovation (STI) for the achievement of the Sustainable Development Goals (SDGs) as a major preparatory event for the 2018 STI Forum.
+                            </div>
+                        </div>
+                        <div class="news">
+                            <div class="news-date">
+                                <div class="news-date-month">May</div>
+                                <div class="news-date-day">15</div>
+                                <div class="news-date-year">2017</div>
+                            </div>
+                            <div class="news-title">2nd STI Forum</div>
+                            <div class="news-content">
+                                The 2nd STI Forum was held in New York (IATT) with the theme of "Eradicating poverty and promoting prosperity in a changing world".
+                            </div>
+                        </div>
+                        <div class="news">
+                            <div class="news-date">
+                                <div class="news-date-month">Mar</div>
                                 <div class="news-date-day">23</div>
                                 <div class="news-date-year">2017</div>
                             </div>
@@ -228,7 +261,7 @@
                         </div>
                         <div class="news">
                             <div class="news-date">
-                                <div class="news-date-month">March</div>
+                                <div class="news-date-month">Mar</div>
                                 <div class="news-date-day">07</div>
                                 <div class="news-date-year">2017</div>
                             </div>
