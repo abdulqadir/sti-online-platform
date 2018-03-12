@@ -75,6 +75,12 @@
                 height: 210px;
                 text-align: center;
             }
+            .partner_img {
+                background-image: url('{% static 'images/institute.png' %}');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
             .classify_description {
                 background-color: #EEE;
                 padding: 21px;
@@ -173,11 +179,12 @@
                 </div>
                 <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
                     <div class="classify_img">
+                        <img src="{% static 'images/location.png' %}" />
                     </div>
                     <div class="classify_description">Select a location to view technology offers relevant to your country</div>
                 </div>
                 <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
-                    <div class="classify_img">
+                    <div class="classify_img partner_img">
                     </div>
                     <div class="classify_description">View all data from our partner organizations</div>
                 </div>
