@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.indexes import GinIndex
 
 class Store(models.Model):
     client_id = models.CharField(max_length=1024, null=True)
@@ -17,3 +18,8 @@ class Store(models.Model):
     location = models.CharField(max_length=1024, null=True)
     search_vector = SearchVectorField(default='')
     last_updated = models.DateField(auto_now=True)
+
+    class Meta:
+        indexes = [
+                GinIndex(fields=['search_vector'])
+            ]
