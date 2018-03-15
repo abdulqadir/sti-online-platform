@@ -18,7 +18,7 @@ for record in records:
         store.client_id = client_id
         store.store_type = 'Technology Offer'
         store.partner = 'APCTT C'
-        store.language = 'English'
+        store.language = 'english'
     store.title = record['title']
     store.description = record['description']
     store.url = record['url']
@@ -27,7 +27,7 @@ for record in records:
     store.location = record['country']
     store.save()
     rec += 1
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     print(store.client_id, store.title)
 
@@ -42,7 +42,7 @@ for record in records:
         store.client_id = client_id
         store.store_type = 'Technology Request'
         store.partner = 'APCTT C'
-        store.language = 'English'
+        store.language = 'english'
     store.title = record['title']
     store.description = record['description']
     store.url = record['url']
@@ -51,7 +51,7 @@ for record in records:
     store.location = record['country']
     store.save()
     rec += 1
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     print(store.client_id, store.title)
 
@@ -66,7 +66,7 @@ for record in records:
         store.client_id = client_id
         store.store_type = 'Technology Offer'
         store.partner = 'CITTC C'
-        store.language = 'English'
+        store.language = 'english'
     store.title = record['title']
     store.description = record['description']
     store.raw_data = json.dumps(record)
@@ -81,7 +81,7 @@ for record in records:
     if record['country']:
         store.location = record['country']
     store.save()
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     rec += 1
     print(store.client_id, store.title)
@@ -97,7 +97,7 @@ for record in records:
         store.client_id = client_id
         store.store_type = 'Technology Request'
         store.partner = 'CITTC C'
-        store.language = 'English'
+        store.language = 'english'
     store.title = record['title']
     store.description = record['description']
     store.url = record['meta_base_url']
@@ -114,7 +114,7 @@ for record in records:
         store.location = record['country']
     store.save()
     rec += 1
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     print(store.client_id, store.title)
 
@@ -129,7 +129,7 @@ for record in records:
         store.client_id = client_id
         store.store_type = 'Technology Offer'
         store.partner = 'UNIDO C'
-        store.language = 'English'
+        store.language = 'english'
     if record['meta_category'] != store.store_type:
         print(record['meta_category'])
         raise Exception()
@@ -142,7 +142,7 @@ for record in records:
     else:
         store.keywords = ''
     store.save()
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     rec += 1
     print(store.client_id, store.title)
@@ -157,7 +157,7 @@ for record in records:
         store = Store()
         store.client_id = client_id
         store.partner = 'WIPO GREEN C'
-        store.language = 'English'
+        store.language = 'english'
     if record['meta_category'] == 'need':
         store.store_type = 'Technology Request'
     elif record['meta_category'] == 'offer':
@@ -179,7 +179,7 @@ for record in records:
     if record['technical_fields']:
         store.keywords = store.keywords + ' ' + record['technical_fields']
     store.save()
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     rec += 1
     print(store.client_id, store.title)
@@ -194,7 +194,7 @@ for record in records:
         store = Store()
         store.client_id = client_id
         store.partner = 'EEN C'
-        store.language = 'English'
+        store.language = 'english'
     if record['type'] == 'Bus. Offer':
         store.store_type = 'Business Offer'
     elif record['type'] == 'Bus. Request':
@@ -220,7 +220,7 @@ for record in records:
         store.location = record['country']
     store.save()
     rec += 1
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     print(store.client_id, store.title)
 
@@ -235,7 +235,7 @@ for record in records:
         store.client_id = client_id
         store.store_type = 'Publication'
         store.partner = 'UNOSSC C'
-        store.language = 'English'
+        store.language = 'english'
     store.title = record['chapter_title']
     store.description = record['abstract']
     store.url = record['document_url']
@@ -252,6 +252,6 @@ for record in records:
         store.location = record['country']
     store.save()
     rec += 1
-    store.search_vector = SearchVector('title', weight='A') + SearchVector('keywords', weight='C') + SearchVector('description', weight='D')
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
     store.save()
     print(store.client_id, store.title)
