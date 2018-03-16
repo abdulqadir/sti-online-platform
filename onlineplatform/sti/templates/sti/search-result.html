@@ -1,0 +1,36 @@
+{% load static %}
+            <div class="row result">
+                <div class="result-title">
+                {% if row.partner == 'UNOSSC C' %}
+                    <img class="partner-logo" src="{% static 'images/unossc-logo.png' %}" />
+                {% elif row.partner == 'APCTT C' %}
+                    <img class="partner-logo" src="{% static 'images/apctt-logo.png' %}" />
+                {% elif row.partner == 'CITTC C' %}
+                    <img class="partner-logo" src="{% static 'images/cittc-logo.png' %}" />
+                {% elif row.partner == 'UNIDO C' %}
+                    <img class="partner-logo" src="{% static 'images/unido-logo.png' %}" />
+                {% elif row.partner == 'WIPO GREEN C' %}
+                    <img class="partner-logo" src="{% static 'images/wipo-green-logo.png' %}" />
+                {% elif row.partner == 'EEN C' %}
+                    <img class="partner-logo" src="{% static 'images/een-logo.png' %}" />
+                {% endif %}
+                    {{row.title}}</div>
+                <div class="result-description">{{row.description|truncatewords:110}}</div>
+                <div class="result-attribution">
+                    <i> Source:
+                {% if row.partner == 'UNOSSC C' %}
+                    UN South South
+                {% elif row.partner == 'APCTT C' %}
+                    Asian and Pacific Centre for Transfer of Technology
+                {% elif row.partner == 'CITTC C' %}
+                    China International Technology Transfer Center
+                {% elif row.partner == 'UNIDO C' %}
+                    United Nations Industrial Development Organization
+                {% elif row.partner == 'WIPO GREEN C' %}
+                    World Intellectual Property Organization
+                {% elif row.partner == 'EEN C' %}
+                    Enterprise Europe Network
+                {% endif %}
+                    </i>
+                </div>
+            </div>
