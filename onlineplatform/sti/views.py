@@ -31,5 +31,5 @@ def all(request, datatype):
         results = Store.objects.filter(store_type__exact = 'Business Request')
     else:
         raise Http404('No records found')
-    template = loader.get_template('sti/search.html')
+    template = loader.get_template('sti/all.html')
     return HttpResponse(template.render({'results':results},request))

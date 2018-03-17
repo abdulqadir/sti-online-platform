@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+    .filter {
+        background: linear-gradient(90deg,#D2FFEF,#C6E3FF);
+    }
+    .result {
+        margin:40px auto;
+    }
+    .result-title {
+        font-weight: bold;
+        color: #327abe;
+    }
+    .result-attribution {
+        color: #327abe;
+    }
+    .partner-logo {
+        max-height: 16px;
+        float: left;
+        margin-right: 16px;
+    }
+    .nav-pills > li.active > a {
+        background-color: #33b7b2;
+    }
+    .padded-menu li {
+        padding: 16px;
+    }
+    .filter-detail {
+        margin: 16px 0;
+    }
+</style>
+{% endblock style %}
+{% block content %}
+{% block topresults %}
+{% endblock topresults %}
+<div class="filter">
+    <div class="container">
+        <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 filter-detail">
+                <div class="input-group">
+                    <input class="form-control" type="text" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Search</button>
+                    </span>
+                </div>
+            </div>
+            <ul class="col-xs-12 col-sm-6 col-md-5 col-lg-4 filter-detail nav nav-pills">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
+                        Sources
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu padded-menu">
+                        <li>
+                            <input type="checkbox" id="apctt"/>
+                            <label for="apctt"><img class="partner-logo" src="{% static 'images/apctt-logo.png' %}" /></label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="cittc"/>
+                            <label for="cittc"><img class="partner-logo" src="{% static 'images/cittc-logo.png' %}" /></label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="unido"/>
+                            <label for="unido"><img class="partner-logo" src="{% static 'images/unido-logo.png' %}" /></label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="wipogreen"/>
+                            <label for="wipogreen"><img class="partner-logo" src="{% static 'images/wipo-green-logo.png' %}" /></label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="een"/>
+                            <label for="een"><img class="partner-logo" src="{% static 'images/een-logo.png' %}" /></label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="openaire"/>
+                            <label for="openaire"><img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" /></label>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
+                        Language
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Any language</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">English</a></li>
+                        <li><a href="#">French</a></li>
+                        <li><a href="#">German</a></li>
+                        <li><a href="#">Spanish</a></li>
+                        <li><a href="#">Russian</a></li>
+                        <li><a href="#">Danish</a></li>
+                        <li><a href="#">Dutch</a></li>
+                        <li><a href="#">Finnish</a></li>
+                        <li><a href="#">Hungarian</a></li>
+                        <li><a href="#">Italian</a></li>
+                        <li><a href="#">Norwegian</a></li>
+                        <li><a href="#">Portuguese</a></li>
+                        <li><a href="#">Romanian</a></li>
+                        <li><a href="#">Swedish</a></li>
+                        <li><a href="#">Turkish</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" rol="button" aria-haspopup="true" aria-expanded="false" href="#">
+                        Location
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu padded-menu">
+                        <li>
+                            <div class="input-group">
+                            <input type="text" class="form-control"/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-info">Go</button>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="results">
+        <div class="container">
+            <div class="col-xs-12">
+            {% for row in results %}
+                {% include "sti/search-result.html" with row=row %}
+            {% endfor %}
+            </div>
+        </div>
+</div>
+{% endblock content %}

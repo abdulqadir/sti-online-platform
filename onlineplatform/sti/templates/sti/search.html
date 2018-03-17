@@ -1,58 +1,6 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block style %}
-<style>
-    .filter {
-        background: linear-gradient(90deg,#D2FFEF,#C6E3FF);
-    }
-    .filter ul {
-        margin-top: 5px;
-    }
-    .result {
-        margin:40px auto;
-    }
-    .result-title {
-        font-weight: bold;
-        color: #327abe;
-    }
-    .result-attribution {
-        color: #327abe;
-    }
-    .partner-logo {
-        max-height: 16px;
-        float: left;
-        margin-right: 16px;
-    }
-</style>
-{% endblock style %}
-{% block content %}
-<div class="filter">
-        <div class="container">
-            <div class="col-xs-12">
-                <ul class="nav nav-tabs nav-justified">
-                    <li class="active">
-                        <a href="#">Search</a>
-                    </li>
-                    <li>
-                        <a href="#">Sources</a>
-                    </li>
-                    <li>
-                        <a href="#">Languages</a>
-                    </li>
-                    <li>
-                        <a href="#">Location</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+{% extends "sti/all.html" %}
+{% block topresults %}
+<div class="topresults">
+
 </div>
-<div class="results">
-        <div class="container">
-            <div class="col-xs-12">
-            {% for row in results %}
-                {% include "sti/search-result.html" with row=row %}
-            {% endfor %}
-            </div>
-        </div>
-</div>
-{% endblock content %}
+{% endblock topresults %}

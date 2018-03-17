@@ -13,6 +13,8 @@
                     <img class="partner-logo" src="{% static 'images/wipo-green-logo.png' %}" />
                 {% elif row.partner == 'EEN C' %}
                     <img class="partner-logo" src="{% static 'images/een-logo.png' %}" />
+                {% elif row.partner == 'OpenAire' %}
+                    <img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" />
                 {% endif %}
                     {{row.title}}</div>
                 <div class="result-description">{{row.description|truncatewords:110}}</div>
@@ -30,6 +32,8 @@
                     World Intellectual Property Organization
                 {% elif row.partner == 'EEN C' %}
                     Enterprise Europe Network
+                {% elif row.partner == 'OpenAire' %}
+                    OpenAire
                 {% endif %}
                     </i>
                 </div>
