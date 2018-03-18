@@ -14,9 +14,12 @@ def search(request):
     search_query = SearchQuery(query[0])
     for i in range(1,len(query)):
         search_query = search_query & SearchQuery(query[i])
-    results = Store.objects.all().filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')
+    publications = Store.objects.filter(store_type = 'Publication').filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')[:3]
+    technology = Store.objects.filter(store_type__contains = 'Technology').filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')[:3]
+    business = Store.objects.filter(store_type__contains = 'Business').filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')[:3]
+    results = Store.objects.filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')
     template = loader.get_template('sti/search.html')
-    return HttpResponse(template.render({'results':results},request))
+    return HttpResponse(template.render({'publications':publications, 'technology':technology, 'business':business, 'results':results}, request))
 
 def all(request, datatype):
     if datatype == 'publications':
