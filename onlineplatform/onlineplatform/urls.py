@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', sti.views.index),
     url(r'^search/', sti.views.search),
+    url(r'^all/source/(?P<source>[a-zA-Z]+)/', sti.views.source),
     url(r'^all/(?P<datatype>[a-zA-Z-]+)/', sti.views.all),
 ]

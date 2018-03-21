@@ -43,9 +43,20 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+    .classify-expand-partners-logo {
+        height: 53px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .classify-expand-partners-name {
+        text-align: center;
+        margin: 7px 0 23px 0;
+    }
     .classify_description {
         background-color: #EEE;
         padding: 21px;
+        color: #333;
     }
     img {
         max-width: 100%;
@@ -138,9 +149,59 @@
                     <div class="classify_description">Select a location to view technology offers relevant to your country</div>
                 </div>
                 <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
-                    <div class="classify_img partner_img">
+                    <a href="#classify-expand-partners" data-toggle="collapse">
+                        <div class="classify_img partner_img">
+                        </div>
+                        <div class="classify_description">View all data from our partner organizations</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="classify-expand">
+            <div class="container">
+                <div id="classify-expand-partners" class="col-xs-12 collapse">
+                    <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-3">
+                        <a href="/all/source/apctt/">
+                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/apctt-logo.png' %}');"></div>
+                            <div class="classify-expand-partners-name">APCTT</div>
+                        </a>
                     </div>
-                    <div class="classify_description">View all data from our partner organizations</div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/all/source/cittc/">
+                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/cittc-logo.png' %}');"></div>
+                            <div class="classify-expand-partners-name">CITTC</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/all/source/unido/">
+                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unido-logo.png' %}');"></div>
+                            <div class="classify-expand-partners-name">UNIDO</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/all/source/wipogreen/">
+                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/wipo-green-logo.png' %}');"></div>
+                            <div class="classify-expand-partners-name">WIPO GREEN</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/all/source/een/">
+                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/een-logo.png' %}');"></div>
+                            <div class="classify-expand-partners-name">EEN</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/all/source/een/">
+                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unossc-logo.png' %}');"></div>
+                            <div class="classify-expand-partners-name">UNOSSC</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/all/source/openaire/">
+                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/openaire-logo.png' %}');"></div>
+                            <div class="classify-expand-partners-name">OpenAire</div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

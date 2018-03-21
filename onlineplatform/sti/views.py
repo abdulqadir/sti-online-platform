@@ -36,3 +36,23 @@ def all(request, datatype):
         raise Http404('No records found')
     template = loader.get_template('sti/all.html')
     return HttpResponse(template.render({'results':results},request))
+
+def source(request, source):
+    if source == 'apctt':
+        results = Store.objects.filter(partner = 'APCTT C')
+    elif source == 'cittc':
+        results = Store.objects.filter(partner = 'CITTC C')
+    elif source == 'unido':
+        results = Store.objects.filter(partner = 'UNIDO C')
+    elif source == 'wipogreen':
+        results = Store.objects.filter(partner = 'WIPO GREEN C')
+    elif source == 'een':
+        results = Store.objects.filter(partner = 'EEN C')
+    elif source == 'unossc':
+        results = Store.objects.filter(partner = 'UNOSSC C')
+    elif source == 'openaire':
+        results = Store.objects.filter(partner = 'OpenAire')
+    else:
+        raise Http404('No records found')
+    template = loader.get_template('sti/all.html')
+    return HttpResponse(template.render({'results':results},request))
