@@ -11,52 +11,54 @@ def index(request):
     return HttpResponse(template.render({}, request))
 
 def get_filters(request):
-    filters = {'query': request.POST['query']}
-    if request.POST['language'] != '':
-        filters['language'] = request.POST['language']
+    if request.method == 'GET':
+        query = request.GET['query'].split(' ')
+        filters = {'query': request.GET['query'], 'language':'any', 'partners':'all'}
+        config = 'simple'
     else:
-        filters['language'] = 'any'
-    if request.POST['partners'] != '':
-        filters['partners'] = json.loads(request.POST['partners'])
-        partners = filters['partners']
-        actuals = []
-        for partner in partners.keys():
-            if partners[partner] == False:
-                continue
-            if partner == 'apctt':
-                actuals.append('APCTT C')
-            elif partner == 'cittc':
-                actuals.append('CITTC C')
-            elif partner == 'unido':
-                actuals.append('UNIDO C')
-            elif partner == 'wipogreen':
-                actuals.append('WIPO GREEN C')
-            elif partner == 'een':
-                actuals.append('EEN C')
-            elif partner == 'unossc':
-                actuals.append('UNOSSC C')
-            elif partner == 'openaire':
-                actuals.append('OpenAire')
-        filters['partnerlist'] = actuals
-    else:
-        filters['partners'] = 'all'
-    print(filters)
+        query = request.POST['query'].split(' ')
+        filters = {'query': request.POST['query']}
+        if request.POST['language'] != '':
+            config = filters['language'] = request.POST['language']
+        else:
+            filters['language'] = 'any'
+            config = 'simple'
+        if request.POST['partners'] != '':
+            filters['partners'] = json.loads(request.POST['partners'])
+            partners = filters['partners']
+            actuals = []
+            for partner in partners.keys():
+                if partners[partner] == False:
+                    continue
+                if partner == 'apctt':
+                    actuals.append('APCTT C')
+                elif partner == 'cittc':
+                    actuals.append('CITTC C')
+                elif partner == 'unido':
+                    actuals.append('UNIDO C')
+                elif partner == 'wipogreen':
+                    actuals.append('WIPO GREEN C')
+                elif partner == 'een':
+                    actuals.append('EEN C')
+                elif partner == 'unossc':
+                    actuals.append('UNOSSC C')
+                elif partner == 'openaire':
+                    actuals.append('OpenAire')
+            filters['partnerlist'] = actuals
+        else:
+            filters['partners'] = 'all'
+    search_query = SearchQuery(query[0], config=config)
+    for i in range(1,len(query)):
+        search_query = search_query & SearchQuery(query[i], config=config)
+    filters['search_query'] = search_query
     return filters
 
 def search(request):
-    if request.method == 'GET':
-        query = request.GET['query'].split(' ')
-        filters = {'language':'any', 'partners':'all'}
-    else:
-        query = request.POST['query'].split(' ')
-        filters = get_filters(request)
-    search_query = SearchQuery(query[0])
-    for i in range(1,len(query)):
-        search_query = search_query & SearchQuery(query[i])
-    publications = Store.objects.filter(store_type = 'Publication').filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')
-    technology = Store.objects.filter(store_type__contains = 'Technology').filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')
-    business = Store.objects.filter(store_type__contains = 'Business').filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')
-    results = Store.objects.filter(search_vector = search_query).annotate(rank=SearchRank(F('search_vector'), search_query)).order_by('-rank')
+    filters = get_filters(request)
+    publications = Store.objects.filter(store_type = 'Publication').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
+    technology = Store.objects.filter(store_type__contains = 'Technology').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
+    business = Store.objects.filter(store_type__contains = 'Business').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
+    results = Store.objects.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
     if filters['language'] != 'any':
         publications = publications.filter(language = filters['language'])
         technology = technology.filter(language = filters['language'])
