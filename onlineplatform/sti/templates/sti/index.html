@@ -43,11 +43,14 @@
         background-repeat: no-repeat;
         background-position: center;
     }
-    .classify-expand-partners-logo {
+    .classify-expand-partners-logo, .classify-expand-sdgs-logo {
         height: 53px;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
+    }
+    .classify-expand-sdgs-logo {
+        margin: 7px 0;
     }
     .classify-expand-partners-name {
         text-align: center;
@@ -135,12 +138,14 @@
         <div class="classify section">
             <div class="container">
                 <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
-                    <div class="classify_img">
-                        <img src="{% static 'images/E_SDG_logo_with_UN_Emblem_square_rgb.png' %}"/>
-                    </div>
-                    <div class="classify_description">
-                        View technological opportunities for each Sustainable Development Goal
-                    </div>
+                    <a href="#classify-expand-sdgs" data-toggle="collapse">
+                        <div class="classify_img">
+                            <img src="{% static 'images/E_SDG_logo_with_UN_Emblem_square_rgb.png' %}"/>
+                        </div>
+                        <div class="classify_description">
+                            View technological opportunities for each Sustainable Development Goal
+                        </div>
+                    </a>
                 </div>
                 <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
                     <div class="classify_img">
@@ -157,9 +162,96 @@
                 </div>
             </div>
         </div>
-        <div class="classify-expand">
-            <div class="container">
-                <div id="classify-expand-partners" class="col-xs-12 collapse">
+        <div id="classify-expand">
+            <div class="container panel">
+                <div id="classify-expand-sdgs" class="col-xs-12 collapse" data-parent="#classify-expand">
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/1/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-01.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/2/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-02.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/3/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-03.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/4/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-04.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/5/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-05.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/6/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-06.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/7/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-07.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/8/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-08.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/9/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-09.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/10/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-10.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/11/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-11.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/12/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-12.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-3">
+                        <a href="/sdg/13/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-13.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/14/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-14.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/15/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-15.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/16/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-16.png' %}');"></div>
+                        </a>
+                    </div>
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <a href="/sdg/17/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/E_SDG goals_icons-individual-rgb-17.png' %}');"></div>
+                        </a>
+                    </div>
+                </div>
+                <div id="classify-expand-partners" class="col-xs-12 collapse" data-parent="#classify-expand">
                     <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-3">
                         <a href="/all/source/apctt/">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/apctt-logo.png' %}');"></div>
