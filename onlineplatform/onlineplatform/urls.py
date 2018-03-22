@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^search/', sti.views.search),
     url(r'^all/source/(?P<source>[a-zA-Z]+)/', sti.views.source),
     url(r'^all/(?P<datatype>[a-zA-Z-]+)/', sti.views.all),
+    url(r'^sdg/(?P<sdg>[0-9]{1,2})/', sti.views.sdg),
 ]
