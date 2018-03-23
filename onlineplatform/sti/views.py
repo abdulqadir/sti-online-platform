@@ -106,7 +106,7 @@ def source(request, source):
     else:
         raise Http404('No records found')
     template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':results},request))
+    return HttpResponse(template.render({'results':results, 'hidepartners': True},request))
 
 def sdg(request, sdg):
     if int(sdg) > 17:
@@ -137,4 +137,4 @@ def sdg(request, sdg):
         query = query | SearchQuery(wordlist[i])
     results = Store.objects.filter(search_vector = query)[:100]
     template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':results},request))
+    return HttpResponse(template.render({'results':results, 'hidesearch': True},request))

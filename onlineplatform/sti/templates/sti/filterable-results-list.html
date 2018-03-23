@@ -1,8 +1,9 @@
 {% load static %}
 <div class="filter">
-    <form id="search" action="/search/" method="POST">{% csrf_token %}
+    <form id="search" method="POST">{% csrf_token %}
     <div class="container">
         <div class="col-xs-12">
+            {% if not hidesearch %}
             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 filter-detail">
                 <div class="input-group">
                     <input name="query" class="form-control" type="text" value="{{ filters.query }}"/>
@@ -10,32 +11,16 @@
                     <input type="hidden" name="language" />
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">Search</button>
-                    <script>
-                    $('#search').on('submit', function(event) {
-                        var query = $('#filter-query').val();
-                        var partners = {};
-                        var allPartners = true;
-                        var partnerSelections = $('.filter-partner');
-                        for (var i=0; i<partnerSelections.length; i++) {
-                            if (partnerSelections[i].checked) {
-                                partners[partnerSelections[i].id] = true;
-                            }
-                            else {
-                                allPartners = false;
-                            }
-                        }
-                        if (!allPartners) {
-                            $('[name="partners"]').val(JSON.stringify(partners));
-                        }
-                        if ($('[name="filter-language"]:checked')[0].id !== 'any') {
-                            $('[name="language"]').val($('[name="filter-language"]:checked')[0].id);
-                        }
-                    });
-                    </script>
                     </span>
                 </div>
             </div>
+            {% endif %}
+            {% if not hidesearch %}
             <ul class="col-xs-12 col-sm-6 col-md-5 col-lg-4 filter-detail nav nav-pills">
+            {% else %}
+            <ul class="col-xs-12 filter-detail nav nav-pills">
+            {% endif %}
+                {% if not hidepartners %}
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
                         Sources
@@ -43,42 +28,43 @@
                     </a>
                     <ul class="dropdown-menu padded-menu">
                         <li>
-                            <input class="filter-partner" type="checkbox" id="apctt" {% if filters.partners == 'all' or filters.partners.apctt == True %}checked{% endif %}/>
+                            <input class="filter-partner" type="checkbox" id="apctt" {% if filters.partners == None or filters.partners == 'all' or filters.partners.apctt == True %}checked{% endif %}/>
                             <label for="apctt"><img class="partner-logo" src="{% static 'images/apctt-logo.png' %}" /></label>
                         </li>
                         <li>
-                            <input class="filter-partner" type="checkbox" id="cittc" {% if filters.partners == 'all' or filters.partners.cittc == True %}checked{% endif %}/>
+                            <input class="filter-partner" type="checkbox" id="cittc" {% if filters.partners == None or filters.partners == 'all' or filters.partners.cittc == True %}checked{% endif %}/>
                             <label for="cittc"><img class="partner-logo" src="{% static 'images/cittc-logo.png' %}" /></label>
                         </li>
                         <li>
-                            <input class="filter-partner" type="checkbox" id="unido" {% if filters.partners == 'all' or filters.partners.unido == True %}checked{% endif %}/>
+                            <input class="filter-partner" type="checkbox" id="unido" {% if filters.partners == None or filters.partners == 'all' or filters.partners.unido == True %}checked{% endif %}/>
                             <label for="unido"><img class="partner-logo" src="{% static 'images/unido-logo.png' %}" /></label>
                         </li>
                         <li>
-                            <input class="filter-partner" type="checkbox" id="wipogreen" {% if filters.partners == 'all' or filters.partners.wipogreen == True %}checked{% endif %}/>
+                            <input class="filter-partner" type="checkbox" id="wipogreen" {% if filters.partners == None or filters.partners == 'all' or filters.partners.wipogreen == True %}checked{% endif %}/>
                             <label for="wipogreen"><img class="partner-logo" src="{% static 'images/wipo-green-logo.png' %}" /></label>
                         </li>
                         <li>
-                            <input class="filter-partner" type="checkbox" id="een" {% if filters.partners == 'all' or filters.partners.een == True %}checked{% endif %}/>
+                            <input class="filter-partner" type="checkbox" id="een" {% if filters.partners == None or filters.partners == 'all' or filters.partners.een == True %}checked{% endif %}/>
                             <label for="een"><img class="partner-logo" src="{% static 'images/een-logo.png' %}" /></label>
                         </li>
                         <li>
-                            <input class="filter-partner" type="checkbox" id="unossc" {% if filters.partners == 'all' or filters.partners.unossc == True %}checked{% endif %}/>
+                            <input class="filter-partner" type="checkbox" id="unossc" {% if filters.partners == None or filters.partners == 'all' or filters.partners.unossc == True %}checked{% endif %}/>
                             <label for="unossc"><img class="partner-logo" src="{% static 'images/unossc-logo.png' %}" /></label>
                         </li>
                         <li>
-                            <input class="filter-partner" type="checkbox" id="openaire" {% if filters.partners == 'all' or filters.partners.openaire == True %}checked{% endif %}/>
+                            <input class="filter-partner" type="checkbox" id="openaire" {% if filters.partners == None or filters.partners == 'all' or filters.partners.openaire == True %}checked{% endif %}/>
                             <label for="openaire"><img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" /></label>
                         </li>
                     </ul>
                 </li>
+                {% endif %}
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
                         Language
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu language-menu">
-                        <li><input type="radio" name="filter-language" id="any" {% if filters.language == 'any' %}checked{% endif %}/><label for="any">Any language</label></li>
+                        <li><input type="radio" name="filter-language" id="any" {% if filters.language == None or filters.language == 'any' %}checked{% endif %}/><label for="any">Any language</label></li>
                         <li role="separator" class="divider"></li>
                         <li><input type="radio" name="filter-language" id="english" {% if filters.language == 'english' %}checked{% endif %}/><label for="english">English</label></li>
                         <li><input type="radio" name="filter-language" id="french" {% if filters.language == 'french' %}checked{% endif %}/><label for="french">French</label></li>
@@ -112,10 +98,37 @@
                         </li>
                     </ul>
                 </li>
+                {% if hidesearch %}
+                <li>
+                    <button id="searchButtonOutline" class="btn btn-link" type="submit">Search</button>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
     </form>
+    <script>
+    $('#search').on('submit', function(event) {
+        var query = $('#filter-query').val();
+        var partners = {};
+        var allPartners = true;
+        var partnerSelections = $('.filter-partner');
+        for (var i=0; i<partnerSelections.length; i++) {
+            if (partnerSelections[i].checked) {
+                partners[partnerSelections[i].id] = true;
+            }
+            else {
+                allPartners = false;
+            }
+        }
+        if (!allPartners) {
+            $('[name="partners"]').val(JSON.stringify(partners));
+        }
+        if ($('[name="filter-language"]:checked')[0].id !== 'any') {
+            $('[name="language"]').val($('[name="filter-language"]:checked')[0].id);
+        }
+    });
+    </script>
 </div>
 <div class="results">
         <div class="container">
