@@ -73,8 +73,17 @@ def recommend(request, filters=None, context=None):
         technology = technology.filter(partner__in = filters['partnerlist'])
         business = business.filter(partner__in = filters['partnerlist'])
         results = results.filter(partner__in = filters['partnerlist'])
-    template = loader.get_template('sti/search.html')
-    c = {'publications':publications[:3], 'technology':technology[:3], 'business':business[:3], 'results':results[:100], 'filters': filters}
+    publications = publications[:3]
+    technology = technology[:3]
+    business = business[:3]
+    results = results[:100]
+    available = list(filter(lambda t: len(t) > 0, [publications, technology, business]))
+    if len(available) > 1 and len(results) > 10:
+        template = loader.get_template('sti/search.html')
+        c = {'publications':publications, 'technology':technology, 'business':business, 'results':results, 'filters': filters}
+    else:
+        template = loader.get_template('sti/all.html')
+        c = {'results': results, 'filters': filters}
     if context:
         c.update(context)
     return HttpResponse(template.render(c, request))
