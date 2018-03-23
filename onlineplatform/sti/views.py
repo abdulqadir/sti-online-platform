@@ -56,27 +56,26 @@ def get_filters(request):
     filters['search_query'] = search_query
     return filters
 
+def filter_results(results, filters):
+    if filters['query'] != '':
+        results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
+    if filters['language'] != 'any':
+        results = results.filter(language = filters['language'])
+    if filters['partners'] != 'all':
+        results = results.filter(partner__in = filters['partnerlist'])
+    return results
+
 def recommend(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
-    publications = Store.objects.filter(store_type = 'Publication').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
-    technology = Store.objects.filter(store_type__contains = 'Technology').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
-    business = Store.objects.filter(store_type__contains = 'Business').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
-    results = Store.objects.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
-    if filters['language'] != 'any':
-        publications = publications.filter(language = filters['language'])
-        technology = technology.filter(language = filters['language'])
-        business = business.filter(language = filters['language'])
-        results = results.filter(language = filters['language'])
-    if filters['partners'] != 'all':
-        publications = publications.filter(partner__in = filters['partnerlist'])
-        technology = technology.filter(partner__in = filters['partnerlist'])
-        business = business.filter(partner__in = filters['partnerlist'])
-        results = results.filter(partner__in = filters['partnerlist'])
-    publications = publications[:3]
-    technology = technology[:3]
-    business = business[:3]
-    results = results[:100]
+    publications = Store.objects.filter(store_type = 'Publication')
+    technology = Store.objects.filter(store_type__contains = 'Technology')
+    business = Store.objects.filter(store_type__contains = 'Business')
+    results = Store.objects.all()
+    publications = filter_results(publications, filters)[:3]
+    technology = filter_results(technology, filters)[:3]
+    business = filter_results(business, filters)[:3]
+    results = filter_results(results, filters)[:100]
     available = list(filter(lambda t: len(t) > 0, [publications, technology, business]))
     if len(available) > 1 and len(results) > 10:
         template = loader.get_template('sti/search.html')
@@ -104,8 +103,10 @@ def all(request, datatype):
         results = Store.objects.filter(store_type__exact = 'Business Request')
     else:
         raise Http404('No records found')
+    filters = get_filters(request)
+    results = filter_results(results, filters)[:100]
     template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':results},request))
+    return HttpResponse(template.render({'results':results, 'filters': filters}, request))
 
 def source(request, source):
     if source == 'apctt':
@@ -124,8 +125,10 @@ def source(request, source):
         results = Store.objects.filter(partner = 'OpenAire')
     else:
         raise Http404('No records found')
+    filters = get_filters(request)
+    results = filter_results(results, filters)[:100]
     template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':results, 'hidepartners': True},request))
+    return HttpResponse(template.render({'results':results, 'filters': filters, 'hidepartners': True}, request))
 
 def sdg(request, sdg):
     if int(sdg) > 17:
