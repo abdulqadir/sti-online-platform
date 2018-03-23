@@ -12,49 +12,53 @@ def index(request):
 
 def get_filters(request):
     if request.method == 'GET':
-        query = request.GET['query'].split(' ')
-        filters = {'query': request.GET['query'], 'language':'any', 'partners':'all'}
-        config = 'simple'
+        querydict = request.GET
     else:
-        query = request.POST['query'].split(' ')
-        filters = {'query': request.POST['query']}
-        if request.POST['language'] != '':
-            config = filters['language'] = request.POST['language']
-        else:
-            filters['language'] = 'any'
-            config = 'simple'
-        if request.POST['partners'] != '':
-            filters['partners'] = json.loads(request.POST['partners'])
-            partners = filters['partners']
-            actuals = []
-            for partner in partners.keys():
-                if partners[partner] == False:
-                    continue
-                if partner == 'apctt':
-                    actuals.append('APCTT C')
-                elif partner == 'cittc':
-                    actuals.append('CITTC C')
-                elif partner == 'unido':
-                    actuals.append('UNIDO C')
-                elif partner == 'wipogreen':
-                    actuals.append('WIPO GREEN C')
-                elif partner == 'een':
-                    actuals.append('EEN C')
-                elif partner == 'unossc':
-                    actuals.append('UNOSSC C')
-                elif partner == 'openaire':
-                    actuals.append('OpenAire')
-            filters['partnerlist'] = actuals
-        else:
-            filters['partners'] = 'all'
+        querydict = request.POST
+    if 'query' in querydict:
+        query = querydict['query'].split(' ')
+        filters = {'query': querydict['query']}
+    else:
+        query = ['']
+        filters = {'query':''}
+    if 'language' in querydict and querydict['language'] != '':
+        config = filters['language'] = querydict['language']
+    else:
+        filters['language'] = 'any'
+        config = None
+    if 'partners' in querydict and querydict['partners'] != '':
+        filters['partners'] = json.loads(querydict['partners'])
+        partners = filters['partners']
+        actuals = []
+        for partner in partners.keys():
+            if partners[partner] == False:
+                continue
+            if partner == 'apctt':
+                actuals.append('APCTT C')
+            elif partner == 'cittc':
+                actuals.append('CITTC C')
+            elif partner == 'unido':
+                actuals.append('UNIDO C')
+            elif partner == 'wipogreen':
+                actuals.append('WIPO GREEN C')
+            elif partner == 'een':
+                actuals.append('EEN C')
+            elif partner == 'unossc':
+                actuals.append('UNOSSC C')
+            elif partner == 'openaire':
+                actuals.append('OpenAire')
+        filters['partnerlist'] = actuals
+    else:
+        filters['partners'] = 'all'
     search_query = SearchQuery(query[0], config=config)
     for i in range(1,len(query)):
         search_query = search_query & SearchQuery(query[i], config=config)
     filters['search_query'] = search_query
     return filters
 
-def search(request):
-    filters = get_filters(request)
+def recommend(request, filters=None, context=None):
+    if filters == None:
+        filters = get_filters(request)
     publications = Store.objects.filter(store_type = 'Publication').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
     technology = Store.objects.filter(store_type__contains = 'Technology').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
     business = Store.objects.filter(store_type__contains = 'Business').filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
@@ -70,7 +74,13 @@ def search(request):
         business = business.filter(partner__in = filters['partnerlist'])
         results = results.filter(partner__in = filters['partnerlist'])
     template = loader.get_template('sti/search.html')
-    return HttpResponse(template.render({'publications':publications[:3], 'technology':technology[:3], 'business':business[:3], 'results':results, 'filters': filters}, request))
+    c = {'publications':publications[:3], 'technology':technology[:3], 'business':business[:3], 'results':results[:100], 'filters': filters}
+    if context:
+        c.update(context)
+    return HttpResponse(template.render(c, request))
+
+def search(request):
+    return recommend(request)
 
 def all(request, datatype):
     if datatype == 'publications':
@@ -111,6 +121,7 @@ def source(request, source):
 def sdg(request, sdg):
     if int(sdg) > 17:
         raise Http404('Not found')
+    filters = get_filters(request)
     sdg = int(sdg) - 1
     synonyms = [
             'poverty poor',
@@ -135,6 +146,5 @@ def sdg(request, sdg):
     query = SearchQuery(wordlist[0])
     for i in range(1, len(wordlist)):
         query = query | SearchQuery(wordlist[i])
-    results = Store.objects.filter(search_vector = query)[:100]
-    template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':results, 'hidesearch': True},request))
+    filters['search_query'] = query
+    return recommend(request, filters, {'hidesearch': True})
