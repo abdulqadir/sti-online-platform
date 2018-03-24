@@ -58,7 +58,7 @@ def get_filters(request):
 
 def filter_results(results, filters):
     if filters['query'] != '':
-        results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
+        results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
     if filters['language'] != 'any':
         results = results.filter(language = filters['language'])
     if filters['partners'] != 'all':
@@ -158,5 +158,6 @@ def sdg(request, sdg):
     query = SearchQuery(wordlist[0])
     for i in range(1, len(wordlist)):
         query = query | SearchQuery(wordlist[i])
+    filters['query'] = 'sdg'
     filters['search_query'] = query
     return recommend(request, filters, {'hidesearch': True})
