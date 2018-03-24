@@ -135,29 +135,25 @@ def sdg(request, sdg):
         raise Http404('Not found')
     filters = get_filters(request)
     sdg = int(sdg) - 1
-    synonyms = [
-            'poverty poor',
-            'hunger food starvation nutrition stunting malnutrition drought soil farm pastoralist fisher cultivate livestock',
-            'health wellbeing well-being mortality death AIDS tuberculosis malaria hepatitis disease alcohol narcotic drug accident healthcare health-care medicine vaccine hazardous pollution contamination tobacco substance abuse injuries health-care',
-            'education learning university skills literacy numeracy learners scholarships training teachers',
-            'women discrimination marriage trafficking exploitation equal empowerment',
-            'water sanitation drinking defecation pollution hygiene wastewater freshwater sanitation harvesting',
-            'energy fuel',
-            'work economic growth productivity job entrepreneurship enterprises production employment unemployment pay wage labour salary earnings slavery',
-            'industry innovation infrastructure industrial enterprise markets technology research internet',
-            'inequality income growth empower equal inequal discrimination discriminatory migration migrant',
-            'city settlement slum urban municipal peri-urban metropolitan neighbourhood',
-            'consumption production waste consumer producer recycling reuse procurement',
-            'climate natural',
-            'oceans seas marine coastal overfishing fishing fisheries fishery island',
-            'terrestrial forest desertification desert land biodiversity conservation inland freshwater wetland mountain dryland deforestation reforestation soil drought floods habitat extinction poaching species flora fauna wildlife',
-            'peace justice violence violent abuse exploitation trafficking torture law arms crime stolen corruption bribery legal freedom terrorism',
-            'partnership assistance commitment ODA GNI coordinate cooperation dissemination diffusion universal duty-free quota-free'
+    queries = [
+            SearchQuery('poverty'),
+            SearchQuery('hunger') | SearchQuery('starvation') | SearchQuery('stunting') | SearchQuery('malnutrition'),
+            (SearchQuery('health') | SearchQuery('mortality') | SearchQuery('death') | SearchQuery('disease')) & (SearchQuery('care') | SearchQuery('prevention') | SearchQuery('medicine') | SearchQuery('vaccine') | SearchQuery('reduction') | SearchQuery('abuse') | SearchQuery('improve')),
+            SearchQuery('education') & (SearchQuery('learn') | SearchQuery('university') | SearchQuery('skills') | SearchQuery('literacy') | SearchQuery('numeracy') | SearchQuery('scholarship') | SearchQuery('training') | SearchQuery('teachers')),
+            (SearchQuery('women') | SearchQuery('girl') | SearchQuery('woman') | SearchQuery('female')) & (SearchQuery('discrimination') | SearchQuery('trafficking') | SearchQuery('exploitation') | SearchQuery('equal') | SearchQuery('empowerment')),
+            SearchQuery('water') & (SearchQuery('sanitation') | SearchQuery('drinking') | SearchQuery('defecation') | SearchQuery('pollution') | SearchQuery('hygiene') | SearchQuery('wastewater') | SearchQuery('freshwater') | SearchQuery('harvesting')),
+            (SearchQuery('energy') | SearchQuery('fuel')) & (SearchQuery('green') | SearchQuery('clean') | SearchQuery('affordable') | SearchQuery('cheap')),
+            (SearchQuery('work') | SearchQuery( 'economic') | SearchQuery('job') | SearchQuery('entrepreneurship')) & (SearchQuery('growth') | SearchQuery('productivity') | SearchQuery('enterprise') | SearchQuery('production') | SearchQuery('employment') | SearchQuery('unemployment') | SearchQuery('pay') | SearchQuery('wage') | SearchQuery('labour') | SearchQuery('salary') | SearchQuery('earning')),
+            (SearchQuery('industry') | SearchQuery('innovation')) & (SearchQuery('infrastructure') | SearchQuery('enterprise') | SearchQuery('markets') | SearchQuery('technology') | SearchQuery('research') | SearchQuery('internet')),
+            (SearchQuery('inequality') | SearchQuery('equality')) & (SearchQuery('income') | SearchQuery('growth') | SearchQuery('empower') | SearchQuery('discrimination') | SearchQuery('migrant') | SearchQuery('reduce')),
+            (SearchQuery('city') | SearchQuery('urban')) & (SearchQuery('settlement') | SearchQuery('slum') | SearchQuery('municipal') | SearchQuery('peri-urban') | SearchQuery('metropolitan') | SearchQuery('neighbourhood')),
+            (SearchQuery('consumption') | SearchQuery('production')) & (SearchQuery('waste') | SearchQuery('consumer') | SearchQuery('producer') | SearchQuery('recycling') | SearchQuery('reuse')),
+            SearchQuery('climate') & SearchQuery('natural'),
+            (SearchQuery('ocean') | SearchQuery('sea')) & (SearchQuery('marine') | SearchQuery('coastal') | SearchQuery('overfishing') | SearchQuery('fishing') | SearchQuery('fishery') | SearchQuery('island')),
+            (SearchQuery('land') | SearchQuery('terrestrial') | SearchQuery('forest') | SearchQuery('desert')) & (SearchQuery('desertification') | SearchQuery('biodiversity') | SearchQuery('conservation') |SearchQuery('inland') | SearchQuery('freshwater') | SearchQuery('wetland') | SearchQuery('mountain') | SearchQuery('dryland') | SearchQuery('soil') | SearchQuery('drought') | SearchQuery('floods') | SearchQuery('habitat') | SearchQuery('extinction') | SearchQuery('poaching') | SearchQuery('species') | SearchQuery('flora') | SearchQuery('fauna') | SearchQuery('wildlife')),
+            (SearchQuery('peace') | SearchQuery('justice')) & (SearchQuery('violence') | SearchQuery('abuse') | SearchQuery('exploitation') | SearchQuery('trafficking') | SearchQuery('torture') | SearchQuery('law') | SearchQuery('arms') | SearchQuery('crime') | SearchQuery('stolen') | SearchQuery('corruption') | SearchQuery('bribery') | SearchQuery('legal') | SearchQuery('freedom') | SearchQuery('terrorism')),
+            (SearchQuery('partnership') | SearchQuery('assistance') | SearchQuery('cooperation') | SearchQuery('coordinate')) & (SearchQuery('commitment') | SearchQuery('ODA') | SearchQuery('GNI') | SearchQuery('dissemination') | SearchQuery('diffusion') | SearchQuery('universal') | SearchQuery('duty-free') | SearchQuery('quota-free'))
             ]
-    wordlist = synonyms[sdg].split(' ')
-    query = SearchQuery(wordlist[0])
-    for i in range(1, len(wordlist)):
-        query = query | SearchQuery(wordlist[i])
     filters['query'] = 'sdg'
-    filters['search_query'] = query
+    filters['search_query'] = queries[sdg]
     return recommend(request, filters, {'hidesearch': True})
