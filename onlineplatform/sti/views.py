@@ -69,17 +69,21 @@ def recommend(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
     publications = Store.objects.filter(store_type = 'Publication')
-    technology = Store.objects.filter(store_type__contains = 'Technology')
-    business = Store.objects.filter(store_type__contains = 'Business')
+    technologyoffers = Store.objects.filter(store_type = 'Technology Offer')
+    businessoffers = Store.objects.filter(store_type = 'Business Offer')
+    technologyrequests = Store.objects.filter(store_type = 'Technology Request')
+    businessrequests = Store.objects.filter(store_type = 'Business Request')
     results = Store.objects.all()
     publications = filter_results(publications, filters)[:3]
-    technology = filter_results(technology, filters)[:3]
-    business = filter_results(business, filters)[:3]
+    technologyoffers = filter_results(technologyoffers, filters)[:3]
+    businessoffers = filter_results(businessoffers, filters)[:3]
+    technologyrequests = filter_results(technologyrequests, filters)[:3]
+    businessrequests = filter_results(businessrequests, filters)[:3]
     results = filter_results(results, filters)[:100]
-    available = list(filter(lambda t: len(t) > 0, [publications, technology, business]))
+    available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
     if len(available) > 1 and len(results) > 10:
         template = loader.get_template('sti/search.html')
-        c = {'publications':publications, 'technology':technology, 'business':business, 'results':results, 'filters': filters}
+        c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':results, 'filters': filters}
     else:
         template = loader.get_template('sti/all.html')
         c = {'results': results, 'filters': filters}

@@ -18,54 +18,24 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="recommended">
             <div class="container">
-                {% if publications|length > 0 %}
-                    <div class="col-xs-12 recommended-content-type">
-                        Publications
-                    </div>
-                    {% for row in publications %}
-                    {% if publications|length == 3 %}
-                    <div class="col-xs-12 col-md-4">
-                    {% elif publications|length == 2 %}
-                    <div class="col-xs-12 col-md-6">
-                    {% else %}
-                    <div class="col-xs-12 col-md-12">
+                {% for data in recommendations %}
+                    {% if data.results|length > 0 %}
+                        <div class="col-xs-12 recommended-content-type">
+                            {{data.type}}
+                        </div>
+                        {% for row in data.results %}
+                        {% if data.results|length == 3 %}
+                        <div class="col-xs-12 col-md-4">
+                        {% elif data.results|length == 2 %}
+                        <div class="col-xs-12 col-md-6">
+                        {% else %}
+                        <div class="col-xs-12 col-md-12">
+                        {% endif %}
+                            {% include "sti/search-result.html" with row=row %}
+                        </div>
+                        {% endfor %}
                     {% endif %}
-                        {% include "sti/search-result.html" with row=row %}
-                    </div>
-                    {% endfor %}
-                {% endif %}
-                {% if business|length > 0 %}
-                    <div class="col-xs-12 recommended-content-type">
-                        Business Opportunities
-                    </div>
-                    {% for row in business %}
-                    {% if business|length == 3 %}
-                    <div class="col-xs-12 col-md-4">
-                    {% elif business|length == 2 %}
-                    <div class="col-xs-12 col-md-6">
-                    {% else %}
-                    <div class="col-xs-12 col-md-12">
-                    {% endif %}
-                        {% include "sti/search-result.html" with row=row %}
-                    </div>
-                    {% endfor %}
-                {% endif %}
-                {% if technology|length > 0 %}
-                    <div class="col-xs-12 recommended-content-type">
-                        Technical Collaboration
-                    </div>
-                    {% for row in technology %}
-                    {% if technology|length == 3 %}
-                    <div class="col-xs-12 col-md-4">
-                    {% elif technology|length == 2 %}
-                    <div class="col-xs-12 col-md-6">
-                    {% else %}
-                    <div class="col-xs-12 col-md-12">
-                    {% endif %}
-                        {% include "sti/search-result.html" with row=row %}
-                    </div>
-                    {% endfor %}
-                {% endif %}
+                {% endfor %}
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="all">
