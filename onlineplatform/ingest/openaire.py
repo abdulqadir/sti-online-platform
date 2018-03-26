@@ -51,7 +51,7 @@ def scrape():
 
 def parse():
     while True:
-        update = Store.objects.all().filter(title='')[:1000]
+        update = Store.objects.all().filter(title='')[:100]
         if len(update) == 0:
             return
         for publication in update:
@@ -66,9 +66,14 @@ def parse():
             if language in ['danish', 'dutch', 'english', 'finnish', 'french', 'german', 'hungarian', 'italian', 'norwegian', 'portuguese', 'romanian', 'russian', 'spanish', 'swedish', 'turkish']:
                 config = language
             publication.language = language
-            print(publication.language, config, publication.title)
+            try:
+                publication.url = result.findall('metadata/{http://namespace.openaire.eu/oaf}entity/{http://namespace.openaire.eu/oaf}result/children/instance/webresource/url')[0].text
+            except Exception:
+                print('No URL found for ' + publication.client_id)
+                publication.url = ''
+            print(publication.language, publication.url, publication.title)
             publication.save()
             publication.search_vector = SearchVector('title', weight='A', config=config) + SearchVector('keywords', weight='D', config=config) + SearchVector('description', weight='C', config=config)
             publication.save()
 
-scrape()
+parse()
