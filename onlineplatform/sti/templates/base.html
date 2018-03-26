@@ -38,6 +38,9 @@
             .header-title a:hover, .header-title a:focus {
                 text-decoration: none;
             }
+            .footer {
+                background-color: #FFF;
+            }
             .footer h5 {
                 font-weight: bold;
             }
@@ -81,5 +84,19 @@
                     <i class="fa fa-lg fa-twitter"></i>
             </div>
         </nav>
+        <script>
+            function fixFooter() {
+                if ($('body').height() < window.screen.height) {
+                    $('.footer').addClass('navbar-fixed-bottom');
+                    $('body').css('padding-bottom',($('.footer').height() + 27) + 'px');
+                }
+                else {
+                    $('.footer').removeClass('navbar-fixed-bottom');
+                    $('body').css('padding-bottom','');
+                }
+            }
+            fixFooter();
+            $(window).on('resize', fixFooter);
+        </script>
     </body>
 </html>
