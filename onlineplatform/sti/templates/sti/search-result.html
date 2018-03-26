@@ -16,7 +16,8 @@
                 {% elif row.partner == 'OpenAire' %}
                     <img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" />
                 {% endif %}
-                    {{row.title}}</div>
+                <a href="{{row.url}}">{{row.title}}</a>
+                </div>
                 <div class="result-description">{{row.description|truncatewords:110}}</div>
                 <div class="result-attribution">
                     <i> Source:
