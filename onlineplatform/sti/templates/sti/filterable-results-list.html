@@ -137,11 +137,16 @@
     </script>
 </div>
 <div class="results">
-        <div class="container">
-            <div class="col-xs-12">
-            {% for row in results %}
-                {% include "sti/search-result.html" with row=row %}
-            {% endfor %}
+    <div class="container">
+        <div class="col-xs-12">
+        {% for row in results %}
+            {% include "sti/search-result.html" with row=row %}
+        {% endfor %}
+        {% if results|length == 0 %}
+            <div style="padding:53px 0; font-weight:bold;">
+            No results found
             </div>
+        {% endif %}
         </div>
+    </div>
 </div>
