@@ -26,6 +26,9 @@ def get_filters(request):
     else:
         filters['language'] = 'any'
         config = None
+    if 'type' in querydict and querydict['type'] != '':
+        # Strip trailing s
+        filters['type'] = querydict['type'][:-1]
     if 'partners' in querydict and querydict['partners'] != '':
         filters['partners'] = json.loads(querydict['partners'])
         partners = filters['partners']
@@ -68,19 +71,24 @@ def filter_results(results, filters):
 def recommend(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
-    publications = Store.objects.filter(store_type = 'Publication')
-    technologyoffers = Store.objects.filter(store_type = 'Technology Offer')
-    businessoffers = Store.objects.filter(store_type = 'Business Offer')
-    technologyrequests = Store.objects.filter(store_type = 'Technology Request')
-    businessrequests = Store.objects.filter(store_type = 'Business Request')
-    results = Store.objects.all()
-    publications = filter_results(publications, filters)[:3]
-    technologyoffers = filter_results(technologyoffers, filters)[:3]
-    businessoffers = filter_results(businessoffers, filters)[:3]
-    technologyrequests = filter_results(technologyrequests, filters)[:3]
-    businessrequests = filter_results(businessrequests, filters)[:3]
-    results = filter_results(results, filters)[:100]
-    available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
+    if 'type' in filters:
+        print(filters['type'])
+        results = filter_results(Store.objects.filter(store_type = filters['type']), filters)[:100]
+        available = [1]
+    else:
+        publications = Store.objects.filter(store_type = 'Publication')
+        technologyoffers = Store.objects.filter(store_type = 'Technology Offer')
+        businessoffers = Store.objects.filter(store_type = 'Business Offer')
+        technologyrequests = Store.objects.filter(store_type = 'Technology Request')
+        businessrequests = Store.objects.filter(store_type = 'Business Request')
+        results = Store.objects.all()
+        publications = filter_results(publications, filters)[:3]
+        technologyoffers = filter_results(technologyoffers, filters)[:3]
+        businessoffers = filter_results(businessoffers, filters)[:3]
+        technologyrequests = filter_results(technologyrequests, filters)[:3]
+        businessrequests = filter_results(businessrequests, filters)[:3]
+        results = filter_results(results, filters)[:100]
+        available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
     if len(available) > 1 and len(results) > 10:
         template = loader.get_template('sti/search.html')
         c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':results, 'filters': filters}

@@ -3,6 +3,9 @@
     <form id="search" method="POST">{% csrf_token %}
     <div class="container">
         <div>
+            <input type="hidden" name="partners" />
+            <input type="hidden" name="language" />
+            <input type="hidden" name="type" {% if filters.type %}value={{ filters.type }}{% endif %}/>
             {% if not hidesearch %}
             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 filter-detail">
                 <div class="input-group">
@@ -12,8 +15,6 @@
                     </span>
                     {% endif %}
                     <input name="query" class="form-control" type="text" value="{{ filters.query }}"/>
-                    <input type="hidden" name="partners" />
-                    <input type="hidden" name="language" />
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">Search</button>
                     </span>

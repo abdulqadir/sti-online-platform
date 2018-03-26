@@ -34,10 +34,20 @@
                             {% include "sti/search-result.html" with row=row %}
                         </div>
                         {% endfor %}
+                        <div class="col-xs-12 recommended-type-all">
+                            <a href="#" data-type="{{data.type}}">View all {{data.type}}</a>
+                        </div>
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
+        <script>
+            $('.recommended-type-all a').on('click', function(event) {
+                $('[name="type"]').val($(event.target).data('type'));
+                $('#search').trigger('submit');
+                event.preventDefault();
+            });
+        </script>
         <div role="tabpanel" class="tab-pane" id="all">
             {% include "sti/filterable-results-list.html" with hidelogo=True %}
         </div>
