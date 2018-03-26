@@ -2,10 +2,15 @@
 <div class="filter">
     <form id="search" method="POST">{% csrf_token %}
     <div class="container">
-        <div class="col-xs-12">
+        <div>
             {% if not hidesearch %}
             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 filter-detail">
                 <div class="input-group">
+                    {% if not hidelogo %}
+                    <span class="input-group-addon" style="background-color:inherit; border:none; padding:0; padding-right:12px;">
+                        <img width="27px" height="27px" src="{% static '/images/TFM_logo.png' %}" />
+                    </span>
+                    {% endif %}
                     <input name="query" class="form-control" type="text" value="{{ filters.query }}"/>
                     <input type="hidden" name="partners" />
                     <input type="hidden" name="language" />

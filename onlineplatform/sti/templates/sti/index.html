@@ -6,21 +6,25 @@
         padding: 35px 0;
     }
     .search {
-        background-image: url('{% static 'images/nypl.jpg' %}');
-        background-size: cover;
-        background-position-y: center;
+        background: linear-gradient(90deg,#D2FFEF,#C6E3FF);
         text-shadow: 0 0 3px #FFF;
     }
     .search .intro {
-        font-size: 21px;
-        margin-top: 21px;
+        margin-top: 27px;
+        text-align: center;
+    }
+    .intro img {
+        max-width: 100%;
     }
     .search form {
-        margin-top: 53px;
+        margin-top: 27px;
     }
     .search input {
         border: 1px solid #AAA;
         padding: 5px;
+    }
+    #searchButton {
+        margin: 27px auto;
     }
     .classify {
         margin: 21px 0 0 0;
@@ -127,11 +131,11 @@
         <div class="search">
             <div class="container">
                 <div class="intro col-xs-12">
-                    Facilitating worldwide transfer of technology.
+                    <img src="{% static 'images/TFM.png' %}" />
                 </div>
                 <form action="/search" class="col-xs-12">
                 <input class="col-xs-12" type="text" name="query" />
-                <center><button type="submit" class="btn btn-info" style="margin:3em auto">Search</button></center>
+                <center><button id="searchButton" type="submit" class="btn btn-info">Search</button></center>
                 </form>
             </div>
         </div>
