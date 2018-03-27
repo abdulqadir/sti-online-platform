@@ -3,6 +3,7 @@ from django.template import loader
 from django.http import HttpResponse, Http404
 from django.db.models import F
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.core.paginator import Paginator
 from sti.models import Store
 import json
 
@@ -21,6 +22,10 @@ def get_filters(request):
     else:
         query = ['']
         filters = {'query':''}
+    if 'page' in querydict and querydict['page'] != '':
+        filters['page'] = int(querydict['page'])
+    else:
+        filters['page'] = 1
     if 'language' in querydict and querydict['language'] != '':
         config = filters['language'] = querydict['language']
     else:
@@ -77,7 +82,7 @@ def recommend(request, filters=None, context=None):
     else:
         if 'type' in filters:
             print(filters['type'])
-            results = filter_results(Store.objects.filter(store_type = filters['type']), filters)[:100]
+            results = filter_results(Store.objects.filter(store_type = filters['type']), filters)
             available = [1]
         else:
             publications = Store.objects.filter(store_type = 'Publication')
@@ -91,14 +96,16 @@ def recommend(request, filters=None, context=None):
             businessoffers = filter_results(businessoffers, filters)[:3]
             technologyrequests = filter_results(technologyrequests, filters)[:3]
             businessrequests = filter_results(businessrequests, filters)[:3]
-            results = filter_results(results, filters)[:100]
+            results = filter_results(results, filters)
             available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
-    if len(available) > 1 and len(results) > 10:
+    paginator = Paginator(results, 20)
+    page = paginator.page(filters['page'])
+    if filters['page'] == 1 and len(available) > 1 and len(results) > 20:
         template = loader.get_template('sti/search.html')
-        c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':results, 'filters': filters}
+        c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
     else:
         template = loader.get_template('sti/all.html')
-        c = {'results': results, 'filters': filters}
+        c = {'results': page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
     if context:
         c.update(context)
     return HttpResponse(template.render(c, request))
@@ -120,9 +127,11 @@ def all(request, datatype):
     else:
         raise Http404('No records found')
     filters = get_filters(request)
-    results = filter_results(results, filters)[:100]
+    results = filter_results(results, filters).order_by('-last_updated')
+    paginator = Paginator(results, 20)
+    page = paginator.page(filters['page'])
     template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':results, 'filters': filters}, request))
+    return HttpResponse(template.render({'results':page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}, request))
 
 def source(request, source):
     if source == 'apctt':
@@ -142,9 +151,11 @@ def source(request, source):
     else:
         raise Http404('No records found')
     filters = get_filters(request)
-    results = filter_results(results, filters)[:100]
+    results = filter_results(results, filters).order_by('-last_updated')
+    paginator = Paginator(results, 20)
+    page = paginator.page(filters['page'])
     template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':results, 'filters': filters, 'hidepartners': True}, request))
+    return HttpResponse(template.render({'results':page, 'filters': filters, 'hidepartners': True, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}, request))
 
 def sdg(request, sdg):
     if int(sdg) > 17:

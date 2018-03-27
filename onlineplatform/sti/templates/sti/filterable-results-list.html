@@ -1,6 +1,6 @@
 {% load static %}
 <div class="filter">
-    <form id="search" method="POST">{% csrf_token %}
+    <form id="search" method="POST" data-currentpage={{ filters.page }}>{% csrf_token %}
     <div class="container">
         <div>
             <input type="hidden" name="partners" />
@@ -146,6 +146,31 @@
             <div style="padding:53px 0; font-weight:bold;">
             No results found
             </div>
+        {% endif %}
+        {% if hasprev or hasnext %}
+        <nav>
+            <ul class="pager">
+                {% if hasprev %}
+                <li class="previous"><a href="#" data-nav="prev">&larr; Previous</a></li>
+                {% endif %}{%if hasnext %}
+                <li class="next"><a href="#" data-nav="next">Next &rarr;</a></li>
+                {%endif%}
+            </ul>
+        </nav>
+        <script>
+        $('.pager li a').on('click', function(event) {
+            var currentPage = Number($('#search').data('currentpage'));
+            if ($(event.target).data('nav') == 'prev') {
+                currentPage -= 1;
+            }
+            else {
+                currentPage += 1;
+            }
+            $('#search').append('<input type="hidden" name="page" value="' + currentPage + '" />');
+            $('#search').trigger('submit');
+            event.preventDefault();
+        });
+        </script>
         {% endif %}
         </div>
     </div>
