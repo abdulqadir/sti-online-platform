@@ -17,10 +17,8 @@ def get_filters(request):
     else:
         querydict = request.POST
     if 'query' in querydict:
-        query = querydict['query'].split(' ')
         filters = {'query': querydict['query']}
     else:
-        query = ['']
         filters = {'query':''}
     if 'page' in querydict and querydict['page'] != '':
         filters['page'] = int(querydict['page'])
@@ -58,9 +56,7 @@ def get_filters(request):
         filters['partnerlist'] = actuals
     else:
         filters['partners'] = 'all'
-    search_query = SearchQuery(query[0], config=config)
-    for i in range(1,len(query)):
-        search_query = search_query & SearchQuery(query[i], config=config)
+    search_query = SearchQuery(filters['query'], config=config)
     filters['search_query'] = search_query
     return filters
 
