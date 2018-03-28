@@ -21,5 +21,8 @@ class Store(models.Model):
 
     class Meta:
         indexes = [
-                GinIndex(fields=['search_vector'])
+                GinIndex(fields=['search_vector']),
+                models.Index(fields=['language']),
+                models.Index(fields=['partner']),
+                models.Index(fields=['store_type']),
             ]
