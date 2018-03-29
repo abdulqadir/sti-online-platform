@@ -73,35 +73,39 @@ def recommend(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
     if filters['query'] == '':
-        results = []
-        available = []
-    else:
-        if 'type' in filters:
-            print(filters['type'])
-            results = filter_results(Store.objects.filter(store_type = filters['type']), filters)
-            available = [1]
-        else:
-            publications = Store.objects.filter(store_type = 'Publication')
-            technologyoffers = Store.objects.filter(store_type = 'Technology Offer')
-            businessoffers = Store.objects.filter(store_type = 'Business Offer')
-            technologyrequests = Store.objects.filter(store_type = 'Technology Request')
-            businessrequests = Store.objects.filter(store_type = 'Business Request')
-            results = Store.objects.all()
-            publications = filter_results(publications, filters)[:3]
-            technologyoffers = filter_results(technologyoffers, filters)[:3]
-            businessoffers = filter_results(businessoffers, filters)[:3]
-            technologyrequests = filter_results(technologyrequests, filters)[:3]
-            businessrequests = filter_results(businessrequests, filters)[:3]
-            results = filter_results(results, filters)
-            available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
+        results = Store.objects.none()
+        return listresults(results, request, filters=filters, context=context)
+    if 'type' in filters:
+        results = filter_results(Store.objects.filter(store_type = filters['type']), filters)
+        response = listresults(results, request, filters=filters, context=context)
+        return response
+    publications = filter_results(Store.objects.filter(store_type = 'Publication'), filters)[:3]
+    technologyoffers = filter_results(Store.objects.filter(store_type = 'Technology Offer'), filters)[:3]
+    businessoffers = filter_results(Store.objects.filter(store_type = 'Business Offer'), filters)[:3]
+    technologyrequests = filter_results(Store.objects.filter(store_type = 'Technology Request'), filters)[:3]
+    businessrequests = filter_results(Store.objects.filter(store_type = 'Business Request'), filters)[:3]
+    results = filter_results(Store.objects, filters)
+    available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
     paginator = Paginator(results, 20)
     page = paginator.page(filters['page'])
     if filters['page'] == 1 and len(available) > 1 and len(results) > 20:
         template = loader.get_template('sti/search.html')
         c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
+        if context:
+            c.update(context)
+        response = HttpResponse(template.render(c, request))
     else:
-        template = loader.get_template('sti/all.html')
-        c = {'results': page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
+        response = listresults(results, request, filters=filters, context=context)
+    return response
+
+def listresults(results, request, filters=None, context=None):
+    if filters == None:
+        filters = get_filters(request)
+    results = filter_results(results, filters).order_by('-last_updated')
+    paginator = Paginator(results, 20)
+    page = paginator.page(filters['page'])
+    template = loader.get_template('sti/all.html')
+    c = {'results': page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
     if context:
         c.update(context)
     return HttpResponse(template.render(c, request))
@@ -111,23 +115,18 @@ def search(request):
 
 def all(request, datatype):
     if datatype == 'publications':
-        results = Store.objects.filter(store_type__exact = 'Publication')
+        results = Store.objects.filter(store_type = 'Publication')
     elif datatype == 'technology-offers':
-        results = Store.objects.filter(store_type__exact = 'Technology Offer')
+        results = Store.objects.filter(store_type = 'Technology Offer')
     elif datatype == 'technology-requests':
-        results = Store.objects.filter(store_type__exact = 'Technology Request')
+        results = Store.objects.filter(store_type = 'Technology Request')
     elif datatype == 'business-offers':
-        results = Store.objects.filter(store_type__exact = 'Business Offer')
+        results = Store.objects.filter(store_type = 'Business Offer')
     elif datatype == 'business-requests':
-        results = Store.objects.filter(store_type__exact = 'Business Request')
+        results = Store.objects.filter(store_type = 'Business Request')
     else:
         raise Http404('No records found')
-    filters = get_filters(request)
-    results = filter_results(results, filters).order_by('-last_updated')
-    paginator = Paginator(results, 20)
-    page = paginator.page(filters['page'])
-    template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}, request))
+    return listresults(results, request)
 
 def source(request, source):
     if source == 'apctt':
@@ -146,12 +145,7 @@ def source(request, source):
         results = Store.objects.filter(partner = 'OpenAire')
     else:
         raise Http404('No records found')
-    filters = get_filters(request)
-    results = filter_results(results, filters).order_by('-last_updated')
-    paginator = Paginator(results, 20)
-    page = paginator.page(filters['page'])
-    template = loader.get_template('sti/all.html')
-    return HttpResponse(template.render({'results':page, 'filters': filters, 'hidepartners': True, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}, request))
+    return listresults(results, request, context={'hidepartners': True})
 
 def sdg(request, sdg):
     if int(sdg) > 17:
@@ -177,6 +171,6 @@ def sdg(request, sdg):
             (SearchQuery('peace') | SearchQuery('justice')) & (SearchQuery('violence') | SearchQuery('abuse') | SearchQuery('exploitation') | SearchQuery('trafficking') | SearchQuery('torture') | SearchQuery('law') | SearchQuery('arms') | SearchQuery('crime') | SearchQuery('stolen') | SearchQuery('corruption') | SearchQuery('bribery') | SearchQuery('legal') | SearchQuery('freedom') | SearchQuery('terrorism')),
             (SearchQuery('partnership') | SearchQuery('assistance') | SearchQuery('cooperation') | SearchQuery('coordinate')) & (SearchQuery('commitment') | SearchQuery('ODA') | SearchQuery('GNI') | SearchQuery('dissemination') | SearchQuery('diffusion') | SearchQuery('universal') | SearchQuery('duty-free') | SearchQuery('quota-free'))
             ]
-    filters['query'] = 'sdg'
+    filters['query'] = 'sdg' + str(sdg+1)
     filters['search_query'] = queries[sdg]
     return recommend(request, filters, {'hidesearch': True})
