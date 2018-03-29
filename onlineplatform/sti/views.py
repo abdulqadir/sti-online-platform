@@ -4,6 +4,7 @@ from django.http import HttpResponse, Http404
 from django.db.models import F
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.paginator import Paginator
+from django.core.cache import cache
 from sti.models import Store
 import json
 
@@ -75,9 +76,15 @@ def recommend(request, filters=None, context=None):
     if filters['query'] == '':
         results = Store.objects.none()
         return listresults(results, request, filters=filters, context=context)
+    cached = cache.get(str(filters))
+    if cached:
+        print('Cache hit')
+        return cached
+    print('Cache miss')
     if 'type' in filters:
         results = filter_results(Store.objects.filter(store_type = filters['type']), filters)
         response = listresults(results, request, filters=filters, context=context)
+        cache.set(str(filters), response)
         return response
     publications = filter_results(Store.objects.filter(store_type = 'Publication'), filters)[:3]
     technologyoffers = filter_results(Store.objects.filter(store_type = 'Technology Offer'), filters)[:3]
@@ -96,6 +103,7 @@ def recommend(request, filters=None, context=None):
         response = HttpResponse(template.render(c, request))
     else:
         response = listresults(results, request, filters=filters, context=context)
+    cache.set(str(filters), response)
     return response
 
 def listresults(results, request, filters=None, context=None):
