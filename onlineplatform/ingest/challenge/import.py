@@ -1,7 +1,9 @@
 import json
 import os
+import sys
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
     os.environ['DJANGO_SETTINGS_MODULE'] = 'onlineplatform.settings'
+    sys.path.append('/'.join(os.getcwd().split('/')[:-2]))
 import django
 django.setup()
 from django.contrib.postgres.search import SearchVector
