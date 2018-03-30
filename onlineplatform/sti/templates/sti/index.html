@@ -345,57 +345,19 @@
                 <div class="col-xs-12">
                     <div class="title">Latest News</div>
                     <div class="content">
+                        {% for news in events %}
                         <div class="news">
                             <div class="news-date">
-                                <div class="news-date-month">Mar</div>
-                                <div class="news-date-day">09</div>
-                                <div class="news-date-year">2018</div>
+                                <div class="news-date-month">{{news.date|date:'M'}}</div>
+                                <div class="news-date-day">{{news.date|date:'j'}}</div>
+                                <div class="news-date-year">{{news.date|date:'o'}}</div>
                             </div>
-                            <div class="news-title">Projects from the UNFCCC now available on the online platform</div>
-                            <div class="news-content">We welcome our latest data partner, the United Nations Framework Convention on Climate Change (UNFCCC).<br/>
-                                Their projects will make a valuable addition to our existing data.
-                            </div>
-                        </div>
-                        <div class="news">
-                            <div class="news-date">
-                                <div class="news-date-month">Nov</div>
-                                <div class="news-date-day">29</div>
-                                <div class="news-date-year">2017</div>
-                            </div>
-                            <div class="news-title">Workshop on Science, Technology and Innovation for the SDGs</div>
+                            <div class="news-title">{{news.title}}</div>
                             <div class="news-content">
-                                 UN DESA, in collaboration with UNCTAD, organised a three-day workshop on Science, Technology and Innovation (STI) for the achievement of the Sustainable Development Goals (SDGs) as a major preparatory event for the 2018 STI Forum.
+                                {{news.description}}
                             </div>
                         </div>
-                        <div class="news">
-                            <div class="news-date">
-                                <div class="news-date-month">May</div>
-                                <div class="news-date-day">15</div>
-                                <div class="news-date-year">2017</div>
-                            </div>
-                            <div class="news-title">2nd STI Forum</div>
-                            <div class="news-content">
-                                The 2nd STI Forum was held in New York (IATT) with the theme of "Eradicating poverty and promoting prosperity in a changing world".
-                            </div>
-                        </div>
-                        <div class="news">
-                            <div class="news-date">
-                                <div class="news-date-month">Mar</div>
-                                <div class="news-date-day">23</div>
-                                <div class="news-date-year">2017</div>
-                            </div>
-                            <div class="news-title">Meeting of foundations and other STI funders</div>
-                            <div class="news-content">STI funders including foundations met in New York to discuss progress in advancing Agenda 2030</div>
-                        </div>
-                        <div class="news">
-                            <div class="news-date">
-                                <div class="news-date-month">Mar</div>
-                                <div class="news-date-day">07</div>
-                                <div class="news-date-year">2017</div>
-                            </div>
-                            <div class="news-title">Meeting on Science, Technology and Innovation for advancing Agenda 2030</div>
-                            <div class="news-content">Stakeholders met in Rio de Janeiro (Fiocruz) to discuss ways to advance Agenda 2030 with a particular focus on health and healthcare</div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

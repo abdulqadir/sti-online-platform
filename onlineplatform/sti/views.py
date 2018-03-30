@@ -5,12 +5,13 @@ from django.db.models import F
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.paginator import Paginator
 from django.core.cache import cache
-from sti.models import Store
+from sti.models import Store, Event
 import json
 
 def index(request):
+    events = Event.objects.order_by('-date')[:5]
     template = loader.get_template('sti/index.html')
-    return HttpResponse(template.render({}, request))
+    return HttpResponse(template.render({'events':events}, request))
 
 def get_filters(request):
     if request.method == 'GET':
