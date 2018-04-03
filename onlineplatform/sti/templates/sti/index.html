@@ -182,91 +182,13 @@
         <div id="classify-expand">
             <div class="container panel">
                 <div id="classify-expand-sdgs" class="col-xs-12 collapse" data-parent="#classify-expand">
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/1/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-01.jpg' %}');"></div>
+                    {% for sdg in sdgs %}
+                    <div class="col-xs-4 col-sm-2 col-lg-1{% if sdg == 13 %} col-lg-offset-3{% endif %}">
+                        <a href="/sdg/{{sdg}}/">
+                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/' %}SDG-{{sdg|stringformat:"02d"}}.jpg');"></div>
                         </a>
                     </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/2/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-02.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/3/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-03.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/4/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-04.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/5/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-05.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/6/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-06.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/7/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-07.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/8/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-08.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/9/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-09.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/10/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-10.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/11/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-11.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/12/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-12.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-3">
-                        <a href="/sdg/13/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-13.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/14/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-14.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/15/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-15.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/16/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-16.jpg' %}');"></div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/sdg/17/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/SDG-17.jpg' %}');"></div>
-                        </a>
-                    </div>
+                    {% endfor %}
                 </div>
                 <div id="classify-expand-partners" class="col-xs-12 collapse" data-parent="#classify-expand">
                     <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-3">

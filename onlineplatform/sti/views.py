@@ -11,7 +11,7 @@ import json
 def index(request):
     events = Event.objects.order_by('-date')[:5]
     template = loader.get_template('sti/index.html')
-    return HttpResponse(template.render({'events':events}, request))
+    return HttpResponse(template.render({'sdgs':range(1,18), 'events':events}, request))
 
 def get_filters(request):
     if request.method == 'GET':
