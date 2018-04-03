@@ -64,7 +64,7 @@ def get_filters(request):
 
 def filter_results(results, filters):
     if filters['query'] != '':
-        results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).order_by('-rank')
+        results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).filter(rank__gte=0.11).order_by('-rank')
     if filters['language'] != 'any':
         results = results.filter(language = filters['language'])
     if filters['partners'] != 'all':
@@ -76,7 +76,7 @@ def recommend(request, filters=None, context=None):
         filters = get_filters(request)
     if filters['query'] == '':
         results = Store.objects.none()
-        return listresults(results, request, filters=filters, context=context)
+        return listresults(results, request, filters, context=context)
     cached = cache.get(str(filters))
     if cached:
         print('Cache hit')
@@ -84,7 +84,7 @@ def recommend(request, filters=None, context=None):
     print('Cache miss')
     if 'type' in filters:
         results = filter_results(Store.objects.filter(store_type = filters['type']), filters)
-        response = listresults(results, request, filters=filters, context=context)
+        response = listresults(results, request, filters, context=context)
         cache.set(str(filters), response)
         return response
     publications = filter_results(Store.objects.filter(store_type = 'Publication'), filters)[:3]
@@ -92,26 +92,23 @@ def recommend(request, filters=None, context=None):
     businessoffers = filter_results(Store.objects.filter(store_type = 'Business Offer'), filters)[:3]
     technologyrequests = filter_results(Store.objects.filter(store_type = 'Technology Request'), filters)[:3]
     businessrequests = filter_results(Store.objects.filter(store_type = 'Business Request'), filters)[:3]
-    results = filter_results(Store.objects, filters)
     available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
-    paginator = Paginator(results, 20)
-    page = paginator.page(filters['page'])
-    if filters['page'] == 1 and len(available) > 1 and len(results) > 20:
+    results = filter_results(Store.objects, filters)
+    if filters['page'] == 1 and len(available) > 1 and results.count() > 10:
+        paginator = Paginator(results, 10)
+        page = paginator.page(filters['page'])
         template = loader.get_template('sti/search.html')
         c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
         if context:
             c.update(context)
         response = HttpResponse(template.render(c, request))
     else:
-        response = listresults(results, request, filters=filters, context=context)
+        response = listresults(results, request, filters, context=context)
     cache.set(str(filters), response)
     return response
 
-def listresults(results, request, filters=None, context=None):
-    if filters == None:
-        filters = get_filters(request)
-    results = filter_results(results, filters).order_by('-last_updated')
-    paginator = Paginator(results, 20)
+def listresults(results, request, filters, context=None):
+    paginator = Paginator(results, 10)
     page = paginator.page(filters['page'])
     template = loader.get_template('sti/all.html')
     c = {'results': page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
@@ -135,7 +132,9 @@ def all(request, datatype):
         results = Store.objects.filter(store_type = 'Business Request')
     else:
         raise Http404('No records found')
-    return listresults(results, request)
+    filters = get_filters(request)
+    results = filter_results(results, filters).order_by('-last_updated')
+    return listresults(results, request, filters)
 
 def source(request, source):
     if source == 'apctt':
@@ -154,7 +153,9 @@ def source(request, source):
         results = Store.objects.filter(partner = 'OpenAire')
     else:
         raise Http404('No records found')
-    return listresults(results, request, context={'hidepartners': True})
+    filters = get_filters(request)
+    results = filter_results(results, filters).order_by('-last_updated')
+    return listresults(results, request, filters, context={'hidepartners': True})
 
 def sdg(request, sdg):
     if int(sdg) > 17:
