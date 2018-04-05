@@ -239,6 +239,13 @@
                 </div>
             </div>
         </div>
+        <script>
+        $('[data-parent="#classify-expand"]').on('shown.bs.collapse', function() {
+            if (window.innerWidth < 768) {
+                window.scrollTo(0, this.offsetTop - 27);
+            }
+        });
+        </script>
         <div class="browse">
             <div class="container">
                 <div class="browse-title title">
