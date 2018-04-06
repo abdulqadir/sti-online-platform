@@ -57,6 +57,10 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+    #classify-expand .panel {
+        -webkit-box-shadow: unset;
+        box-shadow: unset;
+    }
     .classify-expand-partners-logo, .classify-expand-sdgs-logo {
         height: 53px;
         background-size: contain;
@@ -165,10 +169,12 @@
                     </a>
                 </div>
                 <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
-                    <div class="classify_img">
-                        <img src="{% static 'images/location.png' %}" />
-                    </div>
-                    <div class="classify_description">Select a location to view technology offers relevant to your country</div>
+                    <a href="#classify-expand-locations" data-toggle="collapse">
+                        <div class="classify_img">
+                            <img src="{% static 'images/location.png' %}" />
+                        </div>
+                        <div class="classify_description">Select a location to view technology offers relevant to your country</div>
+                    </a>
                 </div>
                 <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
                     <a href="#classify-expand-partners" data-toggle="collapse">
@@ -189,6 +195,17 @@
                         </a>
                     </div>
                     {% endfor %}
+                </div>
+                <div id="classify-expand-locations" class="col-xs-12 collapse" data-parent="#classify-expand">
+                    <form target="/location/" method="POST">{% csrf_token %}
+                        <div class="input-group col-xs-12 col-sm-11 col-sm-offset-1">
+                            <span class="input-group-addon">Location</span>
+                            <input type="text" name="location" class="form-control"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">Go</button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
                 <div id="classify-expand-partners" class="col-xs-12 collapse" data-parent="#classify-expand">
                     <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-3">
