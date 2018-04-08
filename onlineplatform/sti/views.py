@@ -149,6 +149,8 @@ def source(request, source):
         results = Store.objects.filter(partner = 'EEN C')
     elif source == 'unossc':
         results = Store.objects.filter(partner = 'UNOSSC C')
+    elif source == 'unfccc':
+        results = Store.objects.filter(partner = 'UNFCCC C')
     elif source == 'openaire':
         results = Store.objects.filter(partner = 'OpenAire')
     else:

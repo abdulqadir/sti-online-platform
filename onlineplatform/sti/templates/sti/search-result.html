@@ -13,6 +13,8 @@
                     <img class="partner-logo" src="{% static 'images/wipo-green-logo.png' %}" />
                 {% elif row.partner == 'EEN C' %}
                     <img class="partner-logo" src="{% static 'images/een-logo.png' %}" />
+                {% elif row.partner == 'UNFCCC C' %}
+                    <img class="partner-logo" src="{% static 'images/unfccc-logo.png' %}" />
                 {% elif row.partner == 'OpenAire' %}
                     <img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" />
                 {% endif %}
@@ -33,6 +35,8 @@
                     World Intellectual Property Organization
                 {% elif row.partner == 'EEN C' %}
                     Enterprise Europe Network
+                {% elif row.partner == 'UNFCCC C' %}
+                    United Nations Framework Convention on Climate Change
                 {% elif row.partner == 'OpenAire' %}
                     OpenAire
                 {% endif %}

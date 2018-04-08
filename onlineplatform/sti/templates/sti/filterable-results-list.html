@@ -54,6 +54,10 @@
                             <label for="een"><img class="partner-logo" src="{% static 'images/een-logo.png' %}" /></label>
                         </li>
                         <li>
+                            <input class="filter-partner" type="checkbox" id="unfccc" {% if filters.partners == None or filters.partners == 'all' or filters.partners.unfccc == True %}checked{% endif %}/>
+                            <label for="unfccc"><img class="partner-logo" src="{% static 'images/unfccc-logo.png' %}" /></label>
+                        </li>
+                        <li>
                             <input class="filter-partner" type="checkbox" id="unossc" {% if filters.partners == None or filters.partners == 'all' or filters.partners.unossc == True %}checked{% endif %}/>
                             <label for="unossc"><img class="partner-logo" src="{% static 'images/unossc-logo.png' %}" /></label>
                         </li>
