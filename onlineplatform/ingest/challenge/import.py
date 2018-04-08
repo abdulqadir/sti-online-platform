@@ -8,6 +8,31 @@ import django
 django.setup()
 from django.contrib.postgres.search import SearchVector
 from sti.models import Store
+import csv
+
+csvreader = csv.DictReader(open('data/unfccc/unfccc_data_with_summaries.csv','r'))
+rec = 1
+for record in csvreader:
+    client_id = 'unfccc_c_' + str(rec)
+    try:
+        store = Store.objects.get(client_id=client_id)
+    except Store.DoesNotExist:
+        store = Store()
+        store.client_id = client_id
+        store.store_type = 'Publication'
+        store.partner = 'UNFCCC C'
+        store.language = 'english'
+    store.title = record['title']
+    store.description = record['summary']
+    store.url = record['document_url']
+    store.raw_data = str(record)
+    store.keywords = record['keywords']
+    store.location = record['country']
+    store.save()
+    rec += 1
+    store.search_vector = SearchVector('title', weight='A', config='english') + SearchVector('keywords', weight='D', config='english') + SearchVector('description', weight='C', config='english')
+    store.save()
+    print(store.client_id, store.title)
 
 records = json.loads(open('data/apctt/offers.json','r').read())
 rec = 1
