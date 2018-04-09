@@ -31,6 +31,10 @@ def get_filters(request):
     else:
         filters['language'] = 'all'
         config = None
+    if 'location' in querydict and querydict['location'] != '':
+        config = filters['location'] = querydict['location']
+    else:
+        filters['location'] = 'all'
     if 'types' in querydict and querydict['types'] != '':
         filters['types'] = json.loads(querydict['types'])
         types = filters['types']
@@ -85,6 +89,8 @@ def get_filters(request):
 def filter_results(results, filters):
     if filters['language'] != 'all':
         results = results.filter(language = filters['language'])
+    if filters['location'] != 'all':
+        results = results.filter(location = filters['location'])
     if filters['partners'] != 'all':
         results = results.filter(partner__in = filters['partnerlist'])
     if filters['types'] != 'all':
@@ -96,7 +102,7 @@ def filter_results(results, filters):
 def search(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
-    if filters['query'] == '' and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all':
+    if filters['query'] == '' and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all' and filters['location'] == 'all':
         results = Store.objects.none()
         return listresults(results, request, filters, context=context)
     cached = cache.get(str(filters))
