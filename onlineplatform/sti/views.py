@@ -93,7 +93,7 @@ def filter_results(results, filters):
         results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).filter(rank__gte=0.11).order_by('-rank')
     return results
 
-def recommend(request, filters=None, context=None):
+def search(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
     if filters['query'] == '' and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all':
@@ -133,9 +133,6 @@ def listresults(results, request, filters, context=None):
         c.update(context)
     return HttpResponse(template.render(c, request))
 
-def search(request):
-    return recommend(request)
-
 def sdg(request, sdg):
     if int(sdg) > 17:
         raise Http404('Not found')
@@ -162,4 +159,4 @@ def sdg(request, sdg):
             ]
     filters['query'] = 'sdg' + str(sdg+1)
     filters['search_query'] = queries[sdg]
-    return recommend(request, filters, {'hidesearch': True})
+    return search(request, filters, {'hidesearch': True})
