@@ -97,7 +97,20 @@ def filter_results(results, filters):
         results = results.filter(store_type__in = filters['typelist'])
     if filters['query'] != '':
         results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).filter(rank__gte=0.11).order_by('-rank')
+    else:
+        results = results.order_by('-last_updated')
     return results
+
+def paginate(request, page):
+    q = request.GET.copy()
+    resp = {'prev':False, 'next':False}
+    if page.has_previous():
+        q['page'] = page.previous_page_number()
+        resp['prev'] = request.path + '?' + q.urlencode(safe="{}")
+    if page.has_next():
+        q['page'] = page.next_page_number()
+        resp['next'] = request.path + '?' + q.urlencode(safe="{}")
+    return resp
 
 def search(request, filters=None, context=None):
     if filters == None:
@@ -121,7 +134,8 @@ def search(request, filters=None, context=None):
         paginator = Paginator(results, 10)
         page = paginator.page(filters['page'])
         template = loader.get_template('sti/search.html')
-        c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
+        pages = paginate(request, page)
+        c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
         if context:
             c.update(context)
         response = HttpResponse(template.render(c, request))
@@ -133,8 +147,9 @@ def search(request, filters=None, context=None):
 def listresults(results, request, filters, context=None):
     paginator = Paginator(results, 10)
     page = paginator.page(filters['page'])
+    pages = paginate(request, page)
     template = loader.get_template('sti/all.html')
-    c = {'results': page, 'filters': filters, 'hasprev':page.has_previous(), 'hasnext':page.has_next()}
+    c = {'results': page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
     if context:
         c.update(context)
     return HttpResponse(template.render(c, request))

@@ -191,30 +191,16 @@
             No results found
             </div>
         {% endif %}
-        {% if hasprev or hasnext %}
+        {% if prev or next %}
         <nav>
             <ul class="pager">
-                {% if hasprev %}
-                <li class="previous"><a href="#" data-nav="prev">&larr; Previous</a></li>
-                {% endif %}{%if hasnext %}
-                <li class="next"><a href="#" data-nav="next">Next &rarr;</a></li>
+                {% if prev %}
+                <li class="previous"><a href="{{ prev }}" data-nav="prev">&larr; Previous</a></li>
+                {% endif %}{%if next %}
+                <li class="next"><a href="{{ next }}" data-nav="next">Next &rarr;</a></li>
                 {%endif%}
             </ul>
         </nav>
-        <script>
-        $('.pager li a').on('click', function(event) {
-            var currentPage = Number($('#search').data('currentpage'));
-            if ($(event.target).data('nav') == 'prev') {
-                currentPage -= 1;
-            }
-            else {
-                currentPage += 1;
-            }
-            $('#search').append('<input type="hidden" name="page" value="' + currentPage + '" />');
-            $('#search').trigger('submit');
-            event.preventDefault();
-        });
-        </script>
         {% endif %}
         </div>
     </div>
