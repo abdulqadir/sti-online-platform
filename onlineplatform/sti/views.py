@@ -29,11 +29,28 @@ def get_filters(request):
     if 'language' in querydict and querydict['language'] != '':
         config = filters['language'] = querydict['language']
     else:
-        filters['language'] = 'any'
+        filters['language'] = 'all'
         config = None
-    if 'type' in querydict and querydict['type'] != '':
-        # Strip trailing s
-        filters['type'] = querydict['type'][:-1]
+    if 'types' in querydict and querydict['types'] != '':
+        filters['types'] = json.loads(querydict['types'])
+        types = filters['types']
+        actuals = []
+        for t in types.keys():
+            if types[t] == False:
+                continue
+            if t == 'publications':
+                actuals.append('Publication')
+            elif t == 'technologyoffers':
+                actuals.append('Technology Offer')
+            elif t == 'technologyrequests':
+                actuals.append('Technology Request')
+            elif t == 'businessoffers':
+                actuals.append('Business Offer')
+            elif t == 'businessrequests':
+                actuals.append('Business Request')
+        filters['typelist'] = actuals
+    else:
+        filters['types'] = 'all'
     if 'partners' in querydict and querydict['partners'] != '':
         filters['partners'] = json.loads(querydict['partners'])
         partners = filters['partners']
@@ -51,6 +68,8 @@ def get_filters(request):
                 actuals.append('WIPO GREEN C')
             elif partner == 'een':
                 actuals.append('EEN C')
+            elif partner == 'unfccc':
+                actuals.append('UNFCCC C')
             elif partner == 'unossc':
                 actuals.append('UNOSSC C')
             elif partner == 'openaire':
@@ -60,21 +79,24 @@ def get_filters(request):
         filters['partners'] = 'all'
     search_query = SearchQuery(filters['query'], config=config)
     filters['search_query'] = search_query
+    print(filters)
     return filters
 
 def filter_results(results, filters):
-    if filters['query'] != '':
-        results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).filter(rank__gte=0.11).order_by('-rank')
-    if filters['language'] != 'any':
+    if filters['language'] != 'all':
         results = results.filter(language = filters['language'])
     if filters['partners'] != 'all':
         results = results.filter(partner__in = filters['partnerlist'])
+    if filters['types'] != 'all':
+        results = results.filter(store_type__in = filters['typelist'])
+    if filters['query'] != '':
+        results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).filter(rank__gte=0.11).order_by('-rank')
     return results
 
 def recommend(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
-    if filters['query'] == '':
+    if filters['query'] == '' and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all':
         results = Store.objects.none()
         return listresults(results, request, filters, context=context)
     cached = cache.get(str(filters))
@@ -82,11 +104,6 @@ def recommend(request, filters=None, context=None):
         print('Cache hit')
         return cached
     print('Cache miss')
-    if 'type' in filters:
-        results = filter_results(Store.objects.filter(store_type = filters['type']), filters)
-        response = listresults(results, request, filters, context=context)
-        cache.set(str(filters), response)
-        return response
     publications = filter_results(Store.objects.filter(store_type = 'Publication'), filters)[:3]
     technologyoffers = filter_results(Store.objects.filter(store_type = 'Technology Offer'), filters)[:3]
     businessoffers = filter_results(Store.objects.filter(store_type = 'Business Offer'), filters)[:3]
@@ -118,46 +135,6 @@ def listresults(results, request, filters, context=None):
 
 def search(request):
     return recommend(request)
-
-def all(request, datatype):
-    if datatype == 'publications':
-        results = Store.objects.filter(store_type = 'Publication')
-    elif datatype == 'technology-offers':
-        results = Store.objects.filter(store_type = 'Technology Offer')
-    elif datatype == 'technology-requests':
-        results = Store.objects.filter(store_type = 'Technology Request')
-    elif datatype == 'business-offers':
-        results = Store.objects.filter(store_type = 'Business Offer')
-    elif datatype == 'business-requests':
-        results = Store.objects.filter(store_type = 'Business Request')
-    else:
-        raise Http404('No records found')
-    filters = get_filters(request)
-    results = filter_results(results, filters).order_by('-last_updated')
-    return listresults(results, request, filters)
-
-def source(request, source):
-    if source == 'apctt':
-        results = Store.objects.filter(partner = 'APCTT C')
-    elif source == 'cittc':
-        results = Store.objects.filter(partner = 'CITTC C')
-    elif source == 'unido':
-        results = Store.objects.filter(partner = 'UNIDO C')
-    elif source == 'wipogreen':
-        results = Store.objects.filter(partner = 'WIPO GREEN C')
-    elif source == 'een':
-        results = Store.objects.filter(partner = 'EEN C')
-    elif source == 'unossc':
-        results = Store.objects.filter(partner = 'UNOSSC C')
-    elif source == 'unfccc':
-        results = Store.objects.filter(partner = 'UNFCCC C')
-    elif source == 'openaire':
-        results = Store.objects.filter(partner = 'OpenAire')
-    else:
-        raise Http404('No records found')
-    filters = get_filters(request)
-    results = filter_results(results, filters).order_by('-last_updated')
-    return listresults(results, request, filters, context={'hidepartners': True})
 
 def sdg(request, sdg):
     if int(sdg) > 17:

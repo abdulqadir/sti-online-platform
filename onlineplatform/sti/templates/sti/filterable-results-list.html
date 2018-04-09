@@ -1,13 +1,13 @@
 {% load static %}
 <div class="filter">
-    <form id="search" method="POST" data-currentpage={{ filters.page }}>{% csrf_token %}
+    <form id="search" data-currentpage={{ filters.page }}>
     <div class="container">
         <div>
+            <input type="hidden" name="types" />
             <input type="hidden" name="partners" />
             <input type="hidden" name="language" />
-            <input type="hidden" name="type" {% if filters.type %}value={{ filters.type }}{% endif %}/>
             {% if not hidesearch %}
-            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 filter-detail">
+            <div class="col-xs-12 col-sm-5 col-md-6 col-lg-7 filter-detail">
                 <div class="input-group">
                     {% if not hidelogo %}
                     <span class="input-group-addon" style="background-color:inherit; border:none; padding:0; padding-right:12px;">
@@ -22,11 +22,38 @@
             </div>
             {% endif %}
             {% if not hidesearch %}
-            <ul class="col-xs-12 col-sm-6 col-md-5 col-lg-4 filter-detail nav nav-pills">
+            <ul class="col-xs-12 col-sm-7 col-md-6 col-lg-5 filter-detail nav nav-pills">
             {% else %}
             <ul class="col-xs-12 filter-detail nav nav-pills">
             {% endif %}
-                {% if not hidepartners %}
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
+                        Types
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu padded-menu">
+                        <li>
+                            <input class="filter-type" type="checkbox" id="publications" {% if filters.types == None or filters.types == 'all' or filters.types.publications == True %}checked{% endif %}/>
+                            <label for="publications">Publications</label>
+                        </li>
+                        <li>
+                            <input class="filter-type" type="checkbox" id="technologyoffers" {% if filters.types == None or filters.types == 'all' or filters.types.technologyoffers == True %}checked{% endif %}/>
+                            <label for="technologyoffers">Technology Offers</label>
+                        </li>
+                        <li>
+                            <input class="filter-type" type="checkbox" id="technologyrequests" {% if filters.types == None or filters.types == 'all' or filters.types.technologyrequests == True %}checked{% endif %}/>
+                            <label for="technologyrequests">Technology Requests</label>
+                        </li>
+                        <li>
+                            <input class="filter-type" type="checkbox" id="businessoffers" {% if filters.types == None or filters.types == 'all' or filters.types.businessoffers == True %}checked{% endif %}/>
+                            <label for="businessoffers">Business Offers</label>
+                        </li>
+                        <li>
+                            <input class="filter-type" type="checkbox" id="businessrequests" {% if filters.types == None or filters.types == 'all' or filters.types.businessrequests == True %}checked{% endif %}/>
+                            <label for="businessrequests">Business Requests</label>
+                        </li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
                         Sources
@@ -67,14 +94,13 @@
                         </li>
                     </ul>
                 </li>
-                {% endif %}
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
                         Language
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu language-menu">
-                        <li><input type="radio" name="filter-language" id="any" {% if filters.language == None or filters.language == 'any' %}checked{% endif %}/><label for="any">Any language</label></li>
+                        <li><input type="radio" name="filter-language" id="all" {% if filters.language == None or filters.language == 'all' %}checked{% endif %}/><label for="all">Any language</label></li>
                         <li role="separator" class="divider"></li>
                         <li><input type="radio" name="filter-language" id="english" {% if filters.language == 'english' %}checked{% endif %}/><label for="english">English</label></li>
                         <li><input type="radio" name="filter-language" id="french" {% if filters.language == 'french' %}checked{% endif %}/><label for="french">French</label></li>
@@ -122,6 +148,8 @@
         var query = $('#filter-query').val();
         var partners = {};
         var allPartners = true;
+        var types = {};
+        var allTypes = true;
         var partnerSelections = $('.filter-partner');
         for (var i=0; i<partnerSelections.length; i++) {
             if (partnerSelections[i].checked) {
@@ -134,7 +162,19 @@
         if (!allPartners) {
             $('[name="partners"]').val(JSON.stringify(partners));
         }
-        if ($('[name="filter-language"]:checked')[0].id !== 'any') {
+        var typeSelections = $('.filter-type');
+        for (var i=0; i<typeSelections.length; i++) {
+            if (typeSelections[i].checked) {
+                types[typeSelections[i].id] = true;
+            }
+            else {
+                allTypes = false;
+            }
+        }
+        if (!allTypes) {
+            $('[name="types"]').val(JSON.stringify(types));
+        }
+        if ($('[name="filter-language"]:checked')[0].id !== 'all') {
             $('[name="language"]').val($('[name="filter-language"]:checked')[0].id);
         }
     });

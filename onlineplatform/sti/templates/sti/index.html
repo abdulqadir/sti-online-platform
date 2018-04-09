@@ -150,7 +150,7 @@
                 <div class="intro col-xs-12">
                     <img src="{% static 'images/TFM.png' %}" />
                 </div>
-                <form action="/search" class="col-xs-12">
+                <form action="/search/" class="col-xs-12">
                 <input class="col-xs-12" type="text" name="query" />
                 <center><button id="searchButton" type="submit" class="btn btn-info">Search</button></center>
                 </form>
@@ -209,49 +209,49 @@
                 </div>
                 <div id="classify-expand-partners" class="col-xs-12 collapse" data-parent="#classify-expand">
                     <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-2">
-                        <a href="/all/source/apctt/">
+                        <a href="/search/?partners={&quot;apctt&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/apctt-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">APCTT</div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/all/source/cittc/">
+                        <a href="/search/?partners={&quot;cittc&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/cittc-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">CITTC</div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/all/source/unido/">
+                        <a href="/search/?partners={&quot;unido&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unido-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">UNIDO</div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/all/source/wipogreen/">
+                        <a href="/search/?partners={&quot;wipogreen&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/wipo-green-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">WIPO GREEN</div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/all/source/een/">
+                        <a href="/search/?partners={&quot;een&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/een-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">EEN</div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/all/source/unfccc/">
+                        <a href="/search/?partners={&quot;unfccc&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unfccc-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">UNFCCC</div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/all/source/unossc/">
+                        <a href="/search/?partners={&quot;unossc&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unossc-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">UNOSSC</div>
                         </a>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/all/source/openaire/">
+                        <a href="/search/?partners={&quot;openaire&quot;%3Atrue}">
                             <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/openaire-logo.png' %}');"></div>
                             <div class="classify-expand-partners-name">OpenAire</div>
                         </a>
@@ -275,31 +275,31 @@
                     Browse
                 </div>
                 <div class="browse-types col-xs-12">
-                    <a href="/all/publications/">
+                    <a href="/search/?types={&quot;publications&quot;%3Atrue}">
                     <div class="browse-type col-sm-2 col-sm-offset-1">
                         <div><i class="fa fa-lg fa-book"></i></div>
                         <div class="browse-type-title">Publications</div>
                     </div>
                     </a>
-                    <a href="/all/technology-offers/">
+                    <a href="/search/?types={&quot;technologyoffers&quot;%3Atrue}">
                     <div class="browse-type col-sm-2">
                         <div><i class="fa fa-lg fa-code-fork"></i></div>
                         <div class="browse-type-title">Technology Offers</div>
                     </div>
                     </a>
-                    <a href="/all/technology-requests/">
+                    <a href="/search/?types={&quot;technologyrequests&quot;%3Atrue}">
                     <div class="browse-type col-sm-2">
                         <div><i class="fa fa-lg fa-handshake-o"></i></div>
                         <div class="browse-type-title">Technology Requests</div>
                     </div>
                     </a>
-                    <a href="/all/business-offers/">
+                    <a href="/search/?types={&quot;businessoffers&quot;%3Atrue}">
                     <div class="browse-type col-sm-2">
                         <div><i class="fa fa-lg fa-bullhorn"></i></div>
                         <div class="browse-type-title">Business Offers</div>
                     </div>
                     </a>
-                    <a href="/all/business-requests/">
+                    <a href="/search/?types={&quot;businessrequests&quot;%3Atrue}">
                     <div class="browse-type col-sm-2">
                         <div><i class="fa fa-lg fa-briefcase"></i></div>
                         <div class="browse-type-title">Business Requests</div>
