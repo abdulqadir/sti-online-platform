@@ -14,10 +14,7 @@ def index(request):
     return HttpResponse(template.render({'sdgs':range(1,18), 'events':events}, request))
 
 def get_filters(request):
-    if request.method == 'GET':
-        querydict = request.GET
-    else:
-        querydict = request.POST
+    querydict = request.GET
     if 'query' in querydict:
         filters = {'query': querydict['query']}
     else:
