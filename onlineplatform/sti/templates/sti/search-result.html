@@ -20,7 +20,7 @@
                 {% endif %}
                 <a href="{{row.url}}">{{row.title}}</a>
                 </div>
-                <div class="result-description">{{row.description|truncatewords:110}}</div>
+                <div class="result-description">{{row.description|truncatewords:110|safe}}</div>
                 <div class="result-attribution">
                     <i> Source:
                 {% if row.partner == 'UNOSSC C' %}

@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse, Http404
+from django.db import connection
 from django.db.models import F
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.paginator import Paginator
 from django.core.cache import cache
+from django.utils import html
 from sti.models import Store, Event
 import json
 
@@ -29,7 +31,7 @@ def get_filters(request):
         filters['language'] = 'all'
         config = None
     if 'location' in querydict and querydict['location'] != '':
-        config = filters['location'] = querydict['location']
+        filters['location'] = querydict['location']
     else:
         filters['location'] = 'all'
     if 'types' in querydict and querydict['types'] != '':
@@ -109,6 +111,19 @@ def paginate(request, page):
         resp['next'] = request.path + '?' + q.urlencode(safe="{}")
     return resp
 
+def highlight(page, query):
+    cursor = connection.cursor()
+    for result in page:
+        if result.language in ['french','german','spanish','russian','danish','dutch','finnish','hungarian','italian','norwegian','portuguese','romanian','swedish','turkish']:
+            config = result.language
+        else:
+            config = 'english'
+        cursor.execute("Select ts_headline(%s, %s, plainto_tsquery(%s), 'MaxWords=250, MaxFragments=10')",[config, result.description, query])
+        r = cursor.fetchone()
+        if r[0]:
+            result.description = r[0]
+    return page
+
 def search(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
@@ -125,11 +140,15 @@ def search(request, filters=None, context=None):
     businessoffers = filter_results(Store.objects.filter(store_type = 'Business Offer'), filters)[:3]
     technologyrequests = filter_results(Store.objects.filter(store_type = 'Technology Request'), filters)[:3]
     businessrequests = filter_results(Store.objects.filter(store_type = 'Business Request'), filters)[:3]
-    available = list(filter(lambda t: len(t) > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
+    available = list(filter(lambda t: t.count() > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
     results = filter_results(Store.objects, filters)
     if filters['page'] == 1 and len(available) > 1 and results.count() > 10:
         paginator = Paginator(results, 10)
         page = paginator.page(filters['page'])
+        for result in page:
+            result.description = html.escape(result.description)
+        if filters['query']:
+            page = highlight(page, filters['query'])
         template = loader.get_template('sti/search.html')
         pages = paginate(request, page)
         c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
@@ -144,6 +163,10 @@ def search(request, filters=None, context=None):
 def listresults(results, request, filters, context=None):
     paginator = Paginator(results, 10)
     page = paginator.page(filters['page'])
+    for result in page:
+        result.description = html.escape(result.description)
+    if filters['query']:
+        page = highlight(page, filters['query'])
     pages = paginate(request, page)
     template = loader.get_template('sti/all.html')
     c = {'results': page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
