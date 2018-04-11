@@ -121,7 +121,7 @@
                     <ul class="dropdown-menu padded-menu">
                         <li>
                             <div class="input-group">
-                                <input type="text" name="location" value="{{filters.location}}" class="form-control"/>
+                                <input type="text" name="location"{% if filters.location != 'all' %} value="{{filters.location}}"{% endif %} class="form-control"/>
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-info">Go</button>
                             </div>
