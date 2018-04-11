@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.core.cache import cache
 from django.utils import html
 from sti.models import Store, Event
-import json
+import json, re
 
 def index(request):
     events = Event.objects.order_by('-date')[:5]
@@ -118,7 +118,7 @@ def highlight(page, query):
             config = result.language
         else:
             config = 'english'
-        cursor.execute("Select ts_headline(%s, %s, plainto_tsquery(%s), 'MaxWords=250, MaxFragments=10')",[config, result.description, query])
+        cursor.execute("Select ts_headline(%s, %s, plainto_tsquery(%s), 'MaxWords=100, MaxFragments=10')",[config, result.description, query])
         r = cursor.fetchone()
         if r[0]:
             result.description = r[0]
@@ -149,6 +149,8 @@ def search(request, filters=None, context=None):
             result.description = html.escape(result.description)
         if filters['query']:
             page = highlight(page, filters['query'])
+        for result in page:
+            result.description = re.sub(r'&lt;\s*[bB][rR]\s*/?&gt;','<br/>',result.description)
         template = loader.get_template('sti/search.html')
         pages = paginate(request, page)
         c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
@@ -167,6 +169,8 @@ def listresults(results, request, filters, context=None):
         result.description = html.escape(result.description)
     if filters['query']:
         page = highlight(page, filters['query'])
+    for result in page:
+        result.description = re.sub(r'&lt;\s*[bB][rR]\s*/?&gt;','<br/>',result.description)
     pages = paginate(request, page)
     template = loader.get_template('sti/all.html')
     c = {'results': page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
