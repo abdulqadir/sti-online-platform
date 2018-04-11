@@ -77,7 +77,7 @@ def get_filters(request):
         filters['partnerlist'] = actuals
     else:
         filters['partners'] = 'all'
-    if 'query' in querydict:
+    if 'query' in querydict and querydict['query'].strip() != '':
         filters.update({'query': querydict['query'], 'search_query': SearchQuery(querydict['query'], config=config)})
     else:
         filters['query'] = ''
