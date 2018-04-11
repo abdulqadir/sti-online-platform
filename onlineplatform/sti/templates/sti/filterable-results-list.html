@@ -1,12 +1,11 @@
 {% load static %}
 <div class="filter">
-    <form id="search" data-currentpage={{ filters.page }}>
+    <form id="search" action="/search/" data-currentpage={{ filters.page }}>
     <div class="container">
         <div>
             <input type="hidden" name="types" />
             <input type="hidden" name="partners" />
             <input type="hidden" name="language" />
-            {% if not hidesearch %}
             <div class="col-xs-12 col-sm-5 col-md-6 col-lg-7 filter-detail">
                 <div class="input-group">
                     {% if not hidelogo %}
@@ -20,12 +19,7 @@
                     </span>
                 </div>
             </div>
-            {% endif %}
-            {% if not hidesearch %}
             <ul class="col-xs-12 col-sm-7 col-md-6 col-lg-5 filter-detail nav nav-pills">
-            {% else %}
-            <ul class="col-xs-12 filter-detail nav nav-pills">
-            {% endif %}
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
                         Types
@@ -134,11 +128,6 @@
                         </li>
                     </ul>
                 </li>
-                {% if hidesearch %}
-                <li>
-                    <button id="searchButtonOutline" class="btn btn-link" type="submit">Search</button>
-                </li>
-                {% endif %}
             </ul>
         </div>
     </div>

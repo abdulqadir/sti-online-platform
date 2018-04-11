@@ -17,10 +17,7 @@ def index(request):
 
 def get_filters(request):
     querydict = request.GET
-    if 'query' in querydict:
-        filters = {'query': querydict['query']}
-    else:
-        filters = {'query':''}
+    filters = {}
     if 'page' in querydict and querydict['page'] != '':
         filters['page'] = int(querydict['page'])
     else:
@@ -80,8 +77,10 @@ def get_filters(request):
         filters['partnerlist'] = actuals
     else:
         filters['partners'] = 'all'
-    search_query = SearchQuery(filters['query'], config=config)
-    filters['search_query'] = search_query
+    if 'query' in querydict:
+        filters.update({'query': querydict['query'], 'search_query': SearchQuery(querydict['query'], config=config)})
+    else:
+        filters['query'] = ''
     print(filters)
     return filters
 
@@ -94,7 +93,7 @@ def filter_results(results, filters):
         results = results.filter(partner__in = filters['partnerlist'])
     if filters['types'] != 'all':
         results = results.filter(store_type__in = filters['typelist'])
-    if filters['query'] != '':
+    if 'search_query' in filters:
         results = results.filter(search_vector = filters['search_query']).annotate(rank=SearchRank(F('search_vector'), filters['search_query'])).filter(rank__gte=0.11).order_by('-rank')
     else:
         results = results.order_by('-last_updated')
@@ -127,7 +126,7 @@ def highlight(page, query):
 def search(request, filters=None, context=None):
     if filters == None:
         filters = get_filters(request)
-    if filters['query'] == '' and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all' and filters['location'] == 'all':
+    if 'search_query' not in filters and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all' and filters['location'] == 'all':
         results = Store.objects.none()
         return listresults(results, request, filters, context=context)
     cached = cache.get(str(filters))
@@ -202,6 +201,6 @@ def sdg(request, sdg):
             (SearchQuery('peace') | SearchQuery('justice')) & (SearchQuery('violence') | SearchQuery('abuse') | SearchQuery('exploitation') | SearchQuery('trafficking') | SearchQuery('torture') | SearchQuery('law') | SearchQuery('arms') | SearchQuery('crime') | SearchQuery('stolen') | SearchQuery('corruption') | SearchQuery('bribery') | SearchQuery('legal') | SearchQuery('freedom') | SearchQuery('terrorism')),
             (SearchQuery('partnership') | SearchQuery('assistance') | SearchQuery('cooperation') | SearchQuery('coordinate')) & (SearchQuery('commitment') | SearchQuery('ODA') | SearchQuery('GNI') | SearchQuery('dissemination') | SearchQuery('diffusion') | SearchQuery('universal') | SearchQuery('duty-free') | SearchQuery('quota-free'))
             ]
-    filters['query'] = 'sdg' + str(sdg+1)
+    filters['query'] = ''
     filters['search_query'] = queries[sdg]
-    return search(request, filters, {'hidesearch': True})
+    return search(request, filters)
