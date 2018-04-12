@@ -162,6 +162,7 @@ for record in records:
         raise Exception()
     store.title = record['title']
     store.description = record['description']
+    store.location = 'Japan'
     store.url = record['meta_base_url']
     store.raw_data = json.dumps(record)
     if record['applications']:
