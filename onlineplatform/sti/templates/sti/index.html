@@ -41,15 +41,16 @@
         box-shadow: 1px 1px 21px #EEE;
         min-height: 100%;
         margin-bottom: 21px;
-        cursor: pointer;
     }
     .classify_card a:hover, .classify_card a:focus {
         text-decoration: none;
     }
+    .classify_card_sdg {
+        margin: 15px 0;
+    }
     .classify_img {
         padding: 21px;
-        height: 170px;
-        text-align: center;
+        height: 300px;
     }
     .partner_img {
         background-image: url('{% static 'images/institute.png' %}');
@@ -57,27 +58,32 @@
         background-repeat: no-repeat;
         background-position: center;
     }
-    #classify-expand .panel {
-        -webkit-box-shadow: unset;
-        box-shadow: unset;
+    .classify_card_partner {
+        padding: 21px;
+        margin-top:15px;
+        margin-bottom:15px;
     }
     .classify-expand-partners-logo, .classify-expand-sdgs-logo {
-        height: 53px;
+        height: 27px;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
     }
     .classify-expand-sdgs-logo {
-        margin: 7px 0;
+        height: 53px;
     }
     .classify-expand-partners-name {
         text-align: center;
         margin: 7px 0 23px 0;
     }
+    .classify_card_location {
+        margin: 15px 0;
+    }
     .classify_description {
         background-color: #EEE;
         padding: 21px;
         color: #333;
+        text-align: center;
     }
     img {
         max-width: 100%;
@@ -97,6 +103,7 @@
     .browse-type {
         text-align: center;
         cursor: pointer;
+        margin: 15px;
     }
     .browse-type i {
         width: 53px;
@@ -157,118 +164,179 @@
             </div>
         </div>
         <div class="classify section">
-            <div class="container">
-                <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
-                    <a href="#classify-expand-sdgs" data-toggle="collapse">
-                        <div class="classify_img">
-                            <img src="{% static 'images/E_SDG_logo_with_UN_Emblem_square_rgb.png' %}"/>
+            <div class="classify_card">
+                <div class="container">
+                    <div class="classify_img col-xs-3">
+                        <img src="{% static 'images/E_SDG_logo_with_UN_Emblem_square_rgb.png' %}"/>
+                    </div>
+                    <div id="classify-expand-sdgs" class="col-xs-9">
+                        {% for sdg in sdgs %}
+                        <div class="classify_card_sdg col-xs-2">
+                            <a href="/sdg/{{sdg}}/">
+                                <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/' %}SDG-{{sdg|stringformat:"02d"}}.jpg');"></div>
+                            </a>
                         </div>
-                        <div class="classify_description">
-                            View technological opportunities for each Sustainable Development Goal
-                        </div>
-                    </a>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
-                    <a href="#classify-expand-locations" data-toggle="collapse">
-                        <div class="classify_img">
-                            <img src="{% static 'images/location.png' %}" />
-                        </div>
-                        <div class="classify_description">Select a location to view technology offers relevant to your country</div>
-                    </a>
-                </div>
-                <div class="classify_card col-xs-12 col-sm-3 col-sm-offset-1">
-                    <a href="#classify-expand-partners" data-toggle="collapse">
-                        <div class="classify_img partner_img">
-                        </div>
-                        <div class="classify_description">View all data from our partner organizations</div>
-                    </a>
+                <div class="classify_description">
+                    View technological opportunities for each Sustainable Development Goal
                 </div>
             </div>
-        </div>
-        <div id="classify-expand">
-            <div class="container panel">
-                <div id="classify-expand-sdgs" class="col-xs-12 collapse" data-parent="#classify-expand">
-                    {% for sdg in sdgs %}
-                    <div class="col-xs-4 col-sm-2 col-lg-1{% if sdg == 13 %} col-lg-offset-3{% endif %}">
-                        <a href="/sdg/{{sdg}}/">
-                            <div class="classify-expand-sdgs-logo" style="background-image:url('{% static 'images/sdg_icons/' %}SDG-{{sdg|stringformat:"02d"}}.jpg');"></div>
-                        </a>
+            <div class="classify_card">
+                <div class="container">
+                    <div class="classify_img col-xs-3">
+                        <img src="{% static 'images/location.png' %}" />
                     </div>
-                    {% endfor %}
-                </div>
-                <div id="classify-expand-locations" class="col-xs-12 collapse" data-parent="#classify-expand">
-                    <form action="/search/">
-                        <div class="input-group col-xs-12 col-sm-11 col-sm-offset-1">
-                            <span class="input-group-addon">Country</span>
-                            <input type="text" name="location" class="form-control"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">Go</button>
-                            </span>
+                    <div id="classify-expand-locations" class="col-xs-9">
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=India">India</a>
                         </div>
-                    </form>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=United Kingdom">United Kingdom</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Poland">Poland</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Spain">Spain</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Italy">Italy</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Germany">Germany</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Romania">Romania</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=France">France</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Turkey">Turkey</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Russia">Russia</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Hungary">Hungary</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Bulgaria">Bulgaria</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=China">China</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Netherlands">Netherlands</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Czech Republic">Czech Republic</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Iran">Iran</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=South Korea">South Korea</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Portugal">Portugal</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=United States">United States</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Greece">Greece</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Singapore">Singapore</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Finland">Finland</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Belgium">Belgium</a>
+                        </div>
+                        <div class="classify_card_location col-xs-2">
+                            <a href="/search/?location=Slovenia">Slovenia</a>
+                        </div>
+                        <div class="classify_card_location col-xs-12">
+                            <form action="/search/">
+                                <div class="input-group col-xs-9 col-xs-offset-1">
+                                    <span class="input-group-addon">Country</span>
+                                    <input type="text" name="location" class="form-control"/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">Go</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div id="classify-expand-partners" class="col-xs-12 collapse" data-parent="#classify-expand">
-                    <div class="col-xs-4 col-sm-2 col-lg-1 col-lg-offset-2">
-                        <a href="/search/?partners={&quot;apctt&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/apctt-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">APCTT</div>
-                        </a>
+                <div class="classify_description">Select a location to view technology offers relevant to your country</div>
+            </div>
+            <div class="classify_card">
+                <div class="container">
+                    <div class="classify_img partner_img col-xs-3">
                     </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/search/?partners={&quot;cittc&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/cittc-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">CITTC</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/search/?partners={&quot;unido&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unido-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">UNIDO</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/search/?partners={&quot;wipogreen&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/wipo-green-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">WIPO GREEN</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/search/?partners={&quot;een&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/een-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">EEN</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/search/?partners={&quot;unfccc&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unfccc-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">UNFCCC</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/search/?partners={&quot;unossc&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unossc-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">UNOSSC</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 col-sm-2 col-lg-1">
-                        <a href="/search/?partners={&quot;openaire&quot;%3Atrue}">
-                            <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/openaire-logo.png' %}');"></div>
-                            <div class="classify-expand-partners-name">OpenAire</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12" style="margin-bottom:27px">
-                        <center><b>More data sources coming soon...</b></center>
+                    <div class="col-xs-9">
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;apctt&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/apctt-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">APCTT</div>
+                            </a>
+                        </div>
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;cittc&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/cittc-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">CITTC</div>
+                            </a>
+                        </div>
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;unido&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unido-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">UNIDO</div>
+                            </a>
+                        </div>
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;wipogreen&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/wipo-green-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">WIPO GREEN</div>
+                            </a>
+                        </div>
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;een&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/een-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">EEN</div>
+                            </a>
+                        </div>
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;unfccc&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unfccc-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">UNFCCC</div>
+                            </a>
+                        </div>
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;unossc&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unossc-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">UNOSSC</div>
+                            </a>
+                        </div>
+                        <div class="classify_card_partner col-xs-3">
+                            <a href="/search/?partners={&quot;openaire&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/openaire-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">OpenAire</div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom:27px">
+                            <center>More data sources coming soon...</center>
+                        </div>
                     </div>
                 </div>
+                <div class="classify_description">View all data from our partner organizations</div>
             </div>
         </div>
-        <script>
-        $('[data-parent="#classify-expand"]').on('shown.bs.collapse', function() {
-            if (window.innerWidth < 768) {
-                window.scrollTo(0, this.offsetTop - 27);
-            }
-        });
-        </script>
         <div class="browse">
             <div class="container">
                 <div class="browse-title title">
@@ -303,6 +371,36 @@
                     <div class="browse-type col-sm-2">
                         <div><i class="fa fa-lg fa-briefcase"></i></div>
                         <div class="browse-type-title">Business Requests</div>
+                    </div>
+                    </a>
+                    <a href="/search/?types={&quot;publications&quot;%3Atrue}">
+                    <div class="browse-type col-sm-2 col-sm-offset-1">
+                        <div><i class="fa fa-lg fa-bank"></i></div>
+                        <div class="browse-type-title">Funding</div>
+                    </div>
+                    </a>
+                    <a href="/search/?types={&quot;technologyoffers&quot;%3Atrue}">
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-address-book-o"></i></div>
+                        <div class="browse-type-title">Experts</div>
+                    </div>
+                    </a>
+                    <a href="/search/?types={&quot;technologyrequests&quot;%3Atrue}">
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-calendar"></i></div>
+                        <div class="browse-type-title">Events</div>
+                    </div>
+                    </a>
+                    <a href="/search/?types={&quot;businessoffers&quot;%3Atrue}">
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-graduation-cap"></i></div>
+                        <div class="browse-type-title">Online Training</div>
+                    </div>
+                    </a>
+                    <a href="/search/?types={&quot;businessrequests&quot;%3Atrue}">
+                    <div class="browse-type col-sm-2">
+                        <div><i class="fa fa-lg fa-list"></i></div>
+                        <div class="browse-type-title">Services</div>
                     </div>
                     </a>
                 </div>
