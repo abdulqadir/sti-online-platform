@@ -146,7 +146,7 @@ def search(request, filters=None):
         page = highlight(page, filters['query'])
     for result in page:
         result.description = re.sub(r'&lt;\s*[bB][rR]\s*/?&gt;','<br/>',result.description)
-    template = loader.get_template('sti/all.html')
+    template = loader.get_template('sti/search.html')
     pages = paginate(request, page)
     c = {'results': page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
     if filters['page'] == 1 and recommendations.count() > 0 and results.count() > 10:
