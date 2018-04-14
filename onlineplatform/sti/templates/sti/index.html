@@ -186,78 +186,11 @@
                         <img src="{% static 'images/location.png' %}" />
                     </div>
                     <div id="classify-expand-locations" class="col-xs-9">
+                        {% for country in countries %}
                         <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=India">India</a>
+                            <a href="/search/?location={{ country }}">{{ country }}</a>
                         </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=United Kingdom">United Kingdom</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Poland">Poland</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Spain">Spain</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Italy">Italy</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Germany">Germany</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Romania">Romania</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=France">France</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Turkey">Turkey</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Russia">Russia</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Hungary">Hungary</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Bulgaria">Bulgaria</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=China">China</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Netherlands">Netherlands</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Czech Republic">Czech Republic</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Iran">Iran</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=South Korea">South Korea</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Portugal">Portugal</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=United States">United States</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Greece">Greece</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Singapore">Singapore</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Finland">Finland</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Belgium">Belgium</a>
-                        </div>
-                        <div class="classify_card_location col-xs-2">
-                            <a href="/search/?location=Slovenia">Slovenia</a>
-                        </div>
+                        {% endfor %}
                         <div class="classify_card_location col-xs-12">
                             <form action="/search/">
                                 <div class="input-group col-xs-9 col-xs-offset-1">

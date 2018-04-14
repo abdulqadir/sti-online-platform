@@ -13,7 +13,8 @@ import json, re
 def index(request):
     events = Event.objects.order_by('-date')[:5]
     template = loader.get_template('sti/index.html')
-    return HttpResponse(template.render({'sdgs':range(1,18), 'events':events}, request))
+    countries = ['India', 'United Kingdom', 'Poland', 'Spain', 'Italy', 'Germany', 'Romania', 'France', 'Turkey', 'Russia', 'Hungary', 'Bulgaria', 'China', 'Netherlands', 'Czech Republic', 'Iran', 'South Korea', 'United States', 'Portugal', 'Greece', 'Singapore', 'Finland', 'Belgium', 'Slovenia']
+    return HttpResponse(template.render({'sdgs':range(1,18), 'countries': countries, 'events':events}, request))
 
 def get_filters(request):
     querydict = request.GET
