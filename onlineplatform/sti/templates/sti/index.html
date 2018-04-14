@@ -17,7 +17,7 @@
         text-shadow: 0 0 3px #FFF;
     }
     .search .intro {
-        margin-top: 21px;
+        margin-top: 53px;
         text-align: center;
     }
     .intro img {
@@ -31,14 +31,10 @@
         padding: 5px;
     }
     #searchButton {
-        margin: 21px auto;
-    }
-    .classify {
-        margin: 21px 0 0 0;
+        margin: 53px auto;
     }
     .classify_card {
         padding: 0;
-        box-shadow: 1px 1px 21px #EEE;
         min-height: 100%;
         margin-bottom: 21px;
     }
@@ -80,7 +76,7 @@
         margin: 15px 0;
     }
     .classify_description {
-        background-color: #EEE;
+        background-color: #F7FAFC;
         padding: 21px;
         color: #333;
         text-align: center;
@@ -163,8 +159,11 @@
                 </form>
             </div>
         </div>
-        <div class="classify section">
+        <div class="classify">
             <div class="classify_card">
+                <div class="classify_description">
+                    View technological opportunities for each Sustainable Development Goal
+                </div>
                 <div class="container">
                     <div class="classify_img col-xs-3">
                         <img src="{% static 'images/E_SDG_logo_with_UN_Emblem_square_rgb.png' %}"/>
@@ -179,11 +178,9 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="classify_description">
-                    View technological opportunities for each Sustainable Development Goal
-                </div>
             </div>
             <div class="classify_card">
+                <div class="classify_description">Select a location to view technology offers relevant to your country</div>
                 <div class="container">
                     <div class="classify_img col-xs-3">
                         <img src="{% static 'images/location.png' %}" />
@@ -274,9 +271,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="classify_description">Select a location to view technology offers relevant to your country</div>
             </div>
             <div class="classify_card">
+                <div class="classify_description">View all data from our partner organizations</div>
                 <div class="container">
                     <div class="classify_img partner_img col-xs-3">
                     </div>
@@ -334,7 +331,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="classify_description">View all data from our partner organizations</div>
             </div>
         </div>
         <div class="browse">
