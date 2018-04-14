@@ -123,45 +123,21 @@ def highlight(page, query):
             result.description = r[0]
     return page
 
-def search(request, filters=None, context=None):
+def search(request, filters=None):
     if filters == None:
         filters = get_filters(request)
-    if 'search_query' not in filters and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all' and filters['location'] == 'all':
-        results = Store.objects.none()
-        return listresults(results, request, filters, context=context)
     cached = cache.get(str(filters))
     if cached:
         print('Cache hit')
         return cached
     print('Cache miss')
-    publications = filter_results(Store.objects.filter(store_type = 'Publication'), filters)[:3]
-    technologyoffers = filter_results(Store.objects.filter(store_type = 'Technology Offer'), filters)[:3]
-    businessoffers = filter_results(Store.objects.filter(store_type = 'Business Offer'), filters)[:3]
-    technologyrequests = filter_results(Store.objects.filter(store_type = 'Technology Request'), filters)[:3]
-    businessrequests = filter_results(Store.objects.filter(store_type = 'Business Request'), filters)[:3]
-    available = list(filter(lambda t: t.count() > 0, [publications, technologyoffers, technologyrequests, businessoffers, businessrequests]))
-    results = filter_results(Store.objects, filters)
-    if filters['page'] == 1 and len(available) > 1 and results.count() > 10:
-        paginator = Paginator(results, 10)
-        page = paginator.page(filters['page'])
-        for result in page:
-            result.description = html.escape(result.description)
-        if filters['query']:
-            page = highlight(page, filters['query'])
-        for result in page:
-            result.description = re.sub(r'&lt;\s*[bB][rR]\s*/?&gt;','<br/>',result.description)
-        template = loader.get_template('sti/search.html')
-        pages = paginate(request, page)
-        c = {'recommendations':[{'type':'Publications', 'results':publications},{'type':'Technology Offers', 'results':technologyoffers}, {'type':'Technology Requests', 'results':technologyrequests}, {'type':'Business Offers', 'results':businessoffers}, {'type':'Business Requests', 'results': businessrequests}], 'results':page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
-        if context:
-            c.update(context)
-        response = HttpResponse(template.render(c, request))
+    if 'search_query' not in filters and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all' and filters['location'] == 'all':
+        results = Store.objects.none()
     else:
-        response = listresults(results, request, filters, context=context)
-    cache.set(str(filters), response)
-    return response
-
-def listresults(results, request, filters, context=None):
+        recommendations = Store.objects.none()
+        for store_type in ['Publication', 'Technology Offer', 'Technology Request', 'Business Offer', 'Business Request']:
+            recommendations.union(filter_results(Store.objects.filter(store_type = store_type), filters)[:3])
+        results = filter_results(Store.objects, filters)
     paginator = Paginator(results, 10)
     page = paginator.page(filters['page'])
     for result in page:
@@ -170,12 +146,14 @@ def listresults(results, request, filters, context=None):
         page = highlight(page, filters['query'])
     for result in page:
         result.description = re.sub(r'&lt;\s*[bB][rR]\s*/?&gt;','<br/>',result.description)
-    pages = paginate(request, page)
     template = loader.get_template('sti/all.html')
+    pages = paginate(request, page)
     c = {'results': page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
-    if context:
-        c.update(context)
-    return HttpResponse(template.render(c, request))
+    if filters['page'] == 1 and recommendations.count() > 0 and results.count() > 10:
+        c.update({'recommendations': recommendations})
+    response = HttpResponse(template.render(c, request))
+    cache.set(str(filters), response)
+    return response
 
 def sdg(request, sdg):
     if int(sdg) > 17:
