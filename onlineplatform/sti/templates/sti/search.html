@@ -84,6 +84,17 @@
 <div class="container-fluid">
     <div class="left-bar col-xs-2">
         <div class="filter-detail">
+            <div class="row">Location</div>
+            <div class="row">
+                <div class="input-group">
+                    <input type="text" name="location"{% if filters.location != 'all' %} value="{{filters.location}}"{% endif %} class="form-control"/>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-info">Go</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-detail">
             <div class="row">Types</div>
             <div class="row">
                 <input class="filter-type" type="checkbox" id="publications" {% if filters.types == None or filters.types == 'all' or filters.types.publications == True %}checked{% endif %}/>
@@ -190,17 +201,6 @@
             </div>
             <div class="row">
                 <input type="radio" name="filter-language" id="turkish" {% if filters.language == 'turkish' %}checked{% endif %}/><label for="turkish">Turkish</label>
-            </div>
-        </div>
-        <div class="filter-detail">
-            <div class="row">Location</div>
-            <div class="row">
-                <div class="input-group">
-                    <input type="text" name="location"{% if filters.location != 'all' %} value="{{filters.location}}"{% endif %} class="form-control"/>
-                    <div class="input-group-btn">
-                        <button type="submit" class="btn btn-info">Go</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
