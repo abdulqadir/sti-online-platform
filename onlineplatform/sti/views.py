@@ -10,6 +10,8 @@ from django.utils import html
 from sti.models import Store, Event
 import json, re
 
+results_per_page = 10
+
 def index(request):
     events = Event.objects.order_by('-date')[:5]
     template = loader.get_template('sti/index.html')
@@ -135,11 +137,14 @@ def search(request, filters=None):
     if 'search_query' not in filters and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all' and filters['location'] == 'all':
         results = Store.objects.none()
     else:
-        recommendations = Store.objects.none()
-        for store_type in ['Publication', 'Technology Offer', 'Technology Request', 'Business Offer', 'Business Request']:
-            recommendations.union(filter_results(Store.objects.filter(store_type = store_type), filters)[:3])
         results = filter_results(Store.objects, filters)
-    paginator = Paginator(results, 10)
+        types = set()
+        partners = set()
+        for result in results[:results_per_page]:
+            types.add(result.store_type)
+            partners.add(result.partner)
+        recommendations = results.exclude(store_type__in = types).union(results.exclude(partner__in = partners))[:9]
+    paginator = Paginator(results, results_per_page)
     page = paginator.page(filters['page'])
     for result in page:
         result.description = html.escape(result.description)
@@ -150,7 +155,7 @@ def search(request, filters=None):
     template = loader.get_template('sti/search.html')
     pages = paginate(request, page)
     c = {'results': page, 'filters': filters, 'prev':pages['prev'], 'next':pages['next']}
-    if filters['page'] == 1 and recommendations.count() > 0 and results.count() > 10:
+    if filters['page'] == 1 and len(recommendations) > 0:
         c.update({'recommendations': recommendations})
     response = HttpResponse(template.render(c, request))
     cache.set(str(filters), response)
