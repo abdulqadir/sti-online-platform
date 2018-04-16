@@ -41,9 +41,7 @@
         margin: 15px 0;
     }
     .classify-img {
-        padding: 0 53px 0 21px;
         height: 150px;
-        width: 210px;
     }
     .classify-card-partner {
         padding: 21px;
@@ -71,12 +69,10 @@
         padding: 21px;
         color: #333;
     }
-    .classify-description > .container > div {
-        display: inline-block;
-    }
     .classify-description-title {
         font-size: 36px;
         color: #327abe;
+        margin-top:27px;
     }
     img {
         max-width: 100%;
@@ -160,12 +156,12 @@
             <div class="classify-card">
                 <div class="classify-description">
                     <div class="container">
-                        <div class="classify-img">
+                        <div class="classify-img col-xs-2 col-xs-offset-1">
                             <img src="{% static 'images/E_SDG_logo_with_UN_Emblem_square_rgb.png' %}"/>
                         </div>
-                        <div>
+                        <div class="col-xs-8">
                             <div class="classify-description-title">Sustainable Development Goals</div>
-                            Select any SDG to see related STI initiatives and opportunities
+                            <div class="classify-description-subtext">Select any SDG to see related STI initiatives and opportunities</div>
                         </div>
                     </div>
                 </div>
@@ -184,14 +180,14 @@
             <div class="classify-card">
                 <div class="classify-description">
                     <div class="container">
-                        <div class="classify-img">
+                        <div class="classify-img col-xs-2 col-xs-offset-1">
                             <img src="{% static 'images/location.png' %}" />
                         </div>
-                        <div>
+                        <div class="col-xs-8">
                             <div class="classify-description-title">
                                 Locate
                             </div>
-                            See the latest offerings and innovations in your country and around the world.
+                            <div class="classify-description-subtext">See the latest offerings and innovations in your country and around the world.</div>
                         </div>
                     </div>
                 </div>
@@ -219,12 +215,12 @@
             <div class="classify-card">
                 <div class="classify-description">
                     <div class="container">
-                        <div class="classify-img">
+                        <div class="classify-img col-xs-2 col-xs-offset-1">
                             <img src="{% static 'images/institute.png' %}" />
                         </div>
-                        <div>
+                        <div class="col-xs-8">
                             <div class="classify-description-title">Data Partners</div>
-                            View all data from our partner organizations
+                            <div class="classify-description-subtext">We gather data from multiple sources. View all data from our partner organizations</div>
                         </div>
                     </div>
                 </div>
