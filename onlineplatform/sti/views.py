@@ -15,7 +15,7 @@ results_per_page = 10
 def index(request):
     events = Event.objects.order_by('-date')[:5]
     template = loader.get_template('sti/index.html')
-    countries = ['India', 'United Kingdom', 'Poland', 'Spain', 'Italy', 'Germany', 'Romania', 'France', 'Turkey', 'Russia', 'Hungary', 'Bulgaria', 'China', 'Netherlands', 'Czech Republic', 'Iran', 'South Korea', 'United States', 'Portugal', 'Greece', 'Singapore', 'Finland', 'Belgium', 'Slovenia']
+    countries = [("India",1137),("United Kingdom",792),("Poland",669),("Spain",656),("Italy",577),("Germany",462),("Romania",428),("France",419),("Turkey",358),("Russia",332),("Hungary",235),("Bulgaria",203),("China",196),("Netherlands",188),("Czech Republic",183),("Iran",179),("South Korea",162),("United States",160),("Portugal",160),("Greece",136),("Singapore",134),("Finland",130),("Belgium",127),("Slovenia",120)]
     return HttpResponse(template.render({'sdgs':range(1,18), 'countries': countries, 'events':events}, request))
 
 def get_filters(request):

@@ -62,7 +62,7 @@
         margin: 7px 0 23px 0;
     }
     .classify-card-location {
-        margin: 15px 0;
+        padding: 15px 0;
     }
     .classify-description {
         background-color: #F7FAFC;
@@ -187,17 +187,43 @@
                             <div class="classify-description-title">
                                 Locate
                             </div>
-                            <div class="classify-description-subtext">See the latest offerings and innovations in your country and around the world.</div>
+                            <div class="classify-description-subtext">
+                                See the latest offerings and innovations in your country and around the world.
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="container">
                     <div class="classify-content col-xs-12">
-                        {% for country in countries %}
-                        <div class="classify-card-location col-xs-2">
+                        {% for country, count in countries %}
+                        <div class="classify-card-location col-xs-2" data-country="{{country}}" data-count="{{ count }}">
                             <a href="/search/?location={{ country }}">{{ country }}</a>
                         </div>
                         {% endfor %}
+                        <script>
+                            $('.classify-card-location').on('mouseover', function(e) {
+                                var $elem = $(this);
+                                var $card = $elem.parents('.classify-card');
+                                var $title = $('.classify-description-title', $card);
+                                var $subtext = $('.classify-description-subtext', $card);
+                                if (!$title.data('text')) {
+                                    $title.data('text', $title.text());
+                                }
+                                $title.text($elem.data('country'));
+                                if (!$subtext.data('text')) {
+                                    $subtext.data('text', $subtext.text());
+                                }
+                                $subtext.text($elem.data('count') + ' results');
+                            });
+                            $('.classify-card-location').on('mouseout', function(e) {
+                                var $elem = $(this);
+                                var $card = $elem.parents('.classify-card');
+                                var $title = $('.classify-description-title', $card);
+                                var $subtext = $('.classify-description-subtext', $card);
+                                $title.text($title.data('text'));
+                                $subtext.text($subtext.data('text'));
+                            });
+                        </script>
                         <div class="classify-card-location col-xs-12">
                             <form action="/search/">
                                 <div class="input-group col-xs-9 col-xs-offset-1">
