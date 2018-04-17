@@ -43,11 +43,15 @@
     }
     .filter-detail label {
         font-weight: 300;
+        overflow: hidden;
+        padding-right: 10px;
+        text-overflow: ellipsis;
     }
     .filter-detail div {
         font-weight: bold;
     }
     .filter-detail .row {
+        white-space: nowrap;
         margin-top: 5px;
         margin-bottom: 5px;
     }
@@ -170,6 +174,77 @@
             <div class="row">
                 <input class="filter-partner" type="checkbox" id="openaire" {% if filters.partners == None or filters.partners == 'all' or filters.partners.openaire == True %}checked{% endif %}/>
                 <label for="openaire"><img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" /></label>
+            </div>
+        </div>
+        <div class="filter-detail">
+            <div class="row">SDG</div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg1"/>
+                <label for="sdg1"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-01.jpg' %}" />No Poverty</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg2"/>
+                <label for="sdg2"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-02.jpg' %}" />Zero Hunger</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg3"/>
+                <label for="sdg3"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-03.jpg' %}" />Good Health &amp; Well-being</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg4"/>
+                <label for="sdg4"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-04.jpg' %}" />Quality Education</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg5"/>
+                <label for="sdg5"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-05.jpg' %}" />Gender Equality</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg6"/>
+                <label for="sdg6"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-06.jpg' %}" />Clean Water &amp; Sanitation</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg7"/>
+                <label for="sdg7"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-07.jpg' %}" />Affordable &amp; Clean Energy</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg8"/>
+                <label for="sdg8"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-08.jpg' %}" />Decent Work &amp; Economic Growth</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg9"/>
+                <label for="sdg9"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-09.jpg' %}" />Industry Innovation &amp; Infrastructure</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg10"/>
+                <label for="sdg10"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-10.jpg' %}" />Reduced Inequalities</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg11"/>
+                <label for="sdg11"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-11.jpg' %}" />Sustainable Cities &amp; Communities</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg12"/>
+                <label for="sdg12"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-12.jpg' %}" />Responsible Consumption &amp; Production</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg13"/>
+                <label for="sdg13"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-13.jpg' %}" />Climate Action</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg14"/>
+                <label for="sdg15"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-15.jpg' %}" />Life below Water</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg15"/>
+                <label for="sdg16"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-16.jpg' %}" />Life on Land</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg16"/>
+                <label for="sdg17"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-17.jpg' %}" />Peace Justice &amp; Strong Institutions</label>
+            </div>
+            <div class="row">
+                <input class="filter-sdg" type="checkbox" id="sdg17"/>
+                <label for="sdg1"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-01.jpg' %}" />Partnerships for the Goals</label>
             </div>
         </div>
         <div class="filter-detail">

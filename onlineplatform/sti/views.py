@@ -10,7 +10,7 @@ from django.utils import html
 from sti.models import Store, Event
 import json, re
 
-results_per_page = 10
+results_per_page = 15
 
 def index(request):
     events = Event.objects.order_by('-date')[:5]
