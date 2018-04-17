@@ -1,5 +1,6 @@
 {% load static %}
             <div class="row result">
+                <div class="result-type">{{row.store_type}}</div>
                 <div class="result-title">
                 {% if row.partner == 'UNOSSC C' %}
                     <img class="partner-logo" src="{% static 'images/unossc-logo.png' %}" />
