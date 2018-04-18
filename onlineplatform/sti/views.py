@@ -136,6 +136,7 @@ def search(request, filters=None):
     print('Cache miss')
     if 'search_query' not in filters and filters['types'] == 'all' and filters['language'] == 'all' and filters['partners'] == 'all' and filters['location'] == 'all':
         results = Store.objects.none()
+        recommendations = []
     else:
         results = filter_results(Store.objects, filters)
         types = set()
