@@ -1,6 +1,8 @@
 {% load static %}
             <div class="row result">
+                {% if not recommendation %}
                 <div class="result-type">{{row.store_type}}</div>
+                {% endif %}
                 <div class="result-title">
                 {% if row.partner == 'UNOSSC C' %}
                     <img class="partner-logo" src="{% static 'images/unossc-logo.png' %}" />
@@ -19,9 +21,13 @@
                 {% elif row.partner == 'OpenAire' %}
                     <img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" />
                 {% endif %}
-                <a href="{{row.url}}">{{row.title}}</a>
+                <a {% if row.url %}href="{{row.url}}"{% endif %}>{{row.title}}</a>
                 </div>
+                {% if recommendation %}
+                <div class="result-description">{{row.description|truncatewords:50}}</div>
+                {% else %}
                 <div class="result-description">{{row.description|truncatewords:210|safe}}</div>
+                {% endif %}
                 <div class="result-attribution">
                     <i> Source:
                 {% if row.partner == 'UNOSSC C' %}

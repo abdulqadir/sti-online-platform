@@ -346,7 +346,7 @@
             <div class="item{% if forloop.counter0 == 0%} active{% endif %}">
             {% endif %}
             <div class="{% if recommendations|length == 1 %}col-xs-12{% elif recommendations|length == 2 %}col-xs-6{% else %}col-xs-4{% endif %}" style="padding: 23px;">
-                    {% include "sti/search-recommendation.html" with row=recommendation %}
+                    {% include "sti/search-result.html" with row=recommendation recommendation=True %}
                 </div>
             {% if recommendations|length > 3 and forloop.counter0|add:1|divisibleby:3 %}
             </div>
