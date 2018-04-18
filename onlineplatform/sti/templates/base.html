@@ -73,12 +73,35 @@
             </div>
         </nav>
         {% block content %}{% endblock content %}
+        <div id="aboutUs" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">About Us</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                        This project is a follow up to the <a href="https://scitechmatcher.uniteideas.spigit.com/Page/Home">Unite Ideas Challenge #SciTechMatcher</a>
+                        </p>
+                        <p>
+                        It is being implemented by members of the <a href="https://sustainabledevelopment.un.org/tfm#un">UN interagency task team on STI for the SDGs</a>, and is coordinated by the <a href="https://sustainabledevelopment.un.org/">United Nations Department of Economic and Social Affairs (UNDESA)</a> and the <a href="https://unite.un.org/">United Nations Office of Information and Communications Technology (UNOICT)</a>.
+                        </p>
+                        <p>
+                        The objective is to illustrate possible functionalities of the <a href="https://sustainabledevelopment.un.org/TFM#online">Online Platform for the Technology Facilitation Mechanism</a> of the Sustainable Development Goals.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <nav class="footer navbar navbar-bottom">
             <div class="container">
                 <div class="footer-left col-xs-10">
                     <h5>An initiative by the United Nations Department of Economic and Social Affairs and the United Nations Office of Information and Communications Technology</h5>
                     <ul>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#aboutUs">About Us</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">Fraud alert</a></li>
                     </ul>
