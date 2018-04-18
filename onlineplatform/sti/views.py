@@ -91,7 +91,7 @@ def filter_results(results, filters):
     if filters['language'] != 'all':
         results = results.filter(language = filters['language'])
     if filters['location'] != 'all':
-        results = results.filter(location = filters['location'])
+        results = results.filter(location__icontains = filters['location'])
     if filters['partners'] != 'all':
         results = results.filter(partner__in = filters['partnerlist'])
     if filters['types'] != 'all':
