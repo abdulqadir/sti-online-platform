@@ -24,14 +24,14 @@
         max-width: 100%;
     }
     .search form {
-        margin-top: 21px;
+        margin-top: 53px;
     }
     .search input {
         border: 1px solid #AAA;
         padding: 5px;
     }
-    #searchButton {
-        margin: 53px auto;
+    .search button {
+            margin: 27px auto;
     }
     .classify-content {
         margin-top: 27px;
@@ -150,12 +150,88 @@
                 <div class="intro col-xs-12">
                     <img src="{% static 'images/TFM.png' %}" />
                 </div>
-                <form action="/search/" class="col-xs-12">
-                <input class="col-xs-12" type="text" name="query" />
-                <center><button id="searchButton" type="submit" class="btn btn-info">Search</button></center>
-                </form>
+                <div id="search" class="collapse in">
+                    <form action="/search/" class="col-xs-12">
+                    <input class="col-xs-12" type="text" name="query" />
+                    <center><button id="searchButton" type="submit" class="btn btn-info">Search</button></center>
+                    </form>
+                    <div class="col-xs-12">
+                        <center>Or</center>
+                    </div>
+                    <div class="need col-xs-12">
+                        <center><button class="btn btn-info" data-toggle="collapse" data-target="#need">Submit my request</button></center>
+                    </div>
+                </div>
+                <div id="need" class="need-data collapse">
+                    <form class="form-horizontal col-xs-12">
+                        <div class="form-group">
+                            <label for="needType" class="col-xs-2 control-label">I would like to</label>
+                            <div class="col-xs-10">
+                                <select id="needType" class="form-control">
+                                    <option>Request technology</option>
+                                    <option>Offer technology</option>
+                                    <option>Request a business opportunity</option>
+                                    <option>Offer a business opportunity</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="needTitle" class="col-xs-2 control-label">Title</label>
+                            <div class="col-xs-10">
+                                <input id="needTitle" class="form-control" type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label for="needDescription" class="col-xs-2 control-label">Description</label>
+                            <div class="col-xs-10">
+                                <textarea id="needDescription" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" style="margin:23px auto 12px auto;"><center>I can be contacted at</center></div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-2" for="needCompanyName">Company Name</label>
+                                <div class="col-xs-10">
+                                    <input id="needCompanyName" class="form-control" type="text"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2" for="needCompanyAddress">Address</label>
+                                <div class="col-xs-10">
+                                    <textarea id="needCompanyAddress" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-2" for="needCompanyCountry">Country</label>
+                                <div class="col-xs-10">
+                                    <input id="needCompanyCountry" class="form-control" type="text"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2" for="needCompanyPhone">Phone Number</label>
+                                <div class="col-xs-10">
+                                    <input id="needCompanyPhone" class="form-control" type="tel"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2" for="needCompanyEmail">Email</label>
+                                <div class="col-xs-10">
+                                    <input id="needCompanyEmail" class="form-control" type="email"/>
+                                </div>
+                            </div>
+                        </div>
+                        <center><button id="submitButton" class="btn btn-info">Submit my request</button></center>
+                    </form>
+                </div>
             </div>
         </div>
+        <script>
+            $('#need').on('show.bs.collapse', function() {
+                $('#search').collapse('hide');
+            });
+        </script>
         <div class="classify">
             <div class="classify-card">
                 <div class="classify-description">
