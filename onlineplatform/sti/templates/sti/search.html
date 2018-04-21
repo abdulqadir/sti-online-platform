@@ -180,6 +180,14 @@
                 <input class="filter-partner" type="checkbox" id="openaire" {% if filters.partners == None or filters.partners == 'all' or filters.partners.openaire == True %}checked{% endif %}/>
                 <label for="openaire"><img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" /></label>
             </div>
+            <div class="row">
+                <input class="filter-partner" type="checkbox" id="undesa" {% if filters.partners == None or filters.partners == 'all' or filters.partners.undesa == True %}checked{% endif %}/>
+                <label for="undesa"><img class="partner-logo" src="{% static 'images/undesa-logo.png' %}" /></label>
+            </div>
+            <div class="row">
+                <input class="filter-partner" type="checkbox" id="unoict" {% if filters.partners == None or filters.partners == 'all' or filters.partners.unoict == True %}checked{% endif %}/>
+                <label for="unoict"><img class="partner-logo" src="{% static 'images/unoict-logo.png' %}" /></label>
+            </div>
         </div>
         <div class="filter-detail">
             <div class="row">SDG</div>

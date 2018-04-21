@@ -20,6 +20,10 @@
                     <img class="partner-logo" src="{% static 'images/unfccc-logo.png' %}" />
                 {% elif row.partner == 'OpenAire' %}
                     <img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" />
+                {% elif row.partner == 'UNDESA' %}
+                    <img class="partner-logo" src="{% static 'images/undesa-logo.png' %}" />
+                {% elif row.partner == 'UNOICT' %}
+                    <img class="partner-logo" src="{% static 'images/unoict-logo.png' %}" />
                 {% endif %}
                 <a {% if row.url %}href="{{row.url}}"{% endif %}>{{row.title}}</a>
                 </div>
@@ -46,6 +50,10 @@
                     <a href="https://unfccc.int/">United Nations Framework Convention on Climate Change</a>
                 {% elif row.partner == 'OpenAire' %}
                     <a href="https://www.openaire.eu/">OpenAire</a>
+                {% elif row.partner == 'UNDESA' %}
+                    <a href="https://www.un.org/development/desa/en/">UNDESA</a>
+                {% elif row.partner == 'UNOICT' %}
+                    <a href="https://unite.un.org/">UNOICT</a>
                 {% endif %}
                     </i>
                 </div>
