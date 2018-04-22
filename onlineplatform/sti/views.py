@@ -189,3 +189,7 @@ def sdg(request, sdg):
     filters['query'] = ''
     filters['search_query'] = queries[sdg]
     return search(request, filters)
+
+def profile(request):
+    template = loader.get_template('sti/profile.html')
+    return HttpResponse(template.render({}, request))

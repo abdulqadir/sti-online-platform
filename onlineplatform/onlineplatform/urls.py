@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^$', sti.views.index),
     url(r'^search/', sti.views.search),
     url(r'^sdg/(?P<sdg>[0-9]{1,2})/', sti.views.sdg),
+    url(r'^profile/', sti.views.profile),
 ]

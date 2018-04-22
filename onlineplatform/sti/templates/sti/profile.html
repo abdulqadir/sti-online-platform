@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+    .profile-title {
+        background: linear-gradient(90deg,#D2FFEF,#C6E3FF);
+        font-weight: bold;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .partner-logo {
+        max-height: 16px;
+    }
+    .footer {
+        box-shadow: 0 -1px 13px #DADADA;
+    }
+</style>
+{% endblock style %}
+{% block content %}
+<div class="profile-title">
+    <div class="container">
+        <div class="col-xs-12">
+            My Profile
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col-xs-12" style="padding-top: 27px; padding-bottom: 27px;">
+        Complete your profile to enhance your search results and to get personalized recommendations from our network members.
+    </div>
+    <form>
+        <div class="form-group">
+            <label class="col-xs-1" for="profileName">Name</label>
+            <div class="col-xs-3">
+                <input id="profileName" class="form-control" type="text"/>
+            </div>
+            <div class="col-xs-4">
+                <select class="form-control">
+                    <option>Country</option>
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <select class="form-control">
+                    <option>Sector/Industry</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12" style="margin-top:27px;">
+                <label for="about">About Me</label>
+                <textarea id="about" class="form-control" placeholder="Describe your interests, needs, offers, products or services related to science, technology and innovation for sustainable development. The more information you enter the better we can personalize your experience."></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12" style="margin-top:53px;">
+                <input type="radio" id="nonotify" name="notifications" checked/>
+                <label for="nonotify">Do not send me notifications of content that may interest me</label>
+            </div>
+            <div class="col-xs-12">
+                <input type="radio" id="notify" name="notifications"/>
+                <label for="notify">Notify me of interesting content of the below types and sources</label>
+            </div>
+            <div class="col-xs-3">
+            <div>Types</div>
+            <div>
+                <input class="filter-type" type="checkbox" id="publications" checked/>
+                <label for="publications">Publications</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="technologyoffers" checked/>
+                <label for="technologyoffers">Technology Offers</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="technologyrequests" checked/>
+                <label for="technologyrequests">Technology Requests</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="businessoffers" checked/>
+                <label for="businessoffers">Business Offers</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="businessrequests" checked/>
+                <label for="businessrequests">Business Requests</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="funding" checked/>
+                <label for="funding">Funding</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="people" checked/>
+                <label for="people">People</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="events" checked/>
+                <label for="events">Events</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="training" checked/>
+                <label for="training">Training</label>
+            </div>
+            <div>
+                <input class="filter-type" type="checkbox" id="services" checked/>
+                <label for="services">Services</label>
+            </div>
+        </div>
+            <div class="col-xs-3">
+                <div class="row">Sources</div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="apctt" checked/>
+                    <label for="apctt"><img class="partner-logo" src="{% static 'images/apctt-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="cittc" checked/>
+                    <label for="cittc"><img class="partner-logo" src="{% static 'images/cittc-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="unido" checked/>
+                    <label for="unido"><img class="partner-logo" src="{% static 'images/unido-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="wipogreen" checked/>
+                    <label for="wipogreen"><img class="partner-logo" src="{% static 'images/wipo-green-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="een" checked/>
+                    <label for="een"><img class="partner-logo" src="{% static 'images/een-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="unfccc" checked/>
+                    <label for="unfccc"><img class="partner-logo" src="{% static 'images/unfccc-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="unossc" checked/>
+                    <label for="unossc"><img class="partner-logo" src="{% static 'images/unossc-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="openaire" checked/>
+                    <label for="openaire"><img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="undesa" checked/>
+                    <label for="undesa"><img class="partner-logo" src="{% static 'images/undesa-logo.png' %}" /></label>
+                </div>
+                <div>
+                    <input class="filter-partner" type="checkbox" id="unoict" checked/>
+                    <label for="unoict"><img class="partner-logo" src="{% static 'images/unoict-logo.png' %}" /></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" style="margin:53px auto;">
+            <button class="btn btn-info">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
