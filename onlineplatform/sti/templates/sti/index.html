@@ -33,6 +33,12 @@
     .search button {
             margin: 27px auto;
     }
+    .search label {
+        display: block;
+    }
+    .partner-logo {
+        max-height: 27px;
+    }
     .classify-content {
         margin-top: 27px;
         margin-bottom: 27px;
@@ -174,53 +180,74 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="needTitle" class="col-xs-2 control-label">Title</label>
-                            <div class="col-xs-10">
-                                <input id="needTitle" class="form-control" type="text"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
                         <label for="needDescription" class="col-xs-2 control-label">Description</label>
                             <div class="col-xs-10">
                                 <textarea id="needDescription" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="col-xs-12" style="margin:23px auto 12px auto;"><center>I can be contacted at</center></div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-12">
                             <div class="form-group">
-                                <label class="col-xs-2" for="needCompanyName">Company Name</label>
-                                <div class="col-xs-10">
+                                <label class="col-xs-1" for="needCompanyName">Name</label>
+                                <div class="col-xs-3">
                                     <input id="needCompanyName" class="form-control" type="text"/>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-2" for="needCompanyAddress">Address</label>
-                                <div class="col-xs-10">
-                                    <textarea id="needCompanyAddress" class="form-control"></textarea>
+                                <label class="col-xs-1" for="needCompanyAddress">Address</label>
+                                <div class="col-xs-3">
+                                    <input id="needCompanyAddress" class="form-control" type="text" />
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <label class="col-xs-2" for="needCompanyCountry">Country</label>
-                                <div class="col-xs-10">
-                                    <input id="needCompanyCountry" class="form-control" type="text"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-2" for="needCompanyPhone">Phone Number</label>
-                                <div class="col-xs-10">
-                                    <input id="needCompanyPhone" class="form-control" type="tel"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-2" for="needCompanyEmail">Email</label>
-                                <div class="col-xs-10">
+                                <label class="col-xs-1" for="needCompanyEmail">Email</label>
+                                <div class="col-xs-3">
                                     <input id="needCompanyEmail" class="form-control" type="email"/>
                                 </div>
                             </div>
                         </div>
-                        <center><button id="submitButton" class="btn btn-info">Submit my request</button></center>
+                        <div class="col-xs-12" style="margin:23px auto 12px auto;"><center>Submit my details to</center></div>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-1 col-xs-offset-1">
+                                    <input class="filter-partner" type="checkbox" id="apctt" checked/>
+                                    <label for="apctt"><img class="partner-logo" src="{% static 'images/apctt-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="cittc" checked/>
+                                    <label for="cittc"><img class="partner-logo" src="{% static 'images/cittc-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="unido" checked/>
+                                    <label for="unido"><img class="partner-logo" src="{% static 'images/unido-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="wipogreen" checked/>
+                                    <label for="wipogreen"><img class="partner-logo" src="{% static 'images/wipo-green-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="een" checked/>
+                                    <label for="een"><img class="partner-logo" src="{% static 'images/een-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="unfccc" checked/>
+                                    <label for="unfccc"><img class="partner-logo" src="{% static 'images/unfccc-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="unossc" checked/>
+                                    <label for="unossc"><img class="partner-logo" src="{% static 'images/unossc-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="openaire" checked/>
+                                    <label for="openaire"><img class="partner-logo" src="{% static 'images/openaire-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="undesa" checked/>
+                                    <label for="undesa"><img class="partner-logo" src="{% static 'images/undesa-logo.png' %}" /></label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <input class="filter-partner" type="checkbox" id="unoict" checked/>
+                                    <label for="unoict"><img class="partner-logo" src="{% static 'images/unoict-logo.png' %}" /></label>
+                                </div>
+                            </div>
+                        </div>
+                        <center><button id="submitButton" class="btn btn-info">Submit</button></center>
                     </form>
                 </div>
             </div>
