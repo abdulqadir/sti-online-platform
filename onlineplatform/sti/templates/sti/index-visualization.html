@@ -1,68 +1,60 @@
-<div class="container">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
-    <svg id="visualization" width="1140" height="530" shape-rendering="geometricPrecision">
-    </svg>
-    <style>
-        text {
-            fill: #777;
-        }
-        rect {
-            fill: #EEE;
-            stroke: #8A8A8A;
-            stroke-width: 0.5;
-        }
-        path {
-            fill: none;
-            stroke-width: 1.5;
-        }
-    </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+<style>
+    #visualization-container {
+        width: 940px;
+        margin: auto;
+    }
+    text {
+        fill: #353d2d;
+    }
+    path {
+        fill: none;
+        stroke-width: 1.5;
+        stroke-opacity: 0.72;
+    }
+</style>
+<div class="background">
+    <div id="visualization-container">
+        <svg id="visualization" width="940" height="530" shape-rendering="geometricPrecision">
+        </svg>
+    </div>
     <script>
         var types = [['\uf02d','Publications'], ['\uf126','Technology Offers'], ['\uf2b5', 'Technology Requests'] , ['\uf0a1','Business Offers'], ['\uf0b1','Business Requests'], ['\uf19c','Funding'], ['\uf2ba','People'], ['\uf073','Events'], ['\uf19d','Training'], ['\uf03a','Services']];
         var sources = ['APCTT', 'CITTC', 'UNIDO', 'WIPO GREEN', 'EEN', 'UNFCCC', 'UNOSSC', 'OpenAire', 'UNDESA', 'UNOICT'];
         var typesource = [[5,6,7],[0,1,2,3,4],[0,1,3,4],[4],[4],[8],[8,9],[9],[8,9],[8,9]];
-        var gradient = d3.interpolate('#D2FFEF', '#C6E3FF');
+        var gradient = d3.interpolate('#FF3131', '#FF31CD');
+        var typeColors = ['#FF5353','#FFD74E','#A453FF','#4E9BFF','#48DFFF','#C2FFF6','#53FF61','#FFAB53','#D241FF','#FFE953'];
         var svg = d3.select('#visualization');
-        var arc = d3.arc().innerRadius(153).outerRadius(200);
-        var pathG = svg.append('g').attr('transform', 'translate(570, 0)');
-        var innerG = svg.append('g').attr('transform','translate(570, 0)');
-        var arcSize = (2 * Math.PI) / types.length;
+        var arc = d3.arc().innerRadius(153).outerRadius(330);
+        var pathG = svg.append('g').attr('transform', 'translate(470, 360)');
+        var innerG = svg.append('g').attr('transform','translate(470, 360)');
+        var arcSize = (2 * Math.PI) / (sources.length + types.length);
         var colors = d3.quantize(gradient, types.length);
         var typePositions = [];
         for (var i=0; i<types.length; i++) {
-            innerG.append('rect').attr('x', -105).attr('y', 15+i*52).attr('width',210).attr('height',37);
-            innerG.append('text').attr('x', -90).attr('y', 38+i*52).text(types[i][0]).attr('class','fa');
-            innerG.append('text').attr('x', -53).attr('y', 38+i*52).text(types[i][1]);
-            typePositions.push([0, 38+i*52]);
-        }
-        arc.innerRadius(153).outerRadius(210);
-        var outerG = svg.append('g').attr('transform','translate(570, 0)');
-        arcSize = (2 * Math.PI) / sources.length;
-        var sourcePositions = [];
-        for (i=0; i<types.length; i++) {
-            arc.startAngle(i*arcSize).endAngle((i+1)*arcSize);
+            arc.startAngle((i)*arcSize).endAngle((i+1)*arcSize);
             var centroid = arc.centroid();
-            if (centroid[0] < 0) {
-                centroid[0] -= 270;
-            }
-            else {
-                centroid[0] += 270;
-            }
-            centroid[1] += 265;
+            typePositions.push([centroid[0]+70, 38+i*52-360]);
+            innerG.append('rect').attr('x', centroid[0] + 50).attr('y', 15+i*52-360).attr('width',172).attr('height',36).attr('rx',15).attr('ry',25).style('fill', typeColors[i]);
+            innerG.append('text').attr('x', centroid[0] + 60).attr('y', 38+i*52-360).text(types[i][0]).attr('class','fa');
+            innerG.append('text').attr('x', centroid[0] + 82).attr('y', 38+i*52-360).text(types[i][1]);
+        }
+        var outerG = svg.append('g').attr('transform','translate(470, 360)');
+        var sourcePositions = [];
+        for (i=0; i<sources.length; i++) {
+            arc.startAngle((types.length+i)*arcSize).endAngle((types.length+i+1)*arcSize);
+            var centroid = arc.centroid();
+            centroid[0] -= 53;
+            centroid[1] = 38+i*52-360;
             sourcePositions.push(centroid);
-            outerG.append('image').attr('xlink:href', '/static/images/' + sources[i].toLowerCase().replace(' ','-') + '-logo.png').attr('height', 27).attr('width', 153).attr('x', centroid[0] - 53).attr('y', centroid[1] - 36);
-            outerG.append('text').attr('x', centroid[0]).attr('y', centroid[1]).text(sources[i]);
+            outerG.append('rect').attr('x', centroid[0] - 170).attr('y', centroid[1] - 23).attr('width',172).attr('height',36).attr('rx',15).attr('ry',25).style('fill', typeColors[i]);
+            outerG.append('text').attr('x', centroid[0] - 53).attr('y', centroid[1]).text(sources[i]).attr('text-anchor','end');
         }
         var link = d3.linkHorizontal();
         for (i=0; i<typesource.length; i++) {
             for (var j=0; j<typesource[i].length; j++) {
                 var target = sourcePositions[typesource[i][j]];
-                var source;
-                if (target[0] < 0) {
-                    source = [-90, typePositions[i][1]];
-                }
-                else {
-                    source = [90, typePositions[i][1]];
-                }-
+                var source = typePositions[i];
                 pathG.append('path').attr('d', link({source: source, target: target})).attr('stroke', colors[i]);
             }
         }
