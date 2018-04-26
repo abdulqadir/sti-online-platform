@@ -9,7 +9,8 @@
         padding-bottom: 10px;
     }
     .partner-logo {
-        max-height: 16px;
+        max-height: 36px;
+        margin: 9px auto;
     }
     .footer {
         box-shadow: 0 -1px 13px #DADADA;
@@ -60,7 +61,7 @@
                 <input type="radio" id="notify" name="notifications"/>
                 <label for="notify">Notify me of interesting content of the below types and sources</label>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-4">
             <div>Types</div>
             <div>
                 <input class="filter-type" type="checkbox" id="publications" checked/>
@@ -103,7 +104,7 @@
                 <label for="services">Services</label>
             </div>
         </div>
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <div class="row">Sources</div>
                 <div>
                     <input class="filter-partner" type="checkbox" id="apctt" checked/>
@@ -125,6 +126,9 @@
                     <input class="filter-partner" type="checkbox" id="een" checked/>
                     <label for="een"><img class="partner-logo" src="{% static 'images/een-logo.png' %}" /></label>
                 </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="row">&nbsp;</div>
                 <div>
                     <input class="filter-partner" type="checkbox" id="unfccc" checked/>
                     <label for="unfccc"><img class="partner-logo" src="{% static 'images/unfccc-logo.png' %}" /></label>
