@@ -18,7 +18,7 @@
         stroke-opacity: 0.7;
     }
 </style>
-<div class="background">
+<div id="visualization-background">
     <div id="visualization-container">
         <svg id="visualization" width="940" height="530" shape-rendering="geometricPrecision">
         </svg>
@@ -76,71 +76,82 @@
         }
         var colors = d3.quantize(gradient, links.length);
         pathG.selectAll('path').data(links).enter().append('path').attr('stroke', function(d,i){return colors[i]}).attr('d', function(d){return link(d)}).attr('opacity',0.3);
-        circleG.selectAll('g.viz-types').transition().duration(1000).attr('transform',function(d,i) {
-            return 'translate(' + typeEndPositions[i] + ')';
-        });
-        circleG.selectAll('g.viz-sources').transition().duration(1000).attr('transform',function(d,i) {
-            return 'translate(' + sourceEndPositions[i] + ')';
-        });
-        link.source(function(d){return typeEndPositions[d.type]}).target(function(d){return sourceEndPositions[d.source]});
-        pathG.selectAll('path').transition().duration(1000).attr('d', function(d){return link(d)}).attr('opacity', 0.8);
 
-        var resetColors = function(d, i) {
-            circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d,i){return typeColors[i]});
-            pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {return colors[j]});
-            circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d,j){return typeColors[j]});
+        function animateVisualization() {
+            d3.select(this).on('mouseover', null);
+            circleG.selectAll('g.viz-types').transition().duration(900).attr('transform',function(d,i) {
+                return 'translate(' + typeEndPositions[i] + ')';
+            });
+            circleG.selectAll('g.viz-sources').transition().duration(900).attr('transform',function(d,i) {
+                return 'translate(' + sourceEndPositions[i] + ')';
+            });
+            link.source(function(d){return typeEndPositions[d.type]}).target(function(d){return sourceEndPositions[d.source]});
+            pathG.selectAll('path').transition().duration(900).attr('d', function(d){return link(d)}).attr('opacity', 0.8);
+
+            var handleEvents = function() {
+                var resetColors = function(d, i) {
+                    circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d,i){return typeColors[i]});
+                    pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {return colors[j]});
+                    circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d,j){return typeColors[j]});
+                };
+                circleG.selectAll('g.viz-types').on('mouseover', function(d, i) {
+                    circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d, j) {
+                        if (i!==j) {
+                            return '#EEE';
+                        }
+                        else {
+                            return typeColors[j];
+                        }
+                    });
+                    pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {
+                        if (d.type != i) {
+                            return '#EEE';
+                        }
+                        else {
+                            return colors[j];
+                        }
+                    });
+                    circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d, j) {
+                        if (typesource[i].indexOf(j) == -1) {
+                            return '#EEE';
+                        }
+                        else {
+                            return typeColors[j];
+                        }
+                    });
+                }).on('mouseout', resetColors);
+                circleG.selectAll('g.viz-sources').on('mouseover', function(d, i) {
+                    circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d, j) {
+                        if (i!==j) {
+                            return '#EEE';
+                        }
+                        else {
+                            return typeColors[j];
+                        }
+                    });
+                    pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {
+                        if (d.source != i) {
+                            return '#EEE';
+                        }
+                        else {
+                            return colors[j];
+                        }
+                    });
+                    circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d, j) {
+                        if (typesource[j].indexOf(i) == -1) {
+                            return '#EEE';
+                        }
+                        else {
+                            return typeColors[j];
+                        }
+                    });
+                }).on('mouseout', resetColors);
+            }
+            var timer = d3.timer(function() {
+                timer.stop();
+                handleEvents();
+            }, 900);
         };
-        circleG.selectAll('g.viz-types').on('mouseover', function(d, i) {
-            circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d, j) {
-                if (i!==j) {
-                    return '#EEE';
-                }
-                else {
-                    return typeColors[j];
-                }
-            });
-            pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {
-                if (d.type != i) {
-                    return '#EEE';
-                }
-                else {
-                    return colors[j];
-                }
-            });
-            circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d, j) {
-                if (typesource[i].indexOf(j) == -1) {
-                    return '#EEE';
-                }
-                else {
-                    return typeColors[j];
-                }
-            });
-        }).on('mouseout', resetColors);
-        circleG.selectAll('g.viz-sources').on('mouseover', function(d, i) {
-            circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d, j) {
-                if (i!==j) {
-                    return '#EEE';
-                }
-                else {
-                    return typeColors[j];
-                }
-            });
-            pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {
-                if (d.source != i) {
-                    return '#EEE';
-                }
-                else {
-                    return colors[j];
-                }
-            });
-            circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d, j) {
-                if (typesource[j].indexOf(i) == -1) {
-                    return '#EEE';
-                }
-                else {
-                    return typeColors[j];
-                }
-            });
-        }).on('mouseout', resetColors);
+        d3.select('#visualization-background').on('mouseover', animateVisualization);
     </script>
 </div>
