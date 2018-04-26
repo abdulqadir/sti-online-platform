@@ -1,16 +1,21 @@
+{% load static %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
 <style>
     #visualization-container {
         width: 940px;
         margin: auto;
     }
+    rect {
+        cursor: pointer;
+    }
     text {
         fill: #353d2d;
+        pointer-events: none;
     }
     path {
         fill: none;
         stroke-width: 1.5;
-        stroke-opacity: 0.72;
+        stroke-opacity: 0.7;
     }
 </style>
 <div class="background">
@@ -27,36 +32,57 @@
         var svg = d3.select('#visualization');
         var arc = d3.arc().innerRadius(153).outerRadius(330);
         var pathG = svg.append('g').attr('transform', 'translate(470, 360)');
-        var innerG = svg.append('g').attr('transform','translate(470, 360)');
+        var circleG = svg.append('g').attr('transform','translate(470, 360)');
         var arcSize = (2 * Math.PI) / (sources.length + types.length);
-        var colors = d3.quantize(gradient, types.length);
-        var typePositions = [];
-        for (var i=0; i<types.length; i++) {
+        var i;
+        var typeStartPositions = [], typeEndPositions = [];
+        var sourceStartPositions = [], sourceEndPositions = [];
+        for (i=0; i<types.length; i++) {
             arc.startAngle((i)*arcSize).endAngle((i+1)*arcSize);
             var centroid = arc.centroid();
-            typePositions.push([centroid[0]+70, 38+i*52-360]);
-            innerG.append('rect').attr('x', centroid[0] + 50).attr('y', 15+i*52-360).attr('width',172).attr('height',36).attr('rx',15).attr('ry',25).style('fill', typeColors[i]);
-            innerG.append('text').attr('x', centroid[0] + 60).attr('y', 38+i*52-360).text(types[i][0]).attr('class','fa');
-            innerG.append('text').attr('x', centroid[0] + 82).attr('y', 38+i*52-360).text(types[i][1]);
+            typeStartPositions.push([50, 38+i*52-360]);
+            typeEndPositions.push([centroid[0]+50, 38+i*52-360]);
         }
-        var outerG = svg.append('g').attr('transform','translate(470, 360)');
-        var sourcePositions = [];
         for (i=0; i<sources.length; i++) {
             arc.startAngle((types.length+i)*arcSize).endAngle((types.length+i+1)*arcSize);
             var centroid = arc.centroid();
-            centroid[0] -= 53;
-            centroid[1] = 38+i*52-360;
-            sourcePositions.push(centroid);
-            outerG.append('rect').attr('x', centroid[0] - 170).attr('y', centroid[1] - 23).attr('width',172).attr('height',36).attr('rx',15).attr('ry',25).style('fill', typeColors[i]);
-            outerG.append('text').attr('x', centroid[0] - 53).attr('y', centroid[1]).text(sources[i]).attr('text-anchor','end');
+            sourceStartPositions.push([-50, 38+i*52-360]);
+            sourceEndPositions.push([centroid[0]-50, 38+i*52-360]);
         }
-        var link = d3.linkHorizontal();
+        circleG.selectAll('g.viz-types').data(types).enter().append('g').attr('class','viz-types').attr('transform',function(d,i) {
+            return 'translate(' + typeStartPositions[i] + ')';
+        })
+        .each(function(d, i) {
+            d3.select(this).append('rect').attr('x', 0).attr('y', -23).attr('width',170).attr('height',36).attr('rx',15).attr('ry',25).style('fill', typeColors[i]);
+            d3.select(this).append('text').attr('x', 10).attr('y', 0).text(types[i][0]).attr('class','fa');
+            d3.select(this).append('text').attr('x', 32).attr('y', 0).text(types[i][1]);
+        });
+        circleG.selectAll('g.viz-sources').data(sources).enter().append('g').attr('class','viz-sources').attr('transform', function(d,i) {
+            return 'translate(' + sourceStartPositions[i] + ')';
+        })
+        .each(function(d, i) {
+            d3.select(this).append('rect').attr('x', -170).attr('y', -23).attr('width',170).attr('height',36).attr('rx',15).attr('ry',25).style('fill', typeColors[i]);
+            d3.select(this).append('text').attr('x', -50).attr('y', 0).text(sources[i]).attr('text-anchor','end');
+        });
+        var link = d3.linkHorizontal().source(function(d){return typeStartPositions[d.type]}).target(function(d){return sourceStartPositions[d.source]});
+        var links = []
         for (i=0; i<typesource.length; i++) {
             for (var j=0; j<typesource[i].length; j++) {
-                var target = sourcePositions[typesource[i][j]];
-                var source = typePositions[i];
-                pathG.append('path').attr('d', link({source: source, target: target})).attr('stroke', colors[i]);
+                links.push({
+                    source: typesource[i][j],
+                    type: i
+                });
             }
         }
+        var colors = d3.quantize(gradient, links.length);
+        pathG.selectAll('path').data(links).enter().append('path').attr('stroke', function(d,i){return colors[i]}).attr('d', function(d){return link(d)}).attr('opacity',0.3);
+        circleG.selectAll('g.viz-types').transition().duration(1000).attr('transform',function(d,i) {
+            return 'translate(' + typeEndPositions[i] + ')';
+        });
+        circleG.selectAll('g.viz-sources').transition().duration(1000).attr('transform',function(d,i) {
+            return 'translate(' + sourceEndPositions[i] + ')';
+        });
+        link.source(function(d){return typeEndPositions[d.type]}).target(function(d){return sourceEndPositions[d.source]});
+        pathG.selectAll('path').transition().duration(1000).attr('d', function(d){return link(d)});
     </script>
 </div>
