@@ -17,8 +17,16 @@
         stroke-width: 1.5;
         stroke-opacity: 0.7;
     }
+    #visualization-background img {
+        width: 30px;
+        height: 30px;
+        margin: 10px auto;
+    }
 </style>
 <div id="visualization-background">
+    <div style="height:50px;background-color:#F7FAFC;">
+        <center><img src="{% static 'images/TFM_logo.png' %}"/></center>
+    </div>
     <div id="visualization-container">
         <svg id="visualization" width="940" height="530" shape-rendering="geometricPrecision">
         </svg>
