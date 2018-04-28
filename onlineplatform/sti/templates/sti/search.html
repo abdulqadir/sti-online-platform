@@ -126,12 +126,12 @@
                 <label for="businessrequests">Business Requests</label>
             </div>
             <div class="row">
-                <input class="filter-type" type="checkbox" id="funding" checked/>
-                <label for="funding">Funding</label>
+                <input class="filter-type" type="checkbox" id="people" {% if filters.types == None or filters.types == 'all' or filters.types.people == True %}checked{% endif %}/>
+                <label for="people">People</label>
             </div>
             <div class="row">
-                <input class="filter-type" type="checkbox" id="people" checked/>
-                <label for="people">People</label>
+                <input class="filter-type" type="checkbox" id="funding" checked/>
+                <label for="funding">Funding</label>
             </div>
             <div class="row">
                 <input class="filter-type" type="checkbox" id="events" checked/>
