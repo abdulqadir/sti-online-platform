@@ -1,0 +1,21 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=gunicorn.socket
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User=sti
+Group=sti
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/sti/onlineplatform
+ExecStart=/home/sti/bin/gunicorn --pid /run/gunicorn/pid   \
+          --bind unix:/run/gunicorn.socket --chdir /home/sti/onlineplatform \
+          onlineplatform.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

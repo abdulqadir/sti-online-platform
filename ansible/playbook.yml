@@ -1,0 +1,102 @@
+- hosts: webservers
+  remote_user: root
+  become: yes
+  tasks:
+      - name: Add STI user
+        user:
+            name: sti
+            state: present
+      - name: Update all packages 
+        apt:
+            update_cache: yes
+            upgrade: dist
+      - name: Install nginx
+        apt:
+            name: nginx
+            state: latest
+      - name: Enable nginx
+        systemd:
+            name: nginx
+            enabled: yes
+      - name: Install pip
+        apt:
+            name: python-pip
+            state: latest
+      - name: Install Python3 venv
+        apt:
+            name: python3-venv
+            state: latest
+
+- hosts: webservers
+  remote_user: sti
+  become: yes
+  tasks:
+      - name: Create Python3 venv
+        command: python3 -m venv /home/sti
+        args:
+            creates: /home/sti/pyvenv.cfg
+      - name: Copy pip requirements file to server
+        copy:
+            src: ../requirements.txt
+            dest: /home/sti/requirements
+      - name: Install requirements
+        pip:
+            requirements: /home/sti/requirements
+            virtualenv: /home/sti
+      - name: Install gunicorn
+        pip:
+            name: gunicorn
+            virtualenv: /home/sti
+      - name: Rsync onlineplatform app
+        synchronize:
+            src: ../onlineplatform
+            dest: /home/sti
+            recursive: yes
+            delete: yes
+            rsync_opts:
+                - "--exclude=__pycache__"
+                - "--exclude=ingest/data"
+
+- hosts: webservers
+  remote_user: root
+  become: yes
+  tasks:
+      - name: Gunicorn socket
+        copy:
+            src: conf/gunicorn.socket
+            dest: /etc/systemd/system/gunicorn.socket 
+      - name: Start Gunicorn
+        systemd:
+            name: gunicorn.socket
+            enabled: yes
+            daemon_reload: yes
+            state: started
+      - name: Gunicorn service
+        copy:
+            src: conf/gunicorn.service
+            dest: /etc/systemd/system/gunicorn.service
+      - name: Gunicorn tmpfile
+        copy:
+            src: conf/gunicorn.conf
+            dest: /etc/tmpfiles.d/gunicorn.conf
+      - name: Restart Gunicorn
+        systemd:
+            name: gunicorn.service
+            state: restarted
+      - name: Configure nginx
+        copy:
+            src: conf/nginx.site
+            dest: /etc/nginx/sites-available/onlineplatform
+      - name: Disable default nginx site
+        file:
+            path: /etc/nginx/sites-enabled/default
+            state: absent
+      - name: Enable onlineplatform site in nginx
+        file:
+            src: /etc/nginx/sites-available/onlineplatform
+            dest: /etc/nginx/sites-enabled/onlineplatform
+            state: link
+      - name: Restart nginx service
+        systemd:
+            name: nginx.service
+            state: restarted
