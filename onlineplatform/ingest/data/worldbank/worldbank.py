@@ -26,7 +26,11 @@ for xml in os.listdir('data'):
         store.partner = 'World Bank'
     oaidc = ElementTree.fromstring(open('data/' + xml,'r').read())
     nsdc = '{http://purl.org/dc/elements/1.1/}'
-    store.title = oaidc.find(nsdc + 'title').text
+    try:
+        store.title = oaidc.find(nsdc + 'title').text
+    except:
+        print("No title found: "+xml)
+        continue
     if len(store.title) > 2048:
         store.title = store.title[:2048]
     store.description = '\n'.join(map(lambda d:d.text, filter(lambda d:d.text!=None,oaidc.findall(nsdc + 'description'))))
@@ -41,7 +45,7 @@ for xml in os.listdir('data'):
             language = 'english'
         if language in ['danish', 'dutch', 'english', 'finnish', 'french', 'german', 'hungarian', 'italian', 'norwegian', 'portuguese', 'romanian', 'russian', 'spanish', 'swedish', 'turkish']:
             config = language
-        elif language not in ['cambodian']:
+        elif language not in ['cambodian','polish','arabic','chinese']:
             raise Exception(language)
         store.language = language
     store.keywords = ' '.join(map(lambda x:x.text,filter(lambda x:x.text!=None,oaidc.findall(nsdc + 'subject'))))
