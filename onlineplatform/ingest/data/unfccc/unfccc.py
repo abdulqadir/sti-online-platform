@@ -9,7 +9,7 @@ django.setup()
 from django.contrib.postgres.search import SearchVector
 from sti.models import Store
 
-people = json.loads(open('unfccc/country-data.json','r').read())
+people = json.loads(open('data/country-data.json','r').read())
 for record in people['rows']:
     rec = 1
     for person in record['Focal points']:
