@@ -79,6 +79,8 @@ def get_filters(request):
                 actuals.append('UNOSSC C')
             elif partner == 'openaire':
                 actuals.append('OpenAire')
+            elif partner == 'worldbank':
+                actuals.append('World Bank')
         filters['partnerlist'] = actuals
     else:
         filters['partners'] = 'all'

@@ -24,6 +24,8 @@
                     <img class="partner-logo" src="{% static 'images/undesa-logo.png' %}" />
                 {% elif row.partner == 'UNOICT' %}
                     <img class="partner-logo" src="{% static 'images/unoict-logo.png' %}" />
+                {% elif row.partner == 'World Bank' %}
+                    <img class="partner-logo" src="{% static 'images/world-bank-logo.png' %}" />
                 {% endif %}
                 <a {% if row.url %}href="{{row.url}}"{% endif %}>{{row.title}}</a>
                 </div>
@@ -54,6 +56,8 @@
                     <a href="https://www.un.org/development/desa/en/">UNDESA</a>
                 {% elif row.partner == 'UNOICT' %}
                     <a href="https://unite.un.org/">UNOICT</a>
+                {% elif row.partner == 'World Bank' %}
+                    <a href="https://openknowledge.worldbank.org/">World Bank</a>
                 {% endif %}
                     </i>
                 </div>

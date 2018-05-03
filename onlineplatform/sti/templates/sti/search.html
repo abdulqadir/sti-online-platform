@@ -188,6 +188,10 @@
                 <input class="filter-partner" type="checkbox" id="unoict" {% if filters.partners == None or filters.partners == 'all' or filters.partners.unoict == True %}checked{% endif %}/>
                 <label for="unoict"><img class="partner-logo" src="{% static 'images/unoict-logo.png' %}" /></label>
             </div>
+            <div class="row">
+                <input class="filter-partner" type="checkbox" id="worldbank" {% if filters.partners == None or filters.partners == 'all' or filters.partners.worldbank == True %}checked{% endif %}/>
+                <label for="worldbank"><img class="partner-logo" src="{% static 'images/world-bank-logo.png' %}" /></label>
+            </div>
         </div>
         <div class="filter-detail">
             <div class="row">SDG</div>
