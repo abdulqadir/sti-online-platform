@@ -2,7 +2,10 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server;
     server_name _;
+    location /static/ {
+        root /home/sti/onlineplatform;
+    }
     location / {
-            proxy_pass http://unix:/run/gunicorn/socket;
+        proxy_pass http://unix:/run/gunicorn.socket;
     }
 }

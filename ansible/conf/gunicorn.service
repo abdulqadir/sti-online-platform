@@ -11,6 +11,12 @@ Group=sti
 RuntimeDirectory=gunicorn
 WorkingDirectory=/home/sti/onlineplatform
 ExecStart=/home/sti/bin/gunicorn --pid /run/gunicorn/pid   \
+          --env DJANGO_SETTINGS_MODULE=onlineplatform.live \
+          --env DJANGO_SECRET_KEY={{vault_django_secret_key}} \
+          --env DJANGO_DATABASE_USER={{vault_dbuser}} \
+          --env DJANGO_DATABASE_PASSWORD={{vault_dbpassword}} \
+          --env DJANGO_DATABASE_HOST={{dbhost}} \
+          --env DJANGO_DATABASE_PORT={{dbport}} \
           --bind unix:/run/gunicorn.socket --chdir /home/sti/onlineplatform \
           onlineplatform.wsgi
 ExecReload=/bin/kill -s HUP $MAINPID

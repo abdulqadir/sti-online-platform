@@ -39,7 +39,7 @@
             db: postgres
             name: "{{vault_dbuser}}"
             password: "{{vault_dbpassword}}"
-            login_host: "{{dbserver}}"
+            login_host: "{{dbhost}}"
             port: "{{dbport}}"
             login_user: "{{vault_dbmasteruser}}"
             login_password: "{{vault_dbmasterpassword}}"
@@ -53,7 +53,7 @@
             name: sti
             encoding: UTF-8
             owner: "{{vault_dbuser}}"
-            login_host: "{{dbserver}}"
+            login_host: "{{dbhost}}"
             port: "{{dbport}}"
             login_user: "{{vault_dbuser}}"
             login_password: "{{vault_dbpassword}}"
@@ -62,6 +62,15 @@
 - hosts: webservers
   remote_user: sti
   become: yes
+  vars_files:
+      - vault.yml
+  environment:
+        DJANGO_SETTINGS_MODULE: onlineplatform.live
+        DJANGO_SECRET_KEY: "{{vault_django_secret_key}}"
+        DJANGO_DATABASE_USER: "{{vault_dbuser}}"
+        DJANGO_DATABASE_PASSWORD: "{{vault_dbpassword}}"
+        DJANGO_DATABASE_HOST: "{{dbhost}}"
+        DJANGO_DATABASE_PORT: "{{dbport}}"
   tasks:
       - name: Create Python3 venv
         command: python3 -m venv /home/sti
@@ -88,11 +97,23 @@
             rsync_opts:
                 - "--exclude=__pycache__"
                 - "--exclude=ingest/data"
+      - name: Migrate database
+        command: /home/sti/bin/python /home/sti/onlineplatform/manage.py migrate
+      - name: Collect static files
+        command: /home/sti/bin/python /home/sti/onlineplatform/manage.py collectstatic --no-input
 
 - hosts: webservers
   remote_user: root
   become: yes
+  vars_files:
+      - vault.yml
   tasks:
+      - name: Create directory for logs
+        file:
+            path: /var/log/onlineplatform/
+            state: directory
+            owner: sti
+            group: sti
       - name: Gunicorn socket
         copy:
             src: conf/gunicorn.socket
@@ -104,7 +125,7 @@
             daemon_reload: yes
             state: started
       - name: Gunicorn service
-        copy:
+        template:
             src: conf/gunicorn.service
             dest: /etc/systemd/system/gunicorn.service
       - name: Gunicorn tmpfile
@@ -114,6 +135,7 @@
       - name: Restart Gunicorn
         systemd:
             name: gunicorn.service
+            daemon_reload: yes
             state: restarted
       - name: Configure nginx
         copy:
