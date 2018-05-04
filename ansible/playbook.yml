@@ -1,6 +1,12 @@
+# Run the playbook with
+# ansible-playbook -i hosts --ask-vault-pass playbook.yml
+# AWS PEM file must be added prior to execution, using
+# ssh-add aws-ocit2.pem
 - hosts: webservers
   remote_user: root
   become: yes
+  vars_files:
+      - vault.yml
   tasks:
       - name: Add STI user
         user:
@@ -26,6 +32,32 @@
         apt:
             name: python3-venv
             state: latest
+      - name: Create sti database user
+        vars:
+            ansible_python_interpreter: /home/sti/bin/python
+        postgresql_user:
+            db: postgres
+            name: "{{vault_dbuser}}"
+            password: "{{vault_dbpassword}}"
+            login_host: "{{dbserver}}"
+            port: "{{dbport}}"
+            login_user: "{{vault_dbmasteruser}}"
+            login_password: "{{vault_dbmasterpassword}}"
+            no_password_changes: true
+            role_attr_flags: CREATEDB,LOGIN
+            state: present
+      - name: Create sti database
+        vars:
+            ansible_python_interpreter: /home/sti/bin/python
+        postgresql_db:
+            name: sti
+            encoding: UTF-8
+            owner: "{{vault_dbuser}}"
+            login_host: "{{dbserver}}"
+            port: "{{dbport}}"
+            login_user: "{{vault_dbuser}}"
+            login_password: "{{vault_dbpassword}}"
+            state: present
 
 - hosts: webservers
   remote_user: sti
