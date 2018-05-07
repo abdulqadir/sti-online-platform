@@ -24,7 +24,8 @@ for xml in os.listdir('data'):
         store.client_id = xml
         store.store_type = 'Publication'
         store.partner = 'World Bank'
-    oaidc = ElementTree.fromstring(open('data/' + xml,'r').read())
+    store.raw_data = open('data/' + xml,'r').read()
+    oaidc = ElementTree.fromstring(store.raw_data)
     nsdc = '{http://purl.org/dc/elements/1.1/}'
     try:
         store.title = oaidc.find(nsdc + 'title').text
