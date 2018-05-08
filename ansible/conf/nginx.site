@@ -2,6 +2,9 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server;
     server_name _;
+    location /favicon.ico {
+        root /home/sti/onlineplatform/static/images;
+    }
     location /static/ {
         root /home/sti/onlineplatform;
     }
