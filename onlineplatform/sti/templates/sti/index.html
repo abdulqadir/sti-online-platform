@@ -8,6 +8,7 @@
         right: 0;
         width: 100px;
         height: 100px;
+        z-index: 10;
     }
     .section {
         padding: 21px 0;
@@ -255,12 +256,17 @@
                         </div>
                         <center><button id="submitButton" class="btn btn-info">Submit</button></center>
                     </form>
+                    <center> Or </center>
+                    <center><button class="btn btn-info" data-toggle="collapse" data-target="#search">Search</button></center>
                 </div>
             </div>
         </div>
         <script>
             $('#need').on('show.bs.collapse', function() {
                 $('#search').collapse('hide');
+            })
+            $('#search').on('show.bs.collapse', function() {
+                $('#need').collapse('hide');
             });
         </script>
         {% include "sti/index-visualization.html" %}
