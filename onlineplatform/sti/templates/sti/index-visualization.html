@@ -58,7 +58,10 @@
             sourceStartPositions.push([-50, 35+i*45-360]);
             sourceEndPositions.push([centroid[0]-50, 35+i*45-360]);
         }
-        circleG.selectAll('g.viz-types').data(types).enter().append('g').attr('class','viz-types').attr('transform',function(d,i) {
+        circleG.selectAll('g.viz-types').data(types).enter().append('g').attr('class','viz-types').attr('data-href', function(d,i) {
+            return '/search/?types={%22' + d[1].toLowerCase().replace(' ','') + '%22%3Atrue}';
+        })
+        .attr('transform',function(d,i) {
             return 'translate(' + typeStartPositions[i] + ')';
         })
         .each(function(d, i) {
@@ -128,7 +131,11 @@
                             return typeColors[j%typeColors.length];
                         }
                     });
-                }).on('mouseout', resetColors);
+                })
+                .on('mouseout', resetColors)
+                .on('click', function(e) {
+                    window.location = $(this).data('href');
+                });
                 circleG.selectAll('g.viz-sources').on('mouseover', function(d, i) {
                     circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d, j) {
                         if (i!==j) {
