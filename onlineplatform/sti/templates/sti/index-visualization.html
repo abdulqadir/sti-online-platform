@@ -28,34 +28,35 @@
         <center><img src="{% static 'images/TFM_logo.png' %}"/></center>
     </div>
     <div id="visualization-container">
-        <svg id="visualization" width="940" height="530" shape-rendering="geometricPrecision">
+        <svg id="visualization" width="940" height="600" shape-rendering="geometricPrecision">
         </svg>
     </div>
     <script>
-        var types = [['\uf02d','Publications'], ['\uf126','Technology Offers'], ['\uf2b5', 'Technology Requests'] , ['\uf0a1','Business Offers'], ['\uf0b1','Business Requests'], ['\uf19c','Funding'], ['\uf2ba','People'], ['\uf073','Events'], ['\uf19d','Training'], ['\uf03a','Services']];
-        var sources = ['APCTT', 'CITTC', 'UNIDO', 'WIPO GREEN', 'EEN', 'UNFCCC', 'UNOSSC', 'OpenAire', 'UNDESA', 'UNOICT'];
-        var typesource = [[5,6,7],[0,1,2,3,4],[0,1,3,4],[4],[4],[8],[5,8,9],[9],[8,9],[8,9]];
+        var types = [['\uf02d','Publications'], ['\uf126','Technology Offers'], ['\uf2b5', 'Technology Requests'] , ['\uf0a1','Business Offers'], ['\uf0b1','Business Requests'], ['\uf19c','Funding'], ['\uf2ba','People'], ['\uf073','Events'], ['\uf19d','Training'], ['\uf03a','Services'], ['\uf1b2','Projects']];
+        var sources = ['APCTT', 'CITTC', 'UNIDO', 'WIPO GREEN', 'EEN', 'UNFCCC', 'UNOSSC', 'OpenAire', 'UNDESA', 'UNOICT','World Bank', 'CTCN', 'WIPO Match'];
+        var typesource = [[6,7,10],[0,1,2,3,4,12],[0,1,3,4,12],[4],[4],[8],[5,8,9],[9,11],[8,9,11],[8,9],[5,11]];
         var gradient = d3.interpolate('#FF3131', '#FF31CD');
-        var typeColors = ['#FF5353','#FFD74E','#A453FF','#4E9BFF','#48DFFF','#C2FFF6','#53FF61','#FFAB53','#D241FF','#FFE953'];
+        var typeColors = ['#FF5353','#FFD74E','#A453FF','#4E9BFF','#48DFFF','#C2FFF6','#53FF61','#FFAB53','#D241FF','#E3FF53','#53FFBC'];
         var svg = d3.select('#visualization');
         var arc = d3.arc().innerRadius(153).outerRadius(330);
         var pathG = svg.append('g').attr('transform', 'translate(470, 360)');
         var circleG = svg.append('g').attr('transform','translate(470, 360)');
-        var arcSize = (2 * Math.PI) / (sources.length + types.length);
+        var arcSize = Math.PI / types.length;
         var i;
         var typeStartPositions = [], typeEndPositions = [];
         var sourceStartPositions = [], sourceEndPositions = [];
         for (i=0; i<types.length; i++) {
             arc.startAngle((i)*arcSize).endAngle((i+1)*arcSize);
             var centroid = arc.centroid();
-            typeStartPositions.push([50, 38+i*52-360]);
-            typeEndPositions.push([centroid[0]+50, 38+i*52-360]);
+            typeStartPositions.push([50, 40+i*53-360]);
+            typeEndPositions.push([centroid[0]+50, 40+i*53-360]);
         }
+        arcSize = Math.PI / sources.length;
         for (i=0; i<sources.length; i++) {
-            arc.startAngle((types.length+i)*arcSize).endAngle((types.length+i+1)*arcSize);
+            arc.startAngle(Math.PI + (i*arcSize)).endAngle(Math.PI + ((i+1)*arcSize));
             var centroid = arc.centroid();
-            sourceStartPositions.push([-50, 38+i*52-360]);
-            sourceEndPositions.push([centroid[0]-50, 38+i*52-360]);
+            sourceStartPositions.push([-50, 35+i*45-360]);
+            sourceEndPositions.push([centroid[0]-50, 35+i*45-360]);
         }
         circleG.selectAll('g.viz-types').data(types).enter().append('g').attr('class','viz-types').attr('transform',function(d,i) {
             return 'translate(' + typeStartPositions[i] + ')';
@@ -69,7 +70,7 @@
             return 'translate(' + sourceStartPositions[i] + ')';
         })
         .each(function(d, i) {
-            d3.select(this).append('rect').attr('x', -170).attr('y', -23).attr('width',170).attr('height',36).attr('rx',15).attr('ry',25).style('fill', typeColors[i]);
+            d3.select(this).append('rect').attr('x', -170).attr('y', -20).attr('width',170).attr('height',30).attr('rx',15).attr('ry',25).style('fill', typeColors[i%typeColors.length]);
             d3.select(this).append('text').attr('x', -50).attr('y', 0).text(sources[i]).attr('text-anchor','end');
         });
         var link = d3.linkHorizontal().source(function(d){return typeStartPositions[d.type]}).target(function(d){return sourceStartPositions[d.source]});
@@ -100,7 +101,7 @@
                 var resetColors = function(d, i) {
                     circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d,i){return typeColors[i]});
                     pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {return colors[j]});
-                    circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d,j){return typeColors[j]});
+                    circleG.selectAll('g.viz-sources rect').transition().duration(500).style('fill', function(d,j){return typeColors[j%typeColors.length]});
                 };
                 circleG.selectAll('g.viz-types').on('mouseover', function(d, i) {
                     circleG.selectAll('g.viz-types rect').transition().duration(500).style('fill', function(d, j) {
@@ -124,7 +125,7 @@
                             return '#EEE';
                         }
                         else {
-                            return typeColors[j];
+                            return typeColors[j%typeColors.length];
                         }
                     });
                 }).on('mouseout', resetColors);
@@ -134,7 +135,7 @@
                             return '#EEE';
                         }
                         else {
-                            return typeColors[j];
+                            return typeColors[j%typeColors.length];
                         }
                     });
                     pathG.selectAll('path').transition().duration(500).attr('stroke', function(d, j) {
