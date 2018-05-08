@@ -69,7 +69,10 @@
             d3.select(this).append('text').attr('x', 10).attr('y', 0).text(types[i][0]).attr('class','fa');
             d3.select(this).append('text').attr('x', 32).attr('y', 0).text(types[i][1]);
         });
-        circleG.selectAll('g.viz-sources').data(sources).enter().append('g').attr('class','viz-sources').attr('transform', function(d,i) {
+        circleG.selectAll('g.viz-sources').data(sources).enter().append('g').attr('class','viz-sources').attr('data-href', function(d,i) {
+            return '/search/?partners={%22' + d.toLowerCase().replace(' ','') + '%22%3Atrue}';
+        })
+        .attr('transform', function(d,i) {
             return 'translate(' + sourceStartPositions[i] + ')';
         })
         .each(function(d, i) {
@@ -161,7 +164,11 @@
                             return typeColors[j];
                         }
                     });
-                }).on('mouseout', resetColors);
+                })
+                .on('mouseout', resetColors)
+                .on('click', function(e) {
+                    window.location = $(this).data('href');
+                });
             }
             var timer = d3.timer(function() {
                 timer.stop();
