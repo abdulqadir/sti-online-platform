@@ -192,6 +192,14 @@
                 <input class="filter-partner" type="checkbox" id="worldbank" {% if filters.partners == None or filters.partners == 'all' or filters.partners.worldbank == True %}checked{% endif %}/>
                 <label for="worldbank"><img class="partner-logo" src="{% static 'images/world-bank-logo.png' %}" /></label>
             </div>
+            <div class="row">
+                <input class="filter-partner" type="checkbox" id="ctcn" {% if filters.partners == None or filters.partners == 'all' or filters.partners.ctcn == True %}checked{% endif %}/>
+                <label for="ctcn"><img class="partner-logo" src="{% static 'images/ctcn-logo.png' %}" /></label>
+            </div>
+            <div class="row">
+                <input class="filter-partner" type="checkbox" id="wipomatch" {% if filters.partners == None or filters.partners == 'all' or filters.partners.wipomatch == True %}checked{% endif %}/>
+                <label for="wipomatch"><img class="partner-logo" src="{% static 'images/wipo-match-logo.png' %}" /></label>
+            </div>
         </div>
         <div class="filter-detail">
             <div class="row">SDG</div>

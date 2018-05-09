@@ -26,6 +26,10 @@
                     <img class="partner-logo" src="{% static 'images/unoict-logo.png' %}" />
                 {% elif row.partner == 'World Bank' %}
                     <img class="partner-logo" src="{% static 'images/world-bank-logo.png' %}" />
+                {% elif row.partner == 'CTCN' %}
+                    <img class="partner-logo" src="{% static 'images/ctcn-logo.png' %}" />
+                {% elif row.partner == 'WIPO MATCH' %}
+                    <img class="partner-logo" src="{% static 'images/wipo-match-logo.png' %}" />
                 {% endif %}
                 <a {% if row.url %}href="{{row.url}}"{% endif %}>{{row.title}}</a>
                 </div>
@@ -58,6 +62,10 @@
                     <a href="https://unite.un.org/">UNOICT</a>
                 {% elif row.partner == 'World Bank' %}
                     <a href="https://openknowledge.worldbank.org/">World Bank</a>
+                {% elif row.partner == 'CTCN' %}
+                    <a href="https://www.ctc-n.org/">CTCN</a>
+                {% elif row.partner == 'WIPO MATCH' %}
+                    <a href="http://www.wipo.int/wipo-match/en/">WIPO MATCH</a>
                 {% endif %}
                     </i>
                 </div>

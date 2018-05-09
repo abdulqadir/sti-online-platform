@@ -252,6 +252,16 @@
                                     <input class="filter-partner" type="checkbox" id="worldbank" checked/>
                                     <label for="worldbank"><img class="partner-logo" src="{% static 'images/world-bank-logo.png' %}" /></label>
                                 </div>
+                                <div class="col-xs-2">
+                                    <input class="filter-partner" type="checkbox" id="ctcn" checked/>
+                                    <label for="ctcn"><img class="partner-logo" src="{% static 'images/ctcn-logo.png' %}" /></label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:21px;">
+                                <div class="col-xs-2">
+                                    <input class="filter-partner" type="checkbox" id="wipomatch" checked/>
+                                    <label for="wipomatch"><img class="partner-logo" src="{% static 'images/wipo-match-logo.png' %}" /></label>
+                                </div>
                             </div>
                         </div>
                         <center><button id="submitButton" class="btn btn-info">Submit</button></center>
@@ -370,75 +380,86 @@
                 </div>
                 <div class="container">
                     <div class="classify-content col-xs-12">
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2 col-md-offset-1">
                             <a href="/search/?partners={&quot;apctt&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/apctt-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">APCTT</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;cittc&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/cittc-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">CITTC</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;unido&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unido-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">UNIDO</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;wipogreen&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/wipo-green-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">WIPO GREEN</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;een&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/een-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">EEN</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2 col-md-offset-1">
                             <a href="/search/?partners={&quot;unfccc&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unfccc-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">UNFCCC</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;unossc&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unossc-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">UNOSSC</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;openaire&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/openaire-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">OpenAire</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;undesa&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/undesa-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">UNDESA</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2">
                             <a href="/search/?partners={&quot;unoict&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/unoict-logo.png' %}');"></div>
                                 <div class="classify-expand-partners-name">UNOICT</div>
                             </a>
                         </div>
-                        <div class="classify-card-partner col-xs-4 col-md-3">
+                        <div class="classify-card-partner col-xs-4 col-md-2 col-md-offset-3">
                             <a href="/search/?partners={&quot;worldbank&quot;%3Atrue}">
                                 <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/world-bank-logo.png' %}');"></div>
-                                <div class="classify-expand-partners-name">WorldBank</div>
+                                <div class="classify-expand-partners-name">World Bank</div>
                             </a>
                         </div>
-                        <div class="col-xs-4 col-md-3">
-                            <div class="classify-expand-partners-logo"></div>
-                            <div class="classify-expand-partners-name">More members coming soon...</div>
+                        <div class="classify-card-partner col-xs-4 col-md-2">
+                            <a href="/search/?partners={&quot;ctcn&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/ctcn-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">CTCN</div>
+                            </a>
+                        </div>
+                        <div class="classify-card-partner col-xs-4 col-md-2">
+                            <a href="/search/?partners={&quot;wipomatch&quot;%3Atrue}">
+                                <div class="classify-expand-partners-logo" style="background-image:url('{% static 'images/wipo-match-logo.png' %}');"></div>
+                                <div class="classify-expand-partners-name">WIPO Match</div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12">
+                            <center>More members coming soon...</center>
                         </div>
                     </div>
                 </div>
