@@ -81,6 +81,10 @@ def get_filters(request):
                 actuals.append('OpenAire')
             elif partner == 'worldbank':
                 actuals.append('World Bank')
+            elif partner == 'ctcn':
+                actuals.append('CTCN')
+            elif partner == 'wipomatch':
+                actuals.append('WIPO MATCH')
         filters['partnerlist'] = actuals
     else:
         filters['partners'] = 'all'
