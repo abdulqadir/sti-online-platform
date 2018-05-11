@@ -53,6 +53,12 @@ def get_filters(request):
                 actuals.append('Business Request')
             elif t == 'people':
                 actuals.append('People')
+            elif t == 'events':
+                actuals.append('Event')
+            elif t == 'projects':
+                actuals.append('Project')
+            elif t == 'training':
+                actuals.append('Training')
         filters['typelist'] = actuals
     else:
         filters['types'] = 'all'
