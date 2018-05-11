@@ -19,7 +19,7 @@ for record in csvreader:
     except Store.DoesNotExist:
         store = Store()
         store.client_id = client_id
-        store.store_type = 'Publication'
+        store.store_type = 'Project'
         store.partner = 'UNFCCC C'
         store.language = 'english'
     store.title = record['title']
