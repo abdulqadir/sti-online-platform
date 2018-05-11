@@ -130,23 +130,23 @@
                 <label for="people">People</label>
             </div>
             <div class="row">
-                <input class="filter-type" type="checkbox" id="projects" checked/>
+                <input class="filter-type" type="checkbox" id="projects" {% if filters.types == None or filters.types == 'all' or filters.types.projects == True %}checked{% endif %}/>
                 <label for="projects">Projects</label>
             </div>
             <div class="row">
-                <input class="filter-type" type="checkbox" id="funding" checked/>
+                <input class="filter-type" type="checkbox" id="funding" {% if filters.types == None or filters.types == 'all' or filters.types.funding == True %}checked{% endif %}/>
                 <label for="funding">Funding</label>
             </div>
             <div class="row">
-                <input class="filter-type" type="checkbox" id="events" checked/>
+                <input class="filter-type" type="checkbox" id="events" {% if filters.types == None or filters.types == 'all' or filters.types.events == True %}checked{% endif %}/>
                 <label for="events">Events</label>
             </div>
             <div class="row">
-                <input class="filter-type" type="checkbox" id="training" checked/>
+                <input class="filter-type" type="checkbox" id="training" {% if filters.types == None or filters.types == 'all' or filters.types.training == True %}checked{% endif %}/>
                 <label for="training">Training</label>
             </div>
             <div class="row">
-                <input class="filter-type" type="checkbox" id="services" checked/>
+                <input class="filter-type" type="checkbox" id="services" {% if filters.types == None or filters.types == 'all' or filters.types.services == True %}checked{% endif %}/>
                 <label for="services">Services</label>
             </div>
         </div>
