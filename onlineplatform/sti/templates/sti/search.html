@@ -106,6 +106,12 @@
         <div class="filter-detail">
             <div class="row">Types</div>
             <div class="row">
+                <div class="btn-group btn-group-xs" role="group">
+                    <button type="button" class="btn btn-default select-all" data-select="filter-type">All</button>
+                    <button type="button" class="btn btn-default select-none" data-select="filter-type">None</button>
+                </div>
+            </div>
+            <div class="row">
                 <input class="filter-type" type="checkbox" id="publications" {% if filters.types == None or filters.types == 'all' or filters.types.publications == True %}checked{% endif %}/>
                 <label for="publications">Publications</label>
             </div>
@@ -152,6 +158,12 @@
         </div>
         <div class="filter-detail">
             <div class="row">Sources</div>
+            <div class="row">
+                <div class="btn-group btn-group-xs" role="group">
+                    <button type="button" class="btn btn-default select-all" data-select="filter-partner">All</button>
+                    <button type="button" class="btn btn-default select-none" data-select="filter-partner">None</button>
+                </div>
+            </div>
             <div class="row">
                 <input class="filter-partner" type="checkbox" id="apctt" {% if filters.partners == None or filters.partners == 'all' or filters.partners.apctt == True %}checked{% endif %}/>
                 <label for="apctt"><img class="partner-logo" src="{% static 'images/apctt-logo.png' %}" /></label>
@@ -207,6 +219,12 @@
         </div>
         <div class="filter-detail">
             <div class="row">SDG</div>
+            <div class="row">
+                <div class="btn-group btn-group-xs" role="group">
+                    <button type="button" class="btn btn-default select-all" data-select="filter-sdg">All</button>
+                    <button type="button" class="btn btn-default select-none" data-select="filter-sdg">None</button>
+                </div>
+            </div>
             <div class="row">
                 <input class="filter-sdg" type="checkbox" id="sdg1"/>
                 <label for="sdg1"><img class="partner-logo" src="{% static 'images/sdg_icons/SDG-01.jpg' %}" />No Poverty</label>
@@ -397,6 +415,14 @@
 {% endif %}
 </form>
 <script>
+$('.select-all').on('click', function(event) {
+    var select = $(this).data('select');
+    $('.' + select).each(function(){this.checked=true;});
+});
+$('.select-none').on('click', function(event) {
+    var select = $(this).data('select');
+    $('.' + select).each(function(){this.checked=false;});
+});
 $('#search').on('submit', function(event) {
     var query = $('#filter-query').val();
     var partners = {};
