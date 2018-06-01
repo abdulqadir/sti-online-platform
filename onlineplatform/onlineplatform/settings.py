@@ -76,16 +76,6 @@ WSGI_APPLICATION = 'onlineplatform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sti',
-        'USER': 'sti',
-        'PASSWORD': 'sti',
-        'HOST': 'localhost',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
